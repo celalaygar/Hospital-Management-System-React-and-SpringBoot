@@ -25,7 +25,6 @@ export default class EditPatientComponent extends Component {
         ApiService.fetchPatientById(window.localStorage.getItem("patientId"))
             .then((res) => {
                 let p = res.data;
-                //console.log(res.data)
                 this.setState({
                     patientid: p.patientid,
                     name: p.name,
@@ -35,7 +34,6 @@ export default class EditPatientComponent extends Component {
                     city: p.city,
                     status: p.status,
                 })
-                //console.log(this.state)  
             });
     }
     saveUser = (e) => {
