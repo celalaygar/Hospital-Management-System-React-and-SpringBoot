@@ -1,0 +1,48 @@
+CREATE TABLE AAPATIENT 
+   (	
+    patientid NUMBER(19,0) NOT NULL ENABLE, 
+	name VARCHAR2(255 CHAR), 
+	lastname VARCHAR2(255 CHAR), 
+	age VARCHAR2(255 CHAR),
+	gender VARCHAR2(255 CHAR),
+	city VARCHAR2(255 CHAR),
+	status NUMBER(1,0)
+	 PRIMARY KEY (patientid)
+    );
+   
+    
+   CREATE SEQUENCE AA_PATIENT_SEQ START WITH 1 INCREMENT BY 1
+   INSERT INTO AAPATIENT  VALUES (1,'Can','Yücel','51','Male','Zonguldak')
+   INSERT INTO AAPATIENT  VALUES (2,'Harun ','tunay','5','Male','Ankara')
+   INSERT INTO AAPATIENT  VALUES (3,'Firidevs','tunay','6','Female','Kayseri')
+   INSERT INTO AAPATIENT  VALUES (4,'Yücel','Firidevs','31','Male','Sakarya')
+   INSERT INTO AAPATIENT  VALUES (5,'Fatmanur','tunay','23','Female','Zonguldak')
+   INSERT INTO AAPATIENT  VALUES (6,'Derya','Tuna','51','Female','Zonguldak')
+   INSERT INTO AAPATIENT  VALUES (7,'Deryanur','TUnay','51','Female','Ankara')
+   INSERT INTO AAPATIENT  VALUES (13,'Tuna','Cannur','44','Male','Sakarya');
+   INSERT INTO AAPATIENT  VALUES (14,'Kader','Derya','52','Female','Zonguldak')
+   INSERT INTO AAPATIENT  VALUES (15,'Sezen','Fatsa','36','Female','Sakarya')
+   INSERT INTO AAPATIENT  VALUES (16,'Faruk Ahmet ','tunay','51','Male','Zonguldak')
+   INSERT INTO AAPATIENT  VALUES (17,'Tansu ','Karacam','51','Female','Manisa')
+   INSERT INTO AAPATIENT  VALUES (18,'Tamer','Kerem','51','Male','Adana')
+   INSERT INTO AAPATIENT  VALUES (19,'Tansunur ','Yucel','51','Female','Manisa')
+   INSERT INTO AAPATIENT  VALUES (25,'Ahmet ','Karanur','51','Male','Ankara')
+   INSERT INTO AAPATIENT  VALUES (45,'Feyza ','Katil','13','Female','Rize')
+   INSERT INTO AAPATIENT  VALUES (81,'kemal','Fakir','34','Male','Karaman')
+   INSERT INTO AAPATIENT  VALUES (84,'Nuray ','Zengin','23','Female','Adana')
+   INSERT INTO AAPATIENT  VALUES (87,'Ay Nur','Pembe','34','Female','Sakarya')
+   INSERT INTO AAPATIENT  VALUES (113,'Kemal','Fiesta','34','Male','istanbul')
+   INSERT INTO AAPATIENT  VALUES (112,'Murat','Karakaya','26','Male','Bursa')
+   INSERT INTO AAPATIENT  VALUES (131,'Fuat Kemal','Fiesta','6','Male','Mugla')
+   INSERT INTO AAPATIENT  VALUES (136,'Mehmet Ali','Erbil','17','Male','Karaman')
+   INSERT INTO AAPATIENT  VALUES (143,'Kadir','Mehmetoglu','38','Female','Antalya')
+   INSERT INTO AAPATIENT  VALUES (144,'Sertac','Gulban','34','Male','istanbul')
+   INSERT INTO AAPATIENT  VALUES (145,'Murat Fuat','Karacem','26','Male','Bursa')
+   INSERT INTO AAPATIENT  VALUES (146,'Fuat Kemal','cem','6','Male','Mugla')
+   INSERT INTO AAPATIENT  VALUES (147,'Serdar Kadir','Yildirim','38','Female','Antalya')
+   INSERT INTO AAPATIENT  VALUES (151,'Mehmet Serdar','Erbiloglu','17','Male','Karaman')
+
+   SELECT *  FROM AAPATIENT ORDER BY PATIENTID
+   DELETE FROM AAPATIENT WHERE patientid = 0
+   
+   DROP TABLE AAPATIENT
