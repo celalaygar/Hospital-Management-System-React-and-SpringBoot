@@ -33,6 +33,7 @@ public class Patient implements Serializable{
 	private String gender;
 	private String age;
 	private String city;
+	private String email;
 	private int status;
 
 	public Patient() {
@@ -69,6 +70,14 @@ public class Patient implements Serializable{
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getLastname() {

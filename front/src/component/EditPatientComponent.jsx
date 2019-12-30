@@ -9,6 +9,7 @@ export default class EditPatientComponent extends Component {
             name: '',
             lastname: '',
             gender: '',
+            email: '',
             age:0 ,
             city: '',
             status: 1
@@ -29,6 +30,7 @@ export default class EditPatientComponent extends Component {
                     patientid: p.patientid,
                     name: p.name,
                     lastname: p.lastname,
+                    email: p.email,
                     gender: p.gender,
                     age: p.age,
                     city: p.city,
@@ -43,6 +45,7 @@ export default class EditPatientComponent extends Component {
             name: this.state.name, 
             lastname: this.state.lastname, 
             gender: this.state.gender, 
+            email: this.state.email, 
             age: this.state.age, 
             city: this.state.city,
             status: this.state.status };
@@ -61,9 +64,8 @@ export default class EditPatientComponent extends Component {
         return (
             <div className="container">
                 <div className="row">
-                    <div className="col-sm-12">
+                    <div className="col-lg-6">
                         <h2 className="text-center">Edit Patient</h2>
-                        <p>{this.state.name}  {this.state.lastname}   {this.state.city}</p>
                         <hr/>
                         <form>
                         <div className="form-group">
@@ -72,7 +74,11 @@ export default class EditPatientComponent extends Component {
                         </div>
                         <div className="form-group">
                             <label>Last Name:</label>
-                            <input placeholder="Last name" name="lastname" className="form-control" value={this.state.lastname} onChange={this.onChange} />
+                            <input type="text"  placeholder="Last name" name="lastname" className="form-control" value={this.state.lastname} onChange={this.onChange} />
+                        </div>
+                        <div className="form-group">
+                            <label>Email:</label>
+                            <input type="email" placeholder="Email" name="email" className="form-control" value={this.state.email} onChange={this.onChange} />
                         </div>
                         <div className="form-group">
                             <label>Age:</label>
@@ -108,6 +114,11 @@ export default class EditPatientComponent extends Component {
                          </div>
                         <button className="btn btn-success" onClick={this.saveUser}>Update</button>
                     </form>
+                    </div>
+                    
+                    <div className="col-lg-6">
+                        <img style={{width: 500, height: 300}} src="https://cdn.dribbble.com/users/6060/screenshots/3028817/dribbble.jpg" alt="" />
+
                     </div>
                 </div>
             </div>

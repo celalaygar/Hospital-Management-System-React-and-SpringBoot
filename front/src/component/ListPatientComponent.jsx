@@ -51,19 +51,18 @@ class ListPatientComponent extends Component {
     render() {
         return (
             <div >
-                <div className="col-sm-12">
+                <div className="col-lg-12">
                     <h2 className="text-center">Patients List</h2>
                     <button className="btn btn-warning" style={{ width: '100px' }} onClick={() => this.addPatient()}> Add User</button>
                     <hr />
                 </div>
-                <div className="col-sm-12">
+                <div className="col-lg-12">
                     <div className="table-responsive">
                         <table className="table table-bordered table-sm table-dark table-hover">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
-                                    <th>FirstName</th>
-                                    <th>LastName</th>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
                                     <th>gender</th>
                                     <th>Age</th>
                                     <th>city</th>
@@ -73,25 +72,23 @@ class ListPatientComponent extends Component {
                             <tbody>
                                 { this.state.patients.map( patient =>
                                     <tr key={patient.patientid}>
-                                        <td>{patient.patientid}</td>
-                                        <td>{patient.name}</td>
-                                        <td>{patient.lastname}</td>
+                                        <td>{patient.name} {patient.lastname}</td>
+                                        <td>{patient.email}</td>
                                         <td>{patient.gender}</td>
                                         <td>{patient.age}</td>
                                         <td>{patient.city}</td>
                                         <td>
-                                            <div class="btn-group" role="group">
-                                                
+                                            <div className="btn-group" role="group">
                                                 <button id="btnGroupDrop1" 
                                                 type="button" 
-                                                class="btn btn-secondary dropdown-toggle" 
+                                                className="btn btn-secondary dropdown-toggle" 
                                                 data-toggle="dropdown" 
                                                 aria-haspopup="true" 
                                                 aria-expanded="false"> Actions </button>
 
-                                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                    <button className="dropdown-item" onClick={() => this.viewPatient(patient.patientid)} style={{ marginRight: '20px' }}> View</button>
-                                                    <button className="dropdown-item" onClick={() => this.editPatient(patient.patientid)} style={{ marginRight: '20px' }}> Edit</button>
+                                                <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                    <button className="dropdown-item" onClick={() => this.viewPatient(patient.patientid)} > View</button>
+                                                    <button className="dropdown-item" onClick={() => this.editPatient(patient.patientid)} > Edit</button>
                                                     <button className="dropdown-item" onClick={() => this.deletePatient(patient.patientid)}> Delete </button>
 
                                                 </div>

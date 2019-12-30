@@ -15,7 +15,7 @@ function App() {
           
           <div className="col-sm-12">
           <a href="/">
-            <img style={{width: 100, height: 100}} 
+            <img style={{width: 200, height: 100}} 
             src="https://upload.wikimedia.org/wikipedia/commons/8/82/Patient_Logo_2018.svg" alt="" />
           </a>
           </div>

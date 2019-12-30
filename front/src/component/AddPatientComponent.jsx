@@ -7,6 +7,7 @@ class AddPatientComponent extends Component {
         this.state = {
             name: '',
             lastname: '',
+            email:'',
             gender: '',
             age: '',
             city: 'Ankara',
@@ -21,6 +22,7 @@ class AddPatientComponent extends Component {
             lastname: this.state.lastname, 
             gender: this.state.gender, 
             age: this.state.age, 
+            email: this.state.email, 
             city: this.state.city,
             status: this.state.status };
         ApiService.addPatient(patient)
@@ -47,6 +49,10 @@ class AddPatientComponent extends Component {
                         <div className="form-group">
                             <label>Last Name:</label>
                             <input placeholder="Last name" name="lastname" className="form-control" value={this.state.lastname} onChange={this.onChange} />
+                        </div>
+                        <div className="form-group">
+                            <label>Email:</label>
+                            <input placeholder="Email" name="email" className="form-control" value={this.state.email} onChange={this.onChange} />
                         </div>
                         <div className="form-group">
                             <label>Age:</label>

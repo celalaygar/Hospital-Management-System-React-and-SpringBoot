@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Patient;
@@ -14,9 +15,10 @@ import com.example.demo.repository.PatientRepository;
 public class PatientService {
 
 	private final PatientRepository patientRepository;
-
-	public PatientService(PatientRepository patientRepository) {
+	private final ModelMapper modelMapper;
+	public PatientService(PatientRepository patientRepository,ModelMapper modelMapper) {
 		this.patientRepository = patientRepository;
+		this.modelMapper = modelMapper;
 	}
 
 	public List<Patient> findAll() {
@@ -50,8 +52,6 @@ public class PatientService {
 	}
 
 	public Boolean update(Long patientid, @Valid Patient patient) throws Exception {
-		System.out.println(patientid);
-		System.out.println(patient);
 		Optional<Patient> p = patientRepository.findById(patientid);
 		if (p.isPresent()) {
 			patient.setPatientid(patientid);

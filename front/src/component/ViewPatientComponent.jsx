@@ -9,6 +9,7 @@ export default class ViewPatientComponent extends Component {
             patientid: props.match.params.patientid,
             name: '',
             lastname: '',
+            email: '',
             gender: '',
             age: 0,
             city: '',
@@ -27,6 +28,7 @@ export default class ViewPatientComponent extends Component {
                 patientid: p.patientid,
                 name: p.name,
                 lastname: p.lastname,
+                email: p.email,
                 gender: p.gender,
                 age: p.age,
                 city: p.city,
@@ -43,12 +45,13 @@ export default class ViewPatientComponent extends Component {
                     </div>
                     <div className="col-lg-6">
                         <div className="card" >
-                            <div class="card-header">
+                            <div className="card-header">
                                 Patient Details
                             </div>
                             <ul className="text-left list-group list-group-flush">
                                 <li className="list-group-item"><b>Name : </b>{this.state.name}</li>
                                 <li className="list-group-item"><b>Last Name :</b>{this.state.lastname}</li>
+                                <li className="list-group-item"><b>Email :</b>{this.state.email}</li>
                                 <li className="list-group-item"><b>City : </b>{this.state.city}</li>
                                 <li className="list-group-item"><b>Age : </b>{this.state.age}</li>
                                 <li className="list-group-item"><b>Gender </b>{this.state.gender}</li>
