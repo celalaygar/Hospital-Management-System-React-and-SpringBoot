@@ -36,11 +36,15 @@ public class PatientService {
 			return false;
 	}
 
-	public Boolean delete(@Valid Long id) {
-		Patient patient = patientRepository.getOne(id);
-		System.out.println(patient);
-		patientRepository.delete(patient);
-		return true;
+	public Boolean delete(@Valid Long patientid) throws Exception {
+		Optional<Patient> patient = patientRepository.findById(patientid);
+		if (patient.isPresent()){
+			patientRepository.delete(patient.get());
+			return true;
+		}
+		else
+			throw new Exception("Getting Patient is not ok with : " + patientid);
+
 	}
 
 	public Patient findByPatientId(Long patientid) throws Exception {
@@ -51,6 +55,13 @@ public class PatientService {
 			throw new Exception("Getting Patient is not ok with : " + patientid);
 	}
 
+	public Patient findByEmail(String email) throws Exception {
+		Optional<Patient> patient = patientRepository.findByEmail(email);
+		if (patient.isPresent())
+			return patient.get();
+		else
+			throw new Exception("Getting Patient is not ok with : " + email);
+	}
 	public Boolean update(Long patientid, @Valid Patient patient) throws Exception {
 		Optional<Patient> p = patientRepository.findById(patientid);
 		if (p.isPresent()) {
@@ -62,5 +73,16 @@ public class PatientService {
 			throw new Exception("Getting Patient is not ok with : " + patientid);
 		
 	}
+
+	public List<Patient> findByName(String name) throws Exception {
+		System.out.println("name : "+name);
+		List<Patient> patients = patientRepository.findByName(name);
+		if (patients.size()>0) {
+			return patients;
+		}
+		else
+			throw new Exception("Getting Patients is not ok with : " + name);
+	}
+
 
 }

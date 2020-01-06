@@ -22,7 +22,7 @@ export default class ViewPatientComponent extends Component {
     }
     loadPatient() {
         console.log(this.state.patientid)
-        ApiService.fetchPatientById(this.state.patientid) .then((res) => {
+        ApiService.fetchPatientById(this.state.patientid).then((res) => {
             let p = res.data;
             this.setState({
                 patientid: p.patientid,
@@ -50,11 +50,11 @@ export default class ViewPatientComponent extends Component {
                             </div>
                             <ul className="text-left list-group list-group-flush">
                                 <li className="list-group-item"><b>Name : </b>{this.state.name}</li>
-                                <li className="list-group-item"><b>Last Name :</b>{this.state.lastname}</li>
+                                <li className="list-group-item"><b>Last Name : </b>{this.state.lastname}</li>
                                 <li className="list-group-item"><b>Email :</b>{this.state.email}</li>
                                 <li className="list-group-item"><b>City : </b>{this.state.city}</li>
                                 <li className="list-group-item"><b>Age : </b>{this.state.age}</li>
-                                <li className="list-group-item"><b>Gender </b>{this.state.gender}</li>
+                                <li className="list-group-item"><b>Gender : </b>{this.state.gender}</li>
                             </ul>
                         </div>
                     </div>

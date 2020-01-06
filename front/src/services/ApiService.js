@@ -9,7 +9,11 @@ class ApiService {
     }
 
     fetchPatientById(patientId) {
-        return axios.get(USER_API_BASE_URL + '/' + patientId);
+        return axios.get(USER_API_BASE_URL + '/find-by-id/' + patientId);
+    }
+
+    fetchPatientByEmail(email) {
+        return axios.get(USER_API_BASE_URL + '/find-by-email/' + email);
     }
 
     deletePatient(Id) {

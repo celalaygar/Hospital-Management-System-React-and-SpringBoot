@@ -40,6 +40,17 @@ public class Patient implements Serializable{
 		super();
 	}
 
+	public Patient(String name, String lastname, String gender, String age, String city, String email, int status) {
+		super();
+		this.name = name;
+		this.lastname = lastname;
+		this.gender = gender;
+		this.age = age;
+		this.city = city;
+		this.email = email;
+		this.status = status;
+	}
+
 	public Long getPatientid() {
 		return patientid;
 	}

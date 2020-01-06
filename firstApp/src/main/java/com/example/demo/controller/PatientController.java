@@ -32,10 +32,22 @@ public class PatientController {
 		return patientService.findAll();
 	}
 
-	@GetMapping("/{patientid}")
-	public ResponseEntity<Patient> getPatient(@PathVariable(name = "patientid", required = true) Long patientid) throws Exception {
+	@GetMapping("/find-by-id/{patientid}")
+	public ResponseEntity<Patient> getPatientByPatientid(
+			@PathVariable(name = "patientid", required = true) Long patientid) throws Exception {
 		return ResponseEntity.ok(patientService.findByPatientId(patientid));
 	}
+	@GetMapping("/find-by-email/{email}")
+	public ResponseEntity<Patient> getPatientByEmail(
+			@PathVariable(name = "email", required = true) String email) throws Exception {
+		return ResponseEntity.ok(patientService.findByEmail(email));
+	}
+	@GetMapping("/find-by-name/{name}")
+	public ResponseEntity<List<Patient>> getPatientByName(
+			@PathVariable(name = "name", required = true) String name) throws Exception {
+		return ResponseEntity.ok(patientService.findByName(name));
+	}
+	
 	@PostMapping
 	public ResponseEntity<Boolean> savePatient(@Valid @RequestBody Patient patient) {
 		return ResponseEntity.ok(patientService.save(patient));
@@ -48,7 +60,7 @@ public class PatientController {
 	}
 	
 	@DeleteMapping("/{patientid}")
-	public ResponseEntity<Boolean> deletePatient(@PathVariable(name = "patientid", required = true) Long patientid) {
+	public ResponseEntity<Boolean> deletePatient(@PathVariable(name = "patientid", required = true) Long patientid) throws Exception {
 		return ResponseEntity.ok(patientService.delete(patientid));
 	}
 }
