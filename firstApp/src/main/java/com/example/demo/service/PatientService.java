@@ -27,8 +27,6 @@ public class PatientService {
 	}
 
 	public Boolean save(Patient patient) {
-
-		System.out.println(patient);
 		patient = patientRepository.save(patient);
 		if (patient.getPatientid() > -1)
 			return true;

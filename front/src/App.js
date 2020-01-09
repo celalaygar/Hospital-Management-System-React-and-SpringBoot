@@ -12,7 +12,6 @@ function App() {
     <div className="App">
       <div className="container">
         <div className="row">
-          
           <div className="col-sm-12">
           <a href="/">
             <img style={{width: 200, height: 100}} 

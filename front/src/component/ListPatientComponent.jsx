@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ApiService from '../services/ApiService';
+import PatientService from '../services/PatientService';
 
 class ListPatientComponent extends Component {
     constructor(props) {
@@ -16,19 +16,22 @@ class ListPatientComponent extends Component {
     }
 
     componentDidMount() {
+        // let value = (9-1)/(10*2*2)/(6-4);
+        // let value2 = 8/40/2;
+        // console.log(value+" - - "+value2)
+
         this.reloadPatientList();
     }
 
     reloadPatientList() {
-        ApiService.fetchPatients()
+        PatientService.getPatients()
             .then((res) => {
                 this.setState({ patients: res.data })
             });
     }
 
     deletePatient(patientid) {
-        console.log(patientid)
-        ApiService.deletePatient(patientid)
+        PatientService.deletePatient(patientid)
             .then(res => {
                 this.setState({ message: 'User deleted successfully. ' + res });
                 this.setState({ patients: this.state.patients.filter(patient => patient.patientid !== patientid) });
@@ -50,17 +53,18 @@ class ListPatientComponent extends Component {
 
     filterPatients =  (value)  => {
         var results= [];
-        let filters = ["name","lastname","age"];
+        let filters = ["name","lastname","email"];
         if(value !== ''){
             results =this.state.patients.filter(patient =>{
                 let find = false;
+                //filters.forEach(filter=>{
                 filters.forEach(function(filter){
-                    let ctr  =   patient[filter].toLowerCase().indexOf(value.toLowerCase());
-                        if(ctr>-1)  find = true; 
+                    let control = patient[filter].toLowerCase().indexOf(value.toLowerCase());
+                        if(control > -1)  find = true; 
                 });
                 return find;
             });
-             this.setState({ patients:  results});
+            this.setState({ patients:  results});
         }
         else{
             this.reloadPatientList();
@@ -79,7 +83,7 @@ class ListPatientComponent extends Component {
                     <hr />
                     <div className="form-group">
                         <input  type="text" 
-                                placeholder="Search Patient by Name" 
+                                placeholder="Search Patient by Name or Lastname or Email" 
                                 name="searchByName" 
                                 className="form-control"  
                                 onChange={this.onChangeSearchByName} />
@@ -91,21 +95,21 @@ class ListPatientComponent extends Component {
                         <table className="table table-bordered table-sm table-dark table-hover">
                             <thead>
                                 <tr>
-                                    <th>Full Name</th>
+                                    <th>Name</th>
+                                    <th>Last Name</th>
                                     <th>Email</th>
                                     <th>gender</th>
-                                    <th>Age</th>
                                     <th>city</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {this.state.patients.map(patient =>
-                                    <tr key={patient.patientid}>
-                                        <td>{patient.patientid} - {patient.name} - {patient.lastname}</td>
+                                    <tr className={patient.gender === "Male" ? "bg-default" : "bg-danger"}  key={patient.patientid}>
+                                        <td>{patient.patientid} - {patient.name}</td>
+                                        <td>{patient.lastname}</td>
                                         <td>{patient.email}</td>
                                         <td>{patient.gender}</td>
-                                        <td>{patient.age}</td>
                                         <td>{patient.city}</td>
                                         <td>
                                             <div className="btn-group" role="group">
@@ -128,6 +132,10 @@ class ListPatientComponent extends Component {
                                 )}
                             </tbody>
                         </table>
+                    <hr/>
+                    <hr/>
+                    <hr/>
+                    <hr/>
                     </div>
                 </div>
             </div>

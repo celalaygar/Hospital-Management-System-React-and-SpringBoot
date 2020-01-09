@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ApiService from '../services/ApiService';
+import PatientService from '../services/PatientService';
 
 export default class EditPatientComponent extends Component {
     constructor(props) {
@@ -8,10 +8,10 @@ export default class EditPatientComponent extends Component {
             patientid: '',
             name: '',
             lastname: '',
-            gender: '',
+            gender: 'Male',
             email: '',
             age:0 ,
-            city: '',
+            city: 'Ankara',
             status: 1
         }
         this.loadPatient = this.loadPatient.bind(this);
@@ -23,7 +23,7 @@ export default class EditPatientComponent extends Component {
 
     loadPatient() {
         //console.log(window.localStorage.getItem("patientId"))
-        ApiService.fetchPatientById(window.localStorage.getItem("patientId"))
+        PatientService.getPatientById(window.localStorage.getItem("patientId"))
             .then((res) => {
                 let p = res.data;
                 this.setState({
@@ -38,10 +38,10 @@ export default class EditPatientComponent extends Component {
                 })
             });
     }
-    saveUser = (e) => {
+    editPatient = (e) => {
         e.preventDefault();
         let patient = { 
-            id: window.localStorage.getItem("patientId"),
+            patientid: window.localStorage.getItem("patientId"),
             name: this.state.name, 
             lastname: this.state.lastname, 
             gender: this.state.gender, 
@@ -49,10 +49,8 @@ export default class EditPatientComponent extends Component {
             age: this.state.age, 
             city: this.state.city,
             status: this.state.status };
-            console.log(patient)
-        ApiService.editPatient(patient)
+        PatientService.editPatient(patient)
             .then(res => {
-                this.setState({ message: 'User updated successfully.' });
                 this.props.history.push('/patients');
             });
     }
@@ -112,13 +110,19 @@ export default class EditPatientComponent extends Component {
                                 <option value="Zonguldak">Zonguldak</option>
                             </select>
                          </div>
-                        <button className="btn btn-success" onClick={this.saveUser}>Update</button>
+                        <button className="btn btn-success" onClick={this.editPatient}>Update</button>
                     </form>
                     </div>
                     
                     <div className="col-lg-6">
                         <img style={{width: 500, height: 300}} src="https://cdn.dribbble.com/users/6060/screenshots/3028817/dribbble.jpg" alt="" />
 
+                    </div>
+                    <div className="col-sm-12">
+                        
+                        <hr/>
+                        <hr/>
+                        <hr/>
                     </div>
                 </div>
             </div>

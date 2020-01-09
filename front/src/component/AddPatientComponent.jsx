@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ApiService from '../services/ApiService';
+import PatientService from '../services/PatientService';
 
 class AddPatientComponent extends Component {
     constructor(props) {
@@ -8,8 +8,8 @@ class AddPatientComponent extends Component {
             name: '',
             lastname: '',
             email:'',
-            gender: '',
-            age: '',
+            gender: 'Male',
+            age: 0,
             city: 'Ankara',
             status: 1
         }
@@ -25,7 +25,7 @@ class AddPatientComponent extends Component {
             email: this.state.email, 
             city: this.state.city,
             status: this.state.status };
-        ApiService.addPatient(patient)
+        PatientService.addPatient(patient)
             .then(res => {
                 this.setState({ message: 'User added successfully.' });
                 this.props.history.push('/patients');
@@ -60,14 +60,18 @@ class AddPatientComponent extends Component {
                         </div>
                         <div className="form-group">
                             <label>Gender:</label>
-                            <select  className="form-control" value={this.state.gender} onChange={this.handleChangeGender} >
+                            <select className="form-control" 
+                                    value={this.state.gender} 
+                                    onChange={this.handleChangeGender} >
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                             </select>
                          </div>
                         <div className="form-group">
                             <label>City:</label>
-                            <select  className="form-control" value={this.state.city} onChange={this.handleChangeCity} >
+                            <select className="form-control" 
+                                    value={this.state.city} 
+                                    onChange={this.handleChangeCity} >
                                 
                                 <option value="Adana">Adana</option>
                                 <option value="Ankara">Ankara</option>
