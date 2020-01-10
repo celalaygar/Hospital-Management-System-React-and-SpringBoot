@@ -17,9 +17,9 @@ class ProblemService {
     //     return axios.get(PATIENT_API_BASE_URL + '/find-by-email/' + email);
     // }
 
-    // deletePatient(Id) {
-    //     return ApiService.deleteById(PROBLEM_API_BASE_URL + '/' + Id);
-    // }
+    delete(Id) {
+        return ApiService.deleteById(PROBLEM_API_BASE_URL + '/' + Id);
+    }
 
     add(problem) {
         return ApiService.post(PROBLEM_API_BASE_URL, problem);

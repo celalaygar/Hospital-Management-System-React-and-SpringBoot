@@ -39,5 +39,15 @@ public class ProblemService {
 		ProblemDtoForPatientSingleDto getDto = modelMapper.map(problem, ProblemDtoForPatientSingleDto.class);
 		return getDto;
 	}
+
+	public Boolean delete(Long problemid) throws NotFoundException {
+		Optional<Problem> optional = problemRepository.findById(problemid);
+		if (!optional.isPresent()){
+			throw new NotFoundException("Problem does not exist wtih problemid : " + problemid);
+		}
+		
+		problemRepository.delete(optional.get());
+		return true;
+	}
 	
 }

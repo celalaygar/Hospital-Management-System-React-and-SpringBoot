@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,15 +29,22 @@ public class ProblemController {
 
 	@Autowired
 	ProblemService problemService;
-	
+
 	@GetMapping("/find-by-id/{patientid}")
 	public ResponseEntity<Patient> getPatientByPatientid(
 			@PathVariable(name = "patientid", required = true) Long patientid) throws Exception {
 		return ResponseEntity.ok(null);
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<ProblemDtoForPatientSingleDto> saveProblem(@Valid @RequestBody ProblemDto dto) throws NotFoundException {
+	public ResponseEntity<ProblemDtoForPatientSingleDto> saveProblem(@Valid @RequestBody ProblemDto dto)
+			throws NotFoundException {
 		return ResponseEntity.ok(problemService.save(dto));
+	}
+
+	@DeleteMapping("/{problemid}")
+	public ResponseEntity<Boolean> deletePatient(@PathVariable(name = "problemid", required = true) Long problemid)
+			throws Exception {
+		return ResponseEntity.ok(problemService.delete(problemid));
 	}
 }

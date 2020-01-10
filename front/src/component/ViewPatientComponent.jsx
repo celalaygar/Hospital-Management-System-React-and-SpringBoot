@@ -19,7 +19,8 @@ export default class ViewPatientComponent extends Component {
                 problemDetail: 'data 2',
                 pid: props.match.params.patientid
             },
-            status: 1
+            status: 1,
+            message : ''
         }
         this.loadPatient = this.loadPatient.bind(this);
     }
@@ -46,10 +47,11 @@ export default class ViewPatientComponent extends Component {
         window.localStorage.setItem("patientId", id);
         this.props.history.push('/edit-patient');
     }
-    deletePatient(patientid) {
-        PatientService.deletePatient(patientid)
+    deleteProblem(problemid) {
+        ProblemService.delete(problemid)
             .then(res => {
-                this.props.history.push('/patients');
+                this.setState({ message : 'Problem Silindi'});
+                this.setState({ problems: this.state.problems.filter(p => p.problemid !== problemid) });
             })
     }
     // back() {
@@ -57,17 +59,20 @@ export default class ViewPatientComponent extends Component {
     // }
     addProblem = (e) => {
         e.preventDefault();
+        let data = null;
         let problem = {
             problemName: this.state.addproblem.problemName,
             problemDetail: this.state.addproblem.problemDetail,
             pid: this.state.patientid
         };
         ProblemService.add(problem).then(res => {
-            
+            data = res.data;
+
+            // push new problem to problems
+            var newStateArray = this.state.problems.slice();
+            newStateArray.push(data);
+            this.setState({problems : newStateArray});
         });
-        this.state.problems.concat(problem);
-        this.setState({ problems:  this.state.problems });
-        this.state.problems.map(problem => console.log(problem));
     }
     onChange = (e) => {
         this.setState({
@@ -177,7 +182,7 @@ export default class ViewPatientComponent extends Component {
 
                     </div>
                     <div className="col-lg-12">
-                        <hr/>
+                        <hr />
                         <div className="table-responsive">
                             <table className="table table-bordered table-sm table-dark table-hover">
                                 <thead>
@@ -204,7 +209,7 @@ export default class ViewPatientComponent extends Component {
                                                     <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                                         {/* <button className="dropdown-item" onClick={() => this.viewPatient(patient.patientid)} > View</button> */}
                                                         {/* <button className="dropdown-item" onClick={() => this.editPatient(patient.patientid)} > Edit</button> */}
-                                                        <button className="dropdown-item" > Delete </button>
+                                                        <button className="dropdown-item" onClick={() => this.deleteProblem(problem.problemid)} > Delete </button>
 
                                                     </div>
                                                 </div>

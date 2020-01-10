@@ -28,7 +28,7 @@ public class PatientService {
 
 	public List<PatientDto> findAll(){
 		try {
-			List<Patient> patients = patientRepository.findAllByOrderByNameAsc();
+			List<Patient> patients = patientRepository.findAllByOrderByPatientidAsc();
 
 			PatientDto[] authorDtos = modelMapper.map(patients, PatientDto[].class);
 
