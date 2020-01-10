@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.ProblemDto;
+import com.example.demo.dto.ProblemDtoForPatientSingleDto;
+import com.example.demo.dto.ProblemGetDto;
 import com.example.demo.entity.Patient;
 import com.example.demo.entity.Problem;
 import com.example.demo.repository.PatientRepository;
@@ -26,7 +28,7 @@ public class ProblemService {
 		this.modelMapper = modelMapper;
 	}
 	
-	public Boolean save(ProblemDto dto) throws NotFoundException {
+	public ProblemDtoForPatientSingleDto save(ProblemDto dto) throws NotFoundException {
 		Optional<Patient> patient = patientRepository.findById(dto.getPId());
 		if (!patient.isPresent()){
 			throw new NotFoundException("Patient does not exist wtih patientid : " + dto.getPId());
@@ -34,9 +36,8 @@ public class ProblemService {
 		Problem problem = modelMapper.map(dto, Problem.class);
 		problem.setPatient(patient.get());
 		problemRepository.save(problem);
-		
-		problemRepository.findAll().forEach(System.out::println);
-		return true;
+		ProblemDtoForPatientSingleDto getDto = modelMapper.map(problem, ProblemDtoForPatientSingleDto.class);
+		return getDto;
 	}
 	
 }

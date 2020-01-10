@@ -13,7 +13,8 @@ export default class ViewPatientComponent extends Component {
             gender: '',
             age: 0,
             city: '',
-            problem: {
+            problems: [],
+            addproblem: {
                 problemName: 'data 1',
                 problemDetail: 'data 2',
                 pid: props.match.params.patientid
@@ -37,6 +38,7 @@ export default class ViewPatientComponent extends Component {
                 age: p.age,
                 city: p.city,
                 status: p.status,
+                problems: p.problems
             })
         });
     }
@@ -56,34 +58,39 @@ export default class ViewPatientComponent extends Component {
     addProblem = (e) => {
         e.preventDefault();
         let problem = {
-            problemName: this.state.problem.problemName,
-            problemDetail: this.state.problem.problemDetail,
+            problemName: this.state.addproblem.problemName,
+            problemDetail: this.state.addproblem.problemDetail,
             pid: this.state.patientid
         };
-        console.log(problem)
-        ProblemService.add(problem)
-        .then(res => {
-            console.log(res.data)
+        ProblemService.add(problem).then(res => {
+            
         });
+        this.state.problems.concat(problem);
+        this.setState({ problems:  this.state.problems });
+        this.state.problems.map(problem => console.log(problem));
     }
     onChange = (e) => {
-        this.setState({ problem: { 
-            problemName: e.target.value, 
-            problemDetail: this.state.problem.problemDetail, 
-        } });
+        this.setState({
+            addproblem: {
+                problemName: e.target.value,
+                problemDetail: this.state.addproblem.problemDetail,
+            }
+        });
     }
     onChange2 = (e) => {
-        this.setState({ problem: {
-            problemName: this.state.problem.problemName, 
-            problemDetail: e.target.value 
-        } });
+        this.setState({
+            addproblem: {
+                problemName: this.state.addproblem.problemName,
+                problemDetail: e.target.value
+            }
+        });
     }
     render() {
         return (
             <div className="container">
                 <div className="row">
                     <div className="col-sm-12">
-{/* 
+                        {/* 
                         <Redirect to='/patients' />
 
                         <button
@@ -115,7 +122,7 @@ export default class ViewPatientComponent extends Component {
                                                     placeholder="Problem Name"
                                                     name="problemName"
                                                     className="form-control"
-                                                    value={this.state.problem.problemName }
+                                                    value={this.state.addproblem.problemName}
                                                     onChange={this.onChange} />
                                             </div>
                                             <div className="form-group">
@@ -124,7 +131,7 @@ export default class ViewPatientComponent extends Component {
                                                     placeholder="Problem Detail"
                                                     name="problemDetail"
                                                     className="form-control"
-                                                    value={this.state.problem.problemDetail}
+                                                    value={this.state.addproblem.problemDetail}
                                                     onChange={this.onChange2} />
                                             </div>
                                         </form>
@@ -169,6 +176,50 @@ export default class ViewPatientComponent extends Component {
                         <img style={{ width: 500, height: 300 }} src="https://cdn.dribbble.com/users/6060/screenshots/3028817/dribbble.jpg" alt="" />
 
                     </div>
+                    <div className="col-lg-12">
+                        <hr/>
+                        <div className="table-responsive">
+                            <table className="table table-bordered table-sm table-dark table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Problem Name</th>
+                                        <th>Problem Detail</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {this.state.problems.map(problem =>
+                                        <tr className="bg-default" key={problem.problemid}>
+                                            <td>{problem.problemName}</td>
+                                            <td>{problem.problemDetail}</td>
+                                            <td>
+                                                <div className="btn-group" role="group">
+                                                    <button id="btnGroupDrop1"
+                                                        type="button"
+                                                        className="btn btn-secondary dropdown-toggle"
+                                                        data-toggle="dropdown"
+                                                        aria-haspopup="true"
+                                                        aria-expanded="false"> Actions </button>
+
+                                                    <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                        {/* <button className="dropdown-item" onClick={() => this.viewPatient(patient.patientid)} > View</button> */}
+                                                        {/* <button className="dropdown-item" onClick={() => this.editPatient(patient.patientid)} > Edit</button> */}
+                                                        <button className="dropdown-item" > Delete </button>
+
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                            <hr />
+                            <hr />
+                            <hr />
+                            <hr />
+                        </div>
+                    </div>
+
                 </div>
             </div>
         )

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.ProblemDto;
+import com.example.demo.dto.ProblemDtoForPatientSingleDto;
+import com.example.demo.dto.ProblemGetDto;
 import com.example.demo.entity.Patient;
 import com.example.demo.repository.ProblemRepository;
 import com.example.demo.service.ProblemService;
@@ -34,7 +36,7 @@ public class ProblemController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Boolean> saveProblem(@Valid @RequestBody ProblemDto dto) throws NotFoundException {
+	public ResponseEntity<ProblemDtoForPatientSingleDto> saveProblem(@Valid @RequestBody ProblemDto dto) throws NotFoundException {
 		return ResponseEntity.ok(problemService.save(dto));
 	}
 }
