@@ -6,8 +6,7 @@ class ListPatientComponent extends Component {
         super(props)
         this.state = {
             patients: [],
-            message: null,
-            patientNames : []
+            message: null
         }
         // this.deleteUser = this.deleteUser.bind(this);
         // this.editUser = this.editUser.bind(this);

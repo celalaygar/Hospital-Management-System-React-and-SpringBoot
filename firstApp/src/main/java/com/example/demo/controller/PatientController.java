@@ -16,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.PatientDto;
+import com.example.demo.dto.PatientSingleDto;
 import com.example.demo.entity.Patient;
 import com.example.demo.service.PatientService;
+
+import javassist.NotFoundException;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -28,20 +32,22 @@ public class PatientController {
 	private PatientService patientService;
 	
 	@GetMapping
-	public List<Patient> getAll(){
+	public List<PatientDto> getAll(){
 		return patientService.findAll();
 	}
 
 	@GetMapping("/find-by-id/{patientid}")
-	public ResponseEntity<Patient> getPatientByPatientid(
+	public ResponseEntity<PatientSingleDto> getPatientByPatientid(
 			@PathVariable(name = "patientid", required = true) Long patientid) throws Exception {
 		return ResponseEntity.ok(patientService.findByPatientId(patientid));
 	}
+	
 	@GetMapping("/find-by-email/{email}")
 	public ResponseEntity<Patient> getPatientByEmail(
 			@PathVariable(name = "email", required = true) String email) throws Exception {
 		return ResponseEntity.ok(patientService.findByEmail(email));
 	}
+	
 	@GetMapping("/find-by-name/{name}")
 	public ResponseEntity<List<Patient>> getPatientByName(
 			@PathVariable(name = "name", required = true) String name) throws Exception {
@@ -52,6 +58,7 @@ public class PatientController {
 	public ResponseEntity<Boolean> savePatient(@Valid @RequestBody Patient patient) {
 		return ResponseEntity.ok(patientService.save(patient));
 	}
+	
 	@PutMapping("/{patientid}")
 	public ResponseEntity<Boolean> updatePatient(
 			@PathVariable(name = "patientid", required = true) Long patientid,

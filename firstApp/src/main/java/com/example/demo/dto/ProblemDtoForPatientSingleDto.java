@@ -14,8 +14,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ProblemDto implements Serializable {
-
+public class ProblemDtoForPatientSingleDto  implements Serializable {
+	private Long problemid;
 	private String problemName;
 	private String problemDetail;
 	private Long pId;

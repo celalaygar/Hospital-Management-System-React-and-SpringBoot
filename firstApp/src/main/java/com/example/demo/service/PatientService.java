@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,8 +9,12 @@ import javax.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.PatientDto;
+import com.example.demo.dto.PatientSingleDto;
 import com.example.demo.entity.Patient;
 import com.example.demo.repository.PatientRepository;
+
+import javassist.NotFoundException;
 
 @Service
 public class PatientService {
@@ -21,9 +26,17 @@ public class PatientService {
 		this.modelMapper = modelMapper;
 	}
 
-	public List<Patient> findAll() {
+	public List<PatientDto> findAll(){
+		try {
+			List<Patient> patients = patientRepository.findAllByOrderByNameAsc();
 
-		return patientRepository.findAllByOrderByPatientidAsc();
+			PatientDto[] authorDtos = modelMapper.map(patients, PatientDto[].class);
+
+			return Arrays.asList(authorDtos);
+		} catch (Exception e) {
+			e.getStackTrace();
+		}
+		return null;
 	}
 
 	public Boolean save(Patient patient) {
@@ -45,10 +58,13 @@ public class PatientService {
 
 	}
 
-	public Patient findByPatientId(Long patientid) throws Exception {
+	public PatientSingleDto findByPatientId(Long patientid) throws Exception {
 		Optional<Patient> patient = patientRepository.findById(patientid);
-		if (patient.isPresent())
-			return patient.get();
+		if (patient.isPresent()) {
+
+			PatientSingleDto dto = modelMapper.map( patient.get(), PatientSingleDto.class);
+			return dto;
+		}
 		else
 			throw new Exception("Getting Patient is not ok with : " + patientid);
 	}
@@ -69,7 +85,6 @@ public class PatientService {
 		}
 		else
 			throw new Exception("Getting Patient is not ok with : " + patientid);
-		
 	}
 
 	public List<Patient> findByName(String name) throws Exception {
@@ -81,6 +96,4 @@ public class PatientService {
 		else
 			throw new Exception("Getting Patients is not ok with : " + name);
 	}
-
-
 }
