@@ -1,7 +1,18 @@
 import React, { Component } from 'react'
 import PatientService from '../services/PatientService';
 import ProblemService from '../services/ProblemService';
+import Modal from 'react-modal';
 
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-25%, -25%)'
+    }
+};
 export default class ViewPatientComponent extends Component {
     constructor(props) {
         super(props)
@@ -15,12 +26,13 @@ export default class ViewPatientComponent extends Component {
             city: '',
             problems: [],
             addproblem: {
-                problemName: 'data 1',
-                problemDetail: 'data 2',
+                problemName: '',
+                problemDetail: '',
                 pid: props.match.params.patientid
             },
             status: 1,
-            message : ''
+            message: null,
+            modalIsOpen: false
         }
         this.loadPatient = this.loadPatient.bind(this);
     }
@@ -39,8 +51,11 @@ export default class ViewPatientComponent extends Component {
                 age: p.age,
                 city: p.city,
                 status: p.status,
-                problems: p.problems
-            })
+                problems: p.problems,
+                modalIsOpen: false
+            });
+
+            console.log(this.state.addproblem);
         });
     }
     editPatient(id) {
@@ -50,29 +65,39 @@ export default class ViewPatientComponent extends Component {
     deleteProblem(problemid) {
         ProblemService.delete(problemid)
             .then(res => {
-                this.setState({ message : 'Problem Silindi'});
+                this.setState({ message: 'Problem Silindi' });
                 this.setState({ problems: this.state.problems.filter(p => p.problemid !== problemid) });
             })
     }
     // back() {
     //     this.props.history.push('/patients');
     // }
-    addProblem = (e) => {
-        e.preventDefault();
-        let data = null;
-        let problem = {
-            problemName: this.state.addproblem.problemName,
-            problemDetail: this.state.addproblem.problemDetail,
-            pid: this.state.patientid
-        };
-        ProblemService.add(problem).then(res => {
-            data = res.data;
+    addProblem = () => {
+        if (this.state.addproblem.problemName === '' || this.state.addproblem.problemDetail === '') {
+            this.setState({ message: "Lütfen boş alanları doldurunuz..." });
+        } else {
+            let data = null;
+            let problem = {
+                problemName: this.state.addproblem.problemName,
+                problemDetail: this.state.addproblem.problemDetail,
+                pid: this.state.patientid
+            };
+            ProblemService.add(problem).then(res => {
+                data = res.data;
 
-            // push new problem to problems
-            var newStateArray = this.state.problems.slice();
-            newStateArray.push(data);
-            this.setState({problems : newStateArray});
-        });
+                // push new problem to problems
+                var newStateArray = this.state.problems.slice();
+                newStateArray.push(data);
+                this.setState({ problems: newStateArray });
+                this.setState({ message: "Kayıt işlemi başarılı..." });
+                this.setState({
+                    addproblem: {
+                        problemName: '',
+                        problemDetail: ''
+                    }
+                });
+            });
+        }
     }
     onChange = (e) => {
         this.setState({
@@ -90,27 +115,45 @@ export default class ViewPatientComponent extends Component {
             }
         });
     }
+    handleClose = () => this.setState({ modalIsOpen: false });
+    openModal = (event) => {
+        this.setState({ modalIsOpen: event });
+    };
+    openM = () => {
+        this.setState({ message: null });
+    };
     render() {
         return (
             <div className="container">
                 <div className="row">
+                    {/* Show and close modal */}
                     <div className="col-sm-12">
-                        {/* 
-                        <Redirect to='/patients' />
-
                         <button
-                            className="btn btn-sm btn-info"
-                            onClick={this.back} >
-                            Patients
-                        </button> */}
+                            className="btn btn-sm btn-secondary"
+                            onClick={() => this.openModal(true)}>
+                            Launch demo modal
+                        </button>
                         <button
                             type="button"
                             className="btn btn-sm btn-primary"
                             data-toggle="modal"
                             data-target="#exampleModal"
+                            onClick={() => this.openM()}
                             data-whatever="@getbootstrap">Add Problem</button>
 
-                        <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <Modal
+                            isOpen={this.state.modalIsOpen}
+                            onRequestClose={() => this.handleClose()}
+                            style={customStyles}
+                            contentLabel="Example Modal">
+
+                            <button onClick={() => this.handleClose()}>X </button>
+                            <p>hello Modal</p>
+                        </Modal>
+
+
+                        <div className="modal fade" id="exampleModal"
+                            tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
                             <div className="modal-dialog" role="document">
                                 <div className="modal-content">
                                     <div className="modal-header">
@@ -120,26 +163,36 @@ export default class ViewPatientComponent extends Component {
                                         </button>
                                     </div>
                                     <div className="modal-body">
-                                        <form>
-                                            <div className="form-group">
-                                                <label >Problem Name:</label>
-                                                <input type="text"
-                                                    placeholder="Problem Name"
-                                                    name="problemName"
-                                                    className="form-control"
-                                                    value={this.state.addproblem.problemName}
-                                                    onChange={this.onChange} />
+                                        {this.state.message !== null ?
+                                            <div className="alert alert-warning alert-dismissible fade show" role="alert">
+                                                <strong>Warning </strong>{this.state.message}
+                                                    <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
                                             </div>
-                                            <div className="form-group">
-                                                <label >Problem Detail:</label>
-                                                <input type="text"
-                                                    placeholder="Problem Detail"
-                                                    name="problemDetail"
-                                                    className="form-control"
-                                                    value={this.state.addproblem.problemDetail}
-                                                    onChange={this.onChange2} />
-                                            </div>
-                                        </form>
+                                    
+                                            : <p></p> }
+                                            <form>
+                                                <div className="form-group">
+                                                    <label >Problem Name:</label>
+                                                    <input type="text"
+                                                        placeholder="Problem Name"
+                                                        name="problemName"
+                                                        className="form-control"
+                                                        value={this.state.addproblem.problemName}
+                                                        onChange={this.onChange} />
+                                                </div>
+                                                <div className="form-group">
+                                                    <label >Problem Detail:</label>
+                                                    <input type="text"
+                                                        placeholder="Problem Detail"
+                                                        name="problemDetail"
+                                                        className="form-control"
+                                                        value={this.state.addproblem.problemDetail}
+                                                        onChange={this.onChange2} />
+                                                </div>
+                                            </form>
+                                        
                                     </div>
                                     <div className="modal-footer">
                                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -150,6 +203,8 @@ export default class ViewPatientComponent extends Component {
                         </div>
                         <hr />
                     </div>
+
+                    {/* Patient Details */}
                     <div className="col-lg-6">
                         <div className="card" >
                             <div className="card-header">
@@ -181,6 +236,7 @@ export default class ViewPatientComponent extends Component {
                         <img style={{ width: 500, height: 300 }} src="https://cdn.dribbble.com/users/6060/screenshots/3028817/dribbble.jpg" alt="" />
 
                     </div>
+                    {/* Patient's Problem List */}
                     <div className="col-lg-12">
                         <hr />
                         <div className="table-responsive">
@@ -220,13 +276,11 @@ export default class ViewPatientComponent extends Component {
                             </table>
                             <hr />
                             <hr />
-                            <hr />
-                            <hr />
                         </div>
                     </div>
-
                 </div>
             </div>
         )
     }
 }
+// export default ViewPatientComponent;
