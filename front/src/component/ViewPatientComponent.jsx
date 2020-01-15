@@ -3,16 +3,16 @@ import PatientService from '../services/PatientService';
 import ProblemService from '../services/ProblemService';
 import Modal from 'react-modal';
 
-const customStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-25%, -25%)'
-    }
-};
+// const customStyles = {
+//     content: {
+//         top: '50%',
+//         left: '50%',
+//         right: 'auto',
+//         bottom: 'auto',
+//         marginRight: '-50%',
+//         transform: 'translate(-25%, -25%)'
+//     }
+// };
 export default class ViewPatientComponent extends Component {
     constructor(props) {
         super(props)
@@ -54,8 +54,6 @@ export default class ViewPatientComponent extends Component {
                 problems: p.problems,
                 modalIsOpen: false
             });
-
-            console.log(this.state.addproblem);
         });
     }
     editPatient(id) {
@@ -67,7 +65,7 @@ export default class ViewPatientComponent extends Component {
             .then(res => {
                 this.setState({ message: 'Problem Silindi' });
                 this.setState({ problems: this.state.problems.filter(p => p.problemid !== problemid) });
-            })
+            });
     }
     // back() {
     //     this.props.history.push('/patients');
@@ -116,9 +114,9 @@ export default class ViewPatientComponent extends Component {
         });
     }
     handleClose = () => this.setState({ modalIsOpen: false });
-    openModal = (event) => {
-        this.setState({ modalIsOpen: event });
-    };
+    // openModal = (event) => {
+    //     this.setState({ modalIsOpen: event });
+    // };
     openM = () => {
         this.setState({ message: null });
     };
@@ -127,12 +125,12 @@ export default class ViewPatientComponent extends Component {
             <div className="container">
                 <div className="row">
                     {/* Show and close modal */}
-                    <div className="col-sm-12">
-                        <button
+                    <div className="col-lg-12">
+                        {/* <button
                             className="btn btn-sm btn-secondary"
                             onClick={() => this.openModal(true)}>
                             Launch demo modal
-                        </button>
+                        </button> */}
                         <button
                             type="button"
                             className="btn btn-sm btn-primary"
@@ -140,7 +138,7 @@ export default class ViewPatientComponent extends Component {
                             data-target="#exampleModal"
                             onClick={() => this.openM()}
                             data-whatever="@getbootstrap">Add Problem</button>
-
+{/* 
                         <Modal
                             isOpen={this.state.modalIsOpen}
                             onRequestClose={() => this.handleClose()}
@@ -149,7 +147,7 @@ export default class ViewPatientComponent extends Component {
 
                             <button onClick={() => this.handleClose()}>X </button>
                             <p>hello Modal</p>
-                        </Modal>
+                        </Modal> */}
 
 
                         <div className="modal fade" id="exampleModal"
@@ -165,7 +163,7 @@ export default class ViewPatientComponent extends Component {
                                     <div className="modal-body">
                                         {this.state.message !== null ?
                                             <div className="alert alert-warning alert-dismissible fade show" role="alert">
-                                                <strong>Warning </strong>{this.state.message}
+                                                <strong>Perfect! </strong>{this.state.message}
                                                     <button type="button" className="close" data-dismiss="alert" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
