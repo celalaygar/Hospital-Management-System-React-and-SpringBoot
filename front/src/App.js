@@ -1,11 +1,12 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import ListPatientComponent from './component/ListPatientComponent';
+import ListPatientComponent from './component/PatientComponents/ListPatientComponent';
+import ViewPatientComponent from './component/PatientComponents/ViewPatientComponent';
+import AddPatientComponent from './component/PatientComponents/AddPatientComponent';
+import EditPatientComponent from './component/PatientComponents/EditPatientComponent';
 import NotFoundComponent from './NotFound/NotFoundComponent';
-import AddPatientComponent from './component/AddPatientComponent';
-import EditPatientComponent from './component/EditPatientComponent';
-import ViewPatientComponent from './component/ViewPatientComponent';
+import ViewProblemComponent from './component/PatientComponents/ProblemComponent/ViewProblemComponent';
 
 function App() {
   return (
@@ -26,6 +27,10 @@ function App() {
                 <Route path="/view-patient/:patientid" component={ViewPatientComponent} />
                 <Route path="/add-patient" component={AddPatientComponent} />
                 <Route path="/edit-patient" component={EditPatientComponent} />
+                <Route path="/patient/problem/:problemid" component={ViewProblemComponent} />
+
+                
+                <Route path="/notfound" component={NotFoundComponent} />
                 <Route path="*" component={NotFoundComponent} />
               </Switch>
             </Router>

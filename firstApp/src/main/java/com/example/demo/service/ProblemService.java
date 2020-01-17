@@ -49,5 +49,14 @@ public class ProblemService {
 		problemRepository.delete(optional.get());
 		return true;
 	}
+
+	public ProblemGetDto findByProblemid(Long problemid) throws NotFoundException {
+		Optional<Problem> optional = problemRepository.findById(problemid);
+		if (!optional.isPresent()){
+			throw new NotFoundException("Problem does not exist wtih problemid : " + problemid);
+		}
+		ProblemGetDto dto = modelMapper.map(optional.get(), ProblemGetDto.class);
+		return dto;
+	}
 	
 }

@@ -5,9 +5,9 @@ const PROBLEM_API_BASE_URL = '/patient/problem';
 
 class ProblemService {
 
-    // getPatients() {
-    //     return ApiService.getAllDatas(PROBLEM_API_BASE_URL);
-    // }
+    getProblem(problemid) {
+        return ApiService.getAllDatas(PROBLEM_API_BASE_URL + '/find-by-id/' + problemid);
+    }
 
     // getPatientById(patientId) {
     //     return ApiService.getOneById(PROBLEM_API_BASE_URL + '/find-by-id/' + patientId);

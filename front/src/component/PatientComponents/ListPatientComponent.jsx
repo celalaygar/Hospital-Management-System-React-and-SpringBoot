@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PatientService from '../services/PatientService';
+import PatientService from '../../services/PatientService';
 
 class ListPatientComponent extends Component {
     constructor(props) {

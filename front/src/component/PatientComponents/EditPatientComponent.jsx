@@ -1,58 +1,82 @@
 import React, { Component } from 'react'
-import PatientService from '../services/PatientService';
+import PatientService from '../../services/PatientService';
 
-class AddPatientComponent extends Component {
+export default class EditPatientComponent extends Component {
     constructor(props) {
-        super(props);
-        this.state = {
+        super(props)
+        this.state ={
+            patientid: '',
             name: '',
             lastname: '',
-            email:'',
             gender: 'Male',
-            age: 0,
+            email: '',
+            age:0 ,
             city: 'Ankara',
             status: 1
         }
-        this.saveUser = this.saveUser.bind(this);
+        this.loadPatient = this.loadPatient.bind(this);
     }
-    saveUser = (e) => {
+    componentDidMount() {
+        this.loadPatient();
+          
+    }
+
+    loadPatient() {
+        //console.log(window.localStorage.getItem("patientId"))
+        PatientService.getPatientById(window.localStorage.getItem("patientId"))
+            .then((res) => {
+                let p = res.data;
+                this.setState({
+                    patientid: p.patientid,
+                    name: p.name,
+                    lastname: p.lastname,
+                    email: p.email,
+                    gender: p.gender,
+                    age: p.age,
+                    city: p.city,
+                    status: p.status,
+                })
+            });
+    }
+    editPatient = (e) => {
         e.preventDefault();
         let patient = { 
+            patientid: window.localStorage.getItem("patientId"),
             name: this.state.name, 
             lastname: this.state.lastname, 
             gender: this.state.gender, 
-            age: this.state.age, 
             email: this.state.email, 
+            age: this.state.age, 
             city: this.state.city,
             status: this.state.status };
-        PatientService.addPatient(patient)
+        PatientService.editPatient(patient)
             .then(res => {
-                this.setState({ message: 'User added successfully.' });
                 this.props.history.push('/patients');
             });
     }
-    handleChangeGender = (event) => this.setState({gender: event.target.value});
-    handleChangeCity = (event) => this.setState({city: event.target.value});
-    onChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value });
-    }
+
+    handleChangeGender = (event) => this.setState({ gender: event.target.value});
+    handleChangeCity = (event) => this.setState({ city: event.target.value});
+    onChange = (e) =>  this.setState({ [e.target.name]: e.target.value });
     render() {
         return (
-            <div className="col-sm-12">
-                <div>
-                    <h2 className="text-center">ADD PATİENT</h2>
-                    <form>
+            <div className="container">
+                <div className="row">
+                    <div className="col-lg-6">
+                        <h2 className="text-center">Edit Patient</h2>
+                        <hr/>
+                        <form>
                         <div className="form-group">
                             <label >User Name:</label>
-                            <input type="text" placeholder="name" name="name" className="form-control" value={this.state.name}  onChange={this.onChange}/>
+                            <input type="text" placeholder="name" name="name" className="form-control"  value={this.state.name}  onChange={this.onChange}/>
                         </div>
                         <div className="form-group">
                             <label>Last Name:</label>
-                            <input placeholder="Last name" name="lastname" className="form-control" value={this.state.lastname} onChange={this.onChange} />
+                            <input type="text"  placeholder="Last name" name="lastname" className="form-control" value={this.state.lastname} onChange={this.onChange} />
                         </div>
                         <div className="form-group">
                             <label>Email:</label>
-                            <input placeholder="Email" name="email" className="form-control" value={this.state.email} onChange={this.onChange} />
+                            <input type="email" placeholder="Email" name="email" className="form-control" value={this.state.email} onChange={this.onChange} />
                         </div>
                         <div className="form-group">
                             <label>Age:</label>
@@ -60,18 +84,14 @@ class AddPatientComponent extends Component {
                         </div>
                         <div className="form-group">
                             <label>Gender:</label>
-                            <select className="form-control" 
-                                    value={this.state.gender} 
-                                    onChange={this.handleChangeGender} >
+                            <select  className="form-control" value={this.state.gender} onChange={this.handleChangeGender} >
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                             </select>
                          </div>
                         <div className="form-group">
                             <label>City:</label>
-                            <select className="form-control" 
-                                    value={this.state.city} 
-                                    onChange={this.handleChangeCity} >
+                            <select  className="form-control" value={this.state.city} onChange={this.handleChangeCity} >
                                 
                                 <option value="Adana">Adana</option>
                                 <option value="Ankara">Ankara</option>
@@ -90,16 +110,22 @@ class AddPatientComponent extends Component {
                                 <option value="Zonguldak">Zonguldak</option>
                             </select>
                          </div>
-                        {/* <div className="form-group">
-                            <label>Salary:</label>
-                            <input type="number" placeholder="salary" name="salary" className="form-control" value={this.state.salary} onChange={this.onChange} />
-                        </div> */}
-                        <button className="btn btn-success" onClick={this.saveUser}>Save</button>
+                        <button className="btn btn-success" onClick={this.editPatient}>Update</button>
                     </form>
+                    </div>
+                    
+                    <div className="col-lg-6">
+                        <img style={{width: 500, height: 300}} src="https://cdn.dribbble.com/users/6060/screenshots/3028817/dribbble.jpg" alt="" />
+
+                    </div>
+                    <div className="col-sm-12">
+                        
+                        <hr/>
+                        <hr/>
+                        <hr/>
+                    </div>
                 </div>
             </div>
-        );
+        )
     }
 }
-
-export default AddPatientComponent;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import PatientService from '../services/PatientService';
-import ProblemService from '../services/ProblemService';
-import Modal from 'react-modal';
+import PatientService from '../../services/PatientService';
+import ProblemService from '../../services/ProblemService';
+//import Modal from 'react-modal';
 
 // const customStyles = {
 //     content: {
@@ -32,7 +32,8 @@ export default class ViewPatientComponent extends Component {
             },
             status: 1,
             message: null,
-            modalIsOpen: false
+            modalIsOpen: false,
+            errorMessage: ""
         }
         this.loadPatient = this.loadPatient.bind(this);
     }
@@ -40,8 +41,9 @@ export default class ViewPatientComponent extends Component {
         this.loadPatient();
     }
     loadPatient() {
-        PatientService.getPatientById(this.state.patientid).then((res) => {
+        PatientService.getPatientById(this.state.patientid).then(res => {
             let p = res.data;
+            console.log(res)
             this.setState({
                 patientid: p.patientid,
                 name: p.name,
@@ -54,7 +56,22 @@ export default class ViewPatientComponent extends Component {
                 problems: p.problems,
                 modalIsOpen: false
             });
+        })
+        .catch((error) => {
+            // Error
+            if (error.response) {
+                console.log(error.response.data.message);
+                this.setState({ errorMessage: error.response.data.message ,patientid: null});
+                
+            } else if (error.request) {
+                console.log(error.request);
+            } else {
+                console.log(error.message);
+            }
+            
         });
+
+        
     }
     editPatient(id) {
         window.localStorage.setItem("patientId", id);
@@ -74,27 +91,32 @@ export default class ViewPatientComponent extends Component {
         if (this.state.addproblem.problemName === '' || this.state.addproblem.problemDetail === '') {
             this.setState({ message: "Lütfen boş alanları doldurunuz..." });
         } else {
-            let data = null;
-            let problem = {
-                problemName: this.state.addproblem.problemName,
-                problemDetail: this.state.addproblem.problemDetail,
-                pid: this.state.patientid
-            };
-            ProblemService.add(problem).then(res => {
-                data = res.data;
+            if(this.state.patientid != null){
+                this.setState({ message: '' });
+                let data = null;
+                let problem = {
+                    problemName: this.state.addproblem.problemName,
+                    problemDetail: this.state.addproblem.problemDetail,
+                    pid: this.state.patientid
+                };
+                ProblemService.add(problem).then(res => {
+                    data = res.data;
 
-                // push new problem to problems
-                var newStateArray = this.state.problems.slice();
-                newStateArray.push(data);
-                this.setState({ problems: newStateArray });
-                this.setState({ message: "Kayıt işlemi başarılı..." });
-                this.setState({
-                    addproblem: {
-                        problemName: '',
-                        problemDetail: ''
-                    }
+                    // push new problem to problems
+                    var newStateArray = this.state.problems.slice();
+                    newStateArray.push(data);
+                    this.setState({ problems: newStateArray });
+                    this.setState({ message: "Kayıt işlemi başarılı..." });
+                    this.setState({
+                        addproblem: {
+                            problemName: '',
+                            problemDetail: ''
+                        }
+                    });
                 });
-            });
+            }else{
+                this.setState({ message: "Hasta kaydı bulunamadı. Lütfen uygun bir hasta seçiniz." });
+            }
         }
     }
     onChange = (e) => {
@@ -120,12 +142,27 @@ export default class ViewPatientComponent extends Component {
     openM = () => {
         this.setState({ message: null });
     };
+    viewProblem(problemid) {
+        console.log(problemid)
+        //window.localStorage.setItem("problemid", id);
+        this.props.history.push('/patient/problem/' + problemid);
+    }
+    notFoundPage() {
+        this.props.history.push('/notfound');
+    }
     render() {
         return (
             <div className="container">
                 <div className="row">
                     {/* Show and close modal */}
                     <div className="col-lg-12">
+                        {
+                        this.state.errorMessage !== '' ? 
+                        <div className="alert alert-danger" role="alert">
+                            {this.state.errorMessage}
+                        </div> :  null
+                        }
+
                         {/* <button
                             className="btn btn-sm btn-secondary"
                             onClick={() => this.openModal(true)}>
@@ -138,7 +175,7 @@ export default class ViewPatientComponent extends Component {
                             data-target="#exampleModal"
                             onClick={() => this.openM()}
                             data-whatever="@getbootstrap">Add Problem</button>
-{/* 
+                        {/* 
                         <Modal
                             isOpen={this.state.modalIsOpen}
                             onRequestClose={() => this.handleClose()}
@@ -162,35 +199,33 @@ export default class ViewPatientComponent extends Component {
                                     </div>
                                     <div className="modal-body">
                                         {this.state.message !== null ?
-                                            <div className="alert alert-warning alert-dismissible fade show" role="alert">
+                                            <div className="alert alert-danger" role="alert">
                                                 <strong>Perfect! </strong>{this.state.message}
-                                                    <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
+                                                
                                             </div>
-                                    
-                                            : <p></p> }
-                                            <form>
-                                                <div className="form-group">
-                                                    <label >Problem Name:</label>
-                                                    <input type="text"
-                                                        placeholder="Problem Name"
-                                                        name="problemName"
-                                                        className="form-control"
-                                                        value={this.state.addproblem.problemName}
-                                                        onChange={this.onChange} />
-                                                </div>
-                                                <div className="form-group">
-                                                    <label >Problem Detail:</label>
-                                                    <input type="text"
-                                                        placeholder="Problem Detail"
-                                                        name="problemDetail"
-                                                        className="form-control"
-                                                        value={this.state.addproblem.problemDetail}
-                                                        onChange={this.onChange2} />
-                                                </div>
-                                            </form>
-                                        
+
+                                            : <p></p>}
+                                        <form>
+                                            <div className="form-group">
+                                                <label >Problem Name:</label>
+                                                <input type="text"
+                                                    placeholder="Problem Name"
+                                                    name="problemName"
+                                                    className="form-control"
+                                                    value={this.state.addproblem.problemName}
+                                                    onChange={this.onChange} />
+                                            </div>
+                                            <div className="form-group">
+                                                <label >Problem Detail:</label>
+                                                <input type="text"
+                                                    placeholder="Problem Detail"
+                                                    name="problemDetail"
+                                                    className="form-control"
+                                                    value={this.state.addproblem.problemDetail}
+                                                    onChange={this.onChange2} />
+                                            </div>
+                                        </form>
+
                                     </div>
                                     <div className="modal-footer">
                                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -261,7 +296,7 @@ export default class ViewPatientComponent extends Component {
                                                         aria-expanded="false"> Actions </button>
 
                                                     <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                        {/* <button className="dropdown-item" onClick={() => this.viewPatient(patient.patientid)} > View</button> */}
+                                                        <button className="dropdown-item" onClick={() => this.viewProblem(problem.problemid)} > View</button>
                                                         {/* <button className="dropdown-item" onClick={() => this.editPatient(patient.patientid)} > Edit</button> */}
                                                         <button className="dropdown-item" onClick={() => this.deleteProblem(problem.problemid)} > Delete </button>
 
