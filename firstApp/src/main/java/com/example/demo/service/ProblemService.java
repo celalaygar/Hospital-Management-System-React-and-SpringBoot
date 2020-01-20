@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.text.SimpleDateFormat;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
@@ -18,7 +19,7 @@ import javassist.NotFoundException;
 
 @Service
 public class ProblemService {
-
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	private final ProblemRepository problemRepository;
 	private final PatientRepository patientRepository;
 	private final ModelMapper modelMapper;
@@ -31,11 +32,13 @@ public class ProblemService {
 	public ProblemDtoForPatientSingleDto save(ProblemDto dto) throws NotFoundException {
 		Optional<Patient> patient = patientRepository.findById(dto.getPId());
 		if (!patient.isPresent()){
-			throw new NotFoundException("Patient does not exist wtih patientid : " + dto.getPId());
+			throw new NotFoundException("Patient does already exist wtih patientid : " + dto.getPId());
 		}
+		
 		Problem problem = modelMapper.map(dto, Problem.class);
 		problem.setPatient(patient.get());
 		problemRepository.save(problem);
+		
 		ProblemDtoForPatientSingleDto getDto = modelMapper.map(problem, ProblemDtoForPatientSingleDto.class);
 		return getDto;
 	}

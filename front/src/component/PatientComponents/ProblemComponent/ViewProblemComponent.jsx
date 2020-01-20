@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ProblemService from '../../../services/ProblemService'
+import Moment from 'react-moment';
 
 export default class ViewProblemComponent extends Component {
     
@@ -11,6 +12,7 @@ export default class ViewProblemComponent extends Component {
             problemDetail: null,
             problemName: null,
             pid: null,
+            creationDate:null,
             errorMessage: ""
         }
         this.loadProblemDetail = this.loadProblemDetail.bind(this);
@@ -26,7 +28,8 @@ export default class ViewProblemComponent extends Component {
                 problemDetail: p.problemDetail,
                 problemName: p.problemName,
                 pid: p.pid,
-                patient: p.patient
+                patient: p.patient,
+                creationDate: p.creationDate
             });
             console.log(this.state.patient)
         }).catch((error) => {
@@ -96,8 +99,14 @@ export default class ViewProblemComponent extends Component {
                                         Problem Detail
                                         </div>
                                     <ul className="text-left list-group list-group-flush">
-                                        <li className="list-group-item"><b>Name : </b>{this.state.problemName}</li>
-                                        <li className="list-group-item"><b>Last Name : </b>{this.state.problemDetail}</li>
+                                        <li className="list-group-item"><b>Problem Name : </b>{this.state.problemName}</li>
+                                        <li className="list-group-item"><b>Problem Detail : </b>{this.state.problemDetail}</li>
+
+                                        <li className="list-group-item"><b>Create Date : (Y/M/D H/M) </b>
+                                            <Moment format="YYYY/MM/DD HH:mm">
+                                                {this.state.creationDate} 
+                                            </Moment>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>

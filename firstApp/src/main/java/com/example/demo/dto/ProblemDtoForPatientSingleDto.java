@@ -1,6 +1,7 @@
 package com.example.demo.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import com.example.demo.entity.Patient;
 import com.example.demo.entity.Problem;
@@ -18,5 +19,7 @@ public class ProblemDtoForPatientSingleDto  implements Serializable {
 	private Long problemid;
 	private String problemName;
 	private String problemDetail;
-	private Long pId;
+	private Long pId;	
+	private Date creationDate;
+
 }

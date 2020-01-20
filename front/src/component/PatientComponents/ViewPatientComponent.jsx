@@ -1,18 +1,11 @@
 import React, { Component } from 'react'
 import PatientService from '../../services/PatientService';
 import ProblemService from '../../services/ProblemService';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 //import Modal from 'react-modal';
+import Moment from 'react-moment';
 
-// const customStyles = {
-//     content: {
-//         top: '50%',
-//         left: '50%',
-//         right: 'auto',
-//         bottom: 'auto',
-//         marginRight: '-50%',
-//         transform: 'translate(-25%, -25%)'
-//     }
-// };
 export default class ViewPatientComponent extends Component {
     constructor(props) {
         super(props)
@@ -28,6 +21,7 @@ export default class ViewPatientComponent extends Component {
             addproblem: {
                 problemName: '',
                 problemDetail: '',
+                creationDate: new Date(),
                 pid: props.match.params.patientid
             },
             status: 1,
@@ -97,8 +91,10 @@ export default class ViewPatientComponent extends Component {
                 let problem = {
                     problemName: this.state.addproblem.problemName,
                     problemDetail: this.state.addproblem.problemDetail,
+                    creationDate: this.state.addproblem.creationDate,
                     pid: this.state.patientid
                 };
+                console.log(problem)
                 ProblemService.add(problem).then(res => {
                     data = res.data;
 
@@ -110,7 +106,8 @@ export default class ViewPatientComponent extends Component {
                     this.setState({
                         addproblem: {
                             problemName: '',
-                            problemDetail: ''
+                            problemDetail: '',
+                            creationDate: new Date()
                         }
                     });
                 });
@@ -124,6 +121,7 @@ export default class ViewPatientComponent extends Component {
             addproblem: {
                 problemName: e.target.value,
                 problemDetail: this.state.addproblem.problemDetail,
+                creationDate: this.state.addproblem.creationDate
             }
         });
     }
@@ -131,14 +129,12 @@ export default class ViewPatientComponent extends Component {
         this.setState({
             addproblem: {
                 problemName: this.state.addproblem.problemName,
-                problemDetail: e.target.value
+                problemDetail: e.target.value,
+                creationDate: this.state.addproblem.creationDate
             }
         });
     }
     handleClose = () => this.setState({ modalIsOpen: false });
-    // openModal = (event) => {
-    //     this.setState({ modalIsOpen: event });
-    // };
     openM = () => {
         this.setState({ message: null });
     };
@@ -149,6 +145,15 @@ export default class ViewPatientComponent extends Component {
     }
     notFoundPage() {
         this.props.history.push('/notfound');
+    }
+    handleChange = date => {
+      this.setState({
+            addproblem: {
+                problemName:   this.state.addproblem.problemName,
+                problemDetail:   this.state.addproblem.problemDetail,
+                creationDate: date
+            }
+        });
     }
     render() {
         return (
@@ -187,6 +192,7 @@ export default class ViewPatientComponent extends Component {
                         </Modal> */}
 
 
+                        {/* ADD PATİENT PROBLEM MODAL */}
                         <div className="modal fade" id="exampleModal"
                             tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
                             <div className="modal-dialog" role="document">
@@ -199,7 +205,7 @@ export default class ViewPatientComponent extends Component {
                                     </div>
                                     <div className="modal-body">
                                         {this.state.message !== null ?
-                                            <div className="alert alert-danger" role="alert">
+                                            <div className="alert alert-warning" role="alert">
                                                 <strong>Perfect! </strong>{this.state.message}
                                                 
                                             </div>
@@ -224,6 +230,18 @@ export default class ViewPatientComponent extends Component {
                                                     value={this.state.addproblem.problemDetail}
                                                     onChange={this.onChange2} />
                                             </div>
+                                            <div className="form-group">
+                                                <label >Date :</label>
+                                                <DatePicker
+                                                    className="form-control"
+                                                    showTimeSelect
+                                                    selected={this.state.addproblem.creationDate}
+                                                    onChange={this.handleChange}
+                                                    timeIntervals={15}
+                                                    timeFormat="HH:mm"
+                                                    dateFormat="yyyy/MM/dd h:mm aa"
+                                                />
+                                            </div>
                                         </form>
 
                                     </div>
@@ -236,6 +254,7 @@ export default class ViewPatientComponent extends Component {
                         </div>
                         <hr />
                     </div>
+
 
                     {/* Patient Details */}
                     <div className="col-lg-6">
@@ -265,10 +284,11 @@ export default class ViewPatientComponent extends Component {
                             </ul>
                         </div>
                     </div>
+
                     <div className="col-lg-6">
                         <img style={{ width: 500, height: 300 }} src="https://cdn.dribbble.com/users/6060/screenshots/3028817/dribbble.jpg" alt="" />
-
                     </div>
+
                     {/* Patient's Problem List */}
                     <div className="col-lg-12">
                         <hr />
@@ -277,7 +297,8 @@ export default class ViewPatientComponent extends Component {
                                 <thead>
                                     <tr>
                                         <th>Problem Name</th>
-                                        <th>Problem Detail</th>
+                                        <th>Problem Detail</th> 
+                                        <th>Create Date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -286,6 +307,11 @@ export default class ViewPatientComponent extends Component {
                                         <tr className="bg-default" key={problem.problemid}>
                                             <td>{problem.problemName}</td>
                                             <td>{problem.problemDetail}</td>
+                                            <td> 
+                                                <Moment format="YYYY/MM/DD HH:mm">
+                                                {problem.creationDate} 
+                                                </Moment>
+                                            </td>
                                             <td>
                                                 <div className="btn-group" role="group">
                                                     <button id="btnGroupDrop1"
@@ -296,10 +322,17 @@ export default class ViewPatientComponent extends Component {
                                                         aria-expanded="false"> Actions </button>
 
                                                     <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                        <button className="dropdown-item" onClick={() => this.viewProblem(problem.problemid)} > View</button>
+                                                        <button 
+                                                            className="dropdown-item" 
+                                                            onClick={() => this.viewProblem(problem.problemid)} > 
+                                                                View </button>
+                                                        
                                                         {/* <button className="dropdown-item" onClick={() => this.editPatient(patient.patientid)} > Edit</button> */}
-                                                        <button className="dropdown-item" onClick={() => this.deleteProblem(problem.problemid)} > Delete </button>
-
+                                                        
+                                                        <button 
+                                                            className="dropdown-item" 
+                                                            onClick={() => this.deleteProblem(problem.problemid)} > 
+                                                                Delete </button>
                                                     </div>
                                                 </div>
                                             </td>
