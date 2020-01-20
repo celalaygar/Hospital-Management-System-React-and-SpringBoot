@@ -75,7 +75,7 @@ export default class ViewProblemComponent extends Component {
                                 className="btn btn-danger"
                                 onClick={() => this.viewPatient(this.state.patient.patientid)}>Back</button>
                                 <hr/>
-                                <h3>Problem Details for {this.state.patient.name} {this.state.patient.lastname}</h3>
+                                <h5>Problem Detail for {this.state.patient.name} {this.state.patient.lastname}</h5>
                                 <hr/>
                             </div>
                             <div className="col-lg-6">

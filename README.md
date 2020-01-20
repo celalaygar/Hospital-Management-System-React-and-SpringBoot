@@ -10,7 +10,7 @@ This Project is building....
 - JPA, Hibernate
 - React
 - Bootstrap 4
-- Oracle
+- Oracle Database 11g
 ```
 ## Sql Query
 ```
@@ -29,4 +29,9 @@ CREATE TABLE "AVC237"."AAPATIENT"
 		 
    CREATE SEQUENCE AA_PATIENT_SEQ START WITH 1 INCREMENT BY 1
 
+```
+
+### important !!!
+```
+https://reactdatepicker.com/
 ```

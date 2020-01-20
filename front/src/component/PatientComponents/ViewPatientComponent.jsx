@@ -156,6 +156,10 @@ export default class ViewPatientComponent extends Component {
         });
     }
     render() {
+        const isWeekday = date => {
+            const day = date.getDay(date);
+            return day !== 0 && day !== 6;
+          };
         return (
             <div className="container">
                 <div className="row">
@@ -234,16 +238,18 @@ export default class ViewPatientComponent extends Component {
                                                 <label >Date :</label>
                                                 <DatePicker
                                                     className="form-control"
-                                                    showTimeSelect
+                                                    // showTimeSelect
+                                                    showTimeInput
                                                     selected={this.state.addproblem.creationDate}
                                                     onChange={this.handleChange}
-                                                    timeIntervals={15}
-                                                    timeFormat="HH:mm"
-                                                    dateFormat="yyyy/MM/dd h:mm aa"
+                                                    filterDate={isWeekday}          // disable weekend
+                                                    timeIntervals={15}              // time range around 15 min
+                                                    //showWeekNumbers                 // show week number
+                                                    timeFormat="HH:mm"              // show time format
+                                                    dateFormat="yyyy/MM/dd h:mm aa" // show all of time format
                                                 />
                                             </div>
                                         </form>
-
                                     </div>
                                     <div className="modal-footer">
                                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
