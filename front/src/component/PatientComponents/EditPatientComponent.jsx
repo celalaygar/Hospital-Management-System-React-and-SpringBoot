@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import PatientService from '../../services/PatientService';
+import * as alertify from 'alertifyjs';
+import "alertifyjs/build/css/alertify.css";
 
 export default class EditPatientComponent extends Component {
     constructor(props) {
@@ -52,6 +54,8 @@ export default class EditPatientComponent extends Component {
         PatientService.editPatient(patient)
             .then(res => {
                 this.props.history.push('/patients');
+                
+                alertify.success("Editing is ok");
             });
     }
 

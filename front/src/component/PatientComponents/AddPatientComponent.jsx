@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import PatientService from '../../services/PatientService';
+import * as alertify from 'alertifyjs';
+import "alertifyjs/build/css/alertify.css";
 
 class AddPatientComponent extends Component {
     constructor(props) {
@@ -29,6 +31,7 @@ class AddPatientComponent extends Component {
             .then(res => {
                 this.setState({ message: 'User added successfully.' });
                 this.props.history.push('/patients');
+                alertify.success("Adding is ok");
             });
     }
     handleChangeGender = (event) => this.setState({gender: event.target.value});

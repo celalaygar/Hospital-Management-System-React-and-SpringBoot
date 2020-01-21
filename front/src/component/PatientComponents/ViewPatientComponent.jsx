@@ -5,7 +5,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 //import Modal from 'react-modal';
 import Moment from 'react-moment';
-
+import * as alertify from 'alertifyjs';
+import "alertifyjs/build/css/alertify.css";
 export default class ViewPatientComponent extends Component {
     constructor(props) {
         super(props)
@@ -30,6 +31,7 @@ export default class ViewPatientComponent extends Component {
             errorMessage: ""
         }
         this.loadPatient = this.loadPatient.bind(this);
+        
     }
     componentDidMount() {
         this.loadPatient();
@@ -37,7 +39,7 @@ export default class ViewPatientComponent extends Component {
     loadPatient() {
         PatientService.getPatientById(this.state.patientid).then(res => {
             let p = res.data;
-            console.log(res)
+            //console.log(res)
             this.setState({
                 patientid: p.patientid,
                 name: p.name,
@@ -49,6 +51,7 @@ export default class ViewPatientComponent extends Component {
                 status: p.status,
                 problems: p.problems,
                 modalIsOpen: false
+                
             });
         })
         .catch((error) => {
@@ -76,6 +79,8 @@ export default class ViewPatientComponent extends Component {
             .then(res => {
                 this.setState({ message: 'Problem Silindi' });
                 this.setState({ problems: this.state.problems.filter(p => p.problemid !== problemid) });
+                
+                alertify.success("Deleting is ok");
             });
     }
     // back() {
@@ -94,7 +99,7 @@ export default class ViewPatientComponent extends Component {
                     creationDate: this.state.addproblem.creationDate,
                     pid: this.state.patientid
                 };
-                console.log(problem)
+                //console.log(problem)
                 ProblemService.add(problem).then(res => {
                     data = res.data;
 
@@ -110,10 +115,15 @@ export default class ViewPatientComponent extends Component {
                             creationDate: new Date()
                         }
                     });
+                    // alertify.alert("This is an alert dialog.", function(){
+                    //   alertify.success('Saving is ok');
+                    // });
+                    alertify.success("Saving is ok");
                 });
             }else{
                 this.setState({ message: "Hasta kaydı bulunamadı. Lütfen uygun bir hasta seçiniz." });
             }
+            
         }
     }
     onChange = (e) => {
@@ -155,11 +165,13 @@ export default class ViewPatientComponent extends Component {
             }
         });
     }
+
+
     render() {
         const isWeekday = date => {
             const day = date.getDay(date);
             return day !== 0 && day !== 6;
-          };
+        };
         return (
             <div className="container">
                 <div className="row">
@@ -194,7 +206,13 @@ export default class ViewPatientComponent extends Component {
                             <button onClick={() => this.handleClose()}>X </button>
                             <p>hello Modal</p>
                         </Modal> */}
+                            {this.state.message !== null ?
+                                        <div className="alert alert-warning" role="alert">
+                                            <strong>Perfect! </strong>{this.state.message}
+                                            
+                                        </div>
 
+                                        : <p></p>}
 
                         {/* ADD PATİENT PROBLEM MODAL */}
                         <div className="modal fade" id="exampleModal"
@@ -208,13 +226,7 @@ export default class ViewPatientComponent extends Component {
                                         </button>
                                     </div>
                                     <div className="modal-body">
-                                        {this.state.message !== null ?
-                                            <div className="alert alert-warning" role="alert">
-                                                <strong>Perfect! </strong>{this.state.message}
-                                                
-                                            </div>
-
-                                            : <p></p>}
+                                        
                                         <form>
                                             <div className="form-group">
                                                 <label >Problem Name:</label>
@@ -253,7 +265,7 @@ export default class ViewPatientComponent extends Component {
                                     </div>
                                     <div className="modal-footer">
                                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" className="btn btn-primary" onClick={this.addProblem}>Add</button>
+                                        <button type="button" className="btn btn-primary" onClick={this.addProblem} data-dismiss="modal">Add</button>
                                     </div>
                                 </div>
                             </div>
