@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.dto.PatientDto;
 import com.example.demo.dto.PatientSingleDto;
 import com.example.demo.entity.Patient;
+import com.example.demo.exception.PatientNotFoundException;
 import com.example.demo.repository.PatientRepository;
 
 import javassist.NotFoundException;
@@ -54,7 +55,7 @@ public class PatientService {
 			return true;
 		}
 		else
-			throw new Exception("Getting Patient is not ok with : " + patientid);
+			throw new PatientNotFoundException("Getting Patient is not ok with : " + patientid);
 
 	}
 
@@ -66,7 +67,7 @@ public class PatientService {
 			return dto;
 		}
 		else
-			throw new Exception("Getting Patient is not ok with : " + patientid);
+			throw new PatientNotFoundException("Getting Patient is not ok with : " + patientid);
 	}
 
 	public Patient findByEmail(String email) throws Exception {
@@ -74,7 +75,7 @@ public class PatientService {
 		if (patient.isPresent())
 			return patient.get();
 		else
-			throw new Exception("Getting Patient is not ok with : " + email);
+			throw new PatientNotFoundException("Getting Patient is not ok with : " + email);
 	}
 	public Boolean update(Long patientid, @Valid Patient patient) throws Exception {
 		Optional<Patient> p = patientRepository.findById(patientid);
@@ -84,7 +85,7 @@ public class PatientService {
 			return true;
 		}
 		else
-			throw new Exception("Getting Patient is not ok with : " + patientid);
+			throw new PatientNotFoundException("Getting Patient is not ok with : " + patientid);
 	}
 
 	public List<Patient> findByName(String name) throws Exception {
@@ -94,6 +95,6 @@ public class PatientService {
 			return patients;
 		}
 		else
-			throw new Exception("Getting Patients is not ok with : " + name);
+			throw new PatientNotFoundException("Getting Patients is not ok with : " + name);
 	}
 }

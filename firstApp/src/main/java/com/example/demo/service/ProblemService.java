@@ -3,6 +3,8 @@ package com.example.demo.service;
 import java.text.SimpleDateFormat;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,6 +62,14 @@ public class ProblemService {
 		}
 		ProblemGetDto dto = modelMapper.map(optional.get(), ProblemGetDto.class);
 		return dto;
+	}
+
+	public Boolean update(Long problemid, @Valid ProblemDtoForPatientSingleDto dto) throws NotFoundException {
+		Optional<Problem> optional = problemRepository.findById(problemid);
+		if (!optional.isPresent()){
+			throw new NotFoundException("Problem does not exist wtih problemid : " + problemid);
+		}
+		return true;
 	}
 	
 }

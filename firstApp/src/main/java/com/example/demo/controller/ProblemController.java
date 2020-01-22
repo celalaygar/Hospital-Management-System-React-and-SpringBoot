@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,6 +43,13 @@ public class ProblemController {
 		return ResponseEntity.ok(problemService.save(dto));
 	}
 
+	@PutMapping("/{problemid}")
+	public ResponseEntity<Boolean> updatePatient(
+			@PathVariable(name = "problemid", required = true) Long problemid,
+			@Valid @RequestBody ProblemDtoForPatientSingleDto dto) throws Exception {
+		return ResponseEntity.ok(problemService.update(problemid,dto));
+	}
+	
 	@DeleteMapping("/{problemid}")
 	public ResponseEntity<Boolean> deletePatient(@PathVariable(name = "problemid", required = true) Long problemid)
 			throws Exception {

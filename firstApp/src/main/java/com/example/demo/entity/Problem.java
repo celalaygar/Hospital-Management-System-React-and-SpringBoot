@@ -41,7 +41,7 @@ public class Problem{
 	private String problemName;
 	
 	private String problemDetail;
-	
+		
 	private Long pId;
 
     @Temporal(TemporalType.TIMESTAMP)
