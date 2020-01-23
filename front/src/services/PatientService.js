@@ -2,7 +2,7 @@ import ApiService from "./ApiService";
 
 
 const PATIENT_API_BASE_URL = '/patient';
-
+const CITIES = '/cities';
 class PatientService {
 
     getPatients() {
@@ -28,7 +28,9 @@ class PatientService {
     editPatient(patient) {
         return ApiService.put(PATIENT_API_BASE_URL + '/' + patient.patientid, patient);
     }
-
+    getCities() {
+        return ApiService.getAllDatas(PATIENT_API_BASE_URL+CITIES);
+    }
 }
 
 export default new PatientService();

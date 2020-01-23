@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.PatientDto;
 import com.example.demo.dto.PatientSingleDto;
+import com.example.demo.entity.City;
 import com.example.demo.entity.Patient;
 import com.example.demo.service.PatientService;
 
@@ -69,5 +71,9 @@ public class PatientController {
 	@DeleteMapping("/{patientid}")
 	public ResponseEntity<Boolean> deletePatient(@PathVariable(name = "patientid", required = true) Long patientid) throws Exception {
 		return ResponseEntity.ok(patientService.delete(patientid));
+	}
+	@GetMapping("/cities")
+	public ResponseEntity<List<City>> getAllBookStatus() {
+		return ResponseEntity.ok(Arrays.asList(City.values()));
 	}
 }

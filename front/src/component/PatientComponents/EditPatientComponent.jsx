@@ -14,9 +14,19 @@ export default class EditPatientComponent extends Component {
             email: '',
             age:0 ,
             city: 'Ankara',
-            status: 1
+            status: 1,
+            cities:[]
         }
         this.loadPatient = this.loadPatient.bind(this);
+        this.getAllCities();
+    }
+    getAllCities(){
+        PatientService.getCities().then(res => {
+
+            //console.log(res.data)
+            this.setState({ cities: res.data });
+
+        });
     }
     componentDidMount() {
         this.loadPatient();
@@ -96,22 +106,10 @@ export default class EditPatientComponent extends Component {
                         <div className="form-group">
                             <label>City:</label>
                             <select  className="form-control" value={this.state.city} onChange={this.handleChangeCity} >
-                                
-                                <option value="Adana">Adana</option>
-                                <option value="Ankara">Ankara</option>
-                                <option value="Antalya">Antalya</option>
-                                <option value="Bursa">Bursa</option>
-                                <option value="Diyarbakır">Diyarbakır</option>
-                                <option value="İzmir">İzmir</option>
-                                <option value="İstanbul">İstanbul</option>
-                                <option value="Karaman">Karaman</option>
-                                <option value="Konya">Konya</option>
-                                <option value="Manisa">Manisa</option>
-                                <option value="Mugla">Mugla</option>
-                                <option value="Samsun">Samsun</option>
-                                <option value="Sivas">Sivas</option>
-                                <option value="Osmanniye">Osmaniye</option>
-                                <option value="Zonguldak">Zonguldak</option>
+                                    {this.state.cities.map(city => 
+                                    
+                                    <option key={city} value={city}>{city}</option>
+                                    )}
                             </select>
                          </div>
                         <button className="btn btn-success" onClick={this.editPatient}>Update</button>

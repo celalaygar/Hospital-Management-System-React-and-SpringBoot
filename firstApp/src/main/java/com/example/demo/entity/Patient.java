@@ -45,6 +45,11 @@ public class Patient {
 	private String gender;
 	private String age;
 	private String city;
+	
+	
+//	@Column(name = "city", length = 100)
+//	@Enumerated(EnumType.STRING)
+//	private City city;
 	private String email;
 	private int status;
 	
