@@ -41,8 +41,8 @@ class AddPatientComponent extends Component {
     }
     render() {
         return (
-            <div className="col-sm-12">
-                <div>
+            <div className="container row">
+                <div className="col-sm-6">
                     <h2 className="text-center">ADD PATİENT</h2>
                     <form>
                         <div className="form-group">
@@ -99,6 +99,14 @@ class AddPatientComponent extends Component {
                         </div> */}
                         <button className="btn btn-success" onClick={this.saveUser}>Save</button>
                     </form>
+                </div>
+                <div className="col-lg-6">
+                        <img style={{ width: 500, height: 300 }} src="https://cdn.dribbble.com/users/6060/screenshots/3028817/dribbble.jpg" alt="" />
+                </div>
+                <div className="col-sm-12">
+                    <hr/>
+                    <hr/>
+                    <hr/>
                 </div>
             </div>
         );

@@ -80,7 +80,7 @@ export default class ViewPatientComponent extends Component {
                 this.setState({ message: 'Problem Silindi' });
                 this.setState({ problems: this.state.problems.filter(p => p.problemid !== problemid) });
                 
-                alertify.success("Deleting is ok");
+                alertify.success("Deleting is ok : "+this.state.message);
             });
     }
     // back() {
@@ -118,7 +118,7 @@ export default class ViewPatientComponent extends Component {
                     // alertify.alert("This is an alert dialog.", function(){
                     //   alertify.success('Saving is ok');
                     // });
-                    alertify.success("Saving is ok");
+                    alertify.success("Saving is ok : " + this.state.message);
                 });
             }else{
                 this.setState({ message: "Hasta kaydı bulunamadı. Lütfen uygun bir hasta seçiniz." });
@@ -206,13 +206,13 @@ export default class ViewPatientComponent extends Component {
                             <button onClick={() => this.handleClose()}>X </button>
                             <p>hello Modal</p>
                         </Modal> */}
-                            {this.state.message !== null ?
+                            {/* {this.state.message !== null ?
                                         <div className="alert alert-warning" role="alert">
                                             <strong>Perfect! </strong>{this.state.message}
                                             
                                         </div>
 
-                                        : <p></p>}
+                                        : <p></p>} */}
 
                         {/* ADD PATİENT PROBLEM MODAL */}
                         <div className="modal fade" id="exampleModal"
