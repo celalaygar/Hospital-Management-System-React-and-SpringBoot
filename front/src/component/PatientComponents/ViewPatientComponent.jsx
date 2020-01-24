@@ -7,6 +7,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import Moment from 'react-moment';
 import * as alertify from 'alertifyjs';
 import "alertifyjs/build/css/alertify.css";
+import "@material/react-checkbox/dist/checkbox.css";
+import Checkbox from '@material/react-checkbox';
+const items = [
+    'One',
+    'Two',
+    'Three',
+  ];
 export default class ViewPatientComponent extends Component {
     constructor(props) {
         super(props)
@@ -30,7 +37,8 @@ export default class ViewPatientComponent extends Component {
             message: null,
             modalIsOpen: false,
             problemStatuses: [],
-            errorMessage: ""
+            errorMessage: "",
+            checked: false, indeterminate: false
         }
         this.loadPatient = this.loadPatient.bind(this);
     }
@@ -203,13 +211,37 @@ export default class ViewPatientComponent extends Component {
                 });
                 return find;
             });
-            console.log(results)
             this.setState({ problems:  results});
         }
         else{
             this.loadPatient();
         }
     }
+
+    createCheckbox = label => (
+        <Checkbox
+        nativeControlId='my-checkbox'
+        checked={this.state.checked}
+        indeterminate={this.state.indeterminate}
+        onChange={(e) => this.setState({
+          checked: e.target.checked,
+          indeterminate: e.target.indeterminate})
+        }
+      />
+
+        // <input
+        //     type="checkbox"
+        //     name= {label}
+        //     value={label}
+        //     onChange={this.toggleCheckboxChange}
+        // />
+    )
+    
+      createCheckboxes = () => (
+        items.map(this.createCheckbox)
+      )
+
+
     render() {
         const isWeekday = date => {
             const day = date.getDay(date);
@@ -226,7 +258,8 @@ export default class ViewPatientComponent extends Component {
                             {this.state.errorMessage}
                         </div> :  null
                         }
-
+                        
+                        {this.createCheckboxes()}
                         {/* <button
                             className="btn btn-sm btn-secondary"
                             onClick={() => this.openModal(true)}>
@@ -335,7 +368,7 @@ export default class ViewPatientComponent extends Component {
                     <div className="col-lg-6">
                         <div className="card" >
                             <div className="card-header">
-                                Patient Details
+                                Patient Details 
                             </div>
                             <ul className="text-left list-group list-group-flush">
                                 <li className="list-group-item"><b>Name : </b>{this.state.name}</li>
@@ -380,7 +413,7 @@ export default class ViewPatientComponent extends Component {
                             <table className="table table-bordered table-sm table-dark table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Problem Name</th>
+                                        <th>Problem Name </th>
                                         <th>Problem Detail</th> 
                                         <th>Problem Status</th> 
                                         <th>Create Date</th>
