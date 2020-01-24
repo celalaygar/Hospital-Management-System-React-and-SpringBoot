@@ -186,8 +186,30 @@ export default class ViewPatientComponent extends Component {
         this.props.history.push('/notfound');
     }
 
-
-
+    onChangeSearchByStatusOrDate = (e) =>  { 
+        //this.setState({ [e.target.name]: e.target.value }); 
+        this.filterProblems(e.target.value);
+    }
+    filterProblems(value){
+        var results= [];
+        let filters = ["problemStatus","creationDate"];
+        if(value !== ''){
+            results = this.state.problems.filter(problem =>{
+                let find = false;
+                //filters.forEach(filter=>{
+                filters.forEach(function(filter){
+                    let control = problem[filter].toLowerCase().indexOf(value.toLowerCase());
+                        if(control > -1)  find = true; 
+                });
+                return find;
+            });
+            console.log(results)
+            this.setState({ problems:  results});
+        }
+        else{
+            this.loadPatient();
+        }
+    }
     render() {
         const isWeekday = date => {
             const day = date.getDay(date);
@@ -309,8 +331,6 @@ export default class ViewPatientComponent extends Component {
                         </div>
                         <hr />
                     </div>
-
-
                     {/* Patient Details */}
                     <div className="col-lg-6">
                         <div className="card" >
@@ -346,6 +366,15 @@ export default class ViewPatientComponent extends Component {
 
                     {/* Patient's Problem List */}
                     <div className="col-lg-12">
+                        <hr />
+                        <div className="form-group">
+                            <input  type="text" 
+                                    placeholder="Search Problem by Status or Create Date" 
+                                    name="searchByName" 
+                                    className="form-control" 
+                                    onChange={this.onChangeSearchByStatusOrDate}
+                                    />
+                        </div>
                         <hr />
                         <div className="table-responsive">
                             <table className="table table-bordered table-sm table-dark table-hover">
