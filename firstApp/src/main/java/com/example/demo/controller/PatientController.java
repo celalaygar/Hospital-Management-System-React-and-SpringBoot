@@ -72,6 +72,7 @@ public class PatientController {
 	public ResponseEntity<Boolean> deletePatient(@PathVariable(name = "patientid", required = true) Long patientid) throws Exception {
 		return ResponseEntity.ok(patientService.delete(patientid));
 	}
+	
 	@GetMapping("/cities")
 	public ResponseEntity<List<City>> getAllBookStatus() {
 		return ResponseEntity.ok(Arrays.asList(City.values()));

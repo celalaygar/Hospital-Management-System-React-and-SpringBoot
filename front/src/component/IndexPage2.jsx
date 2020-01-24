@@ -97,17 +97,17 @@ export default class IndexPage2 extends Component {
                                     <fieldset className="form-group">
                                         <label>Code</label>
                                         <Field className="form-control" type="text" name="code"/>
-                                        <ErrorMessage name="code" component="div" className="alert alert-warning"/>
+                                        <ErrorMessage name="code" component="div" className="alert alert-danger"/>
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>Name</label>
                                         <Field className="form-control" type="text" name="name"/>
-                                    <ErrorMessage name="name" component="div" className="alert alert-warning"/>
+                                    <ErrorMessage name="name" component="div" className="invalid-feedback"/>
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>Email</label>
                                         <Field className="form-control" type="text" name="email"/>
-                                    <ErrorMessage name="email" component="div" className="alert alert-warning"/>
+                                    <ErrorMessage name="email" component="div" className="alert alert-danger"/>
                                     </fieldset>
                                     {/* <fieldset className="form-group">
                                         <label>Price</label>

@@ -23,23 +23,30 @@ export default class ViewPatientComponent extends Component {
                 problemName: '',
                 problemDetail: '',
                 creationDate: new Date(),
+                problemStatus:'AYAKTA',
                 pid: props.match.params.patientid
             },
             status: 1,
             message: null,
             modalIsOpen: false,
+            problemStatuses: [],
             errorMessage: ""
         }
         this.loadPatient = this.loadPatient.bind(this);
-        
     }
     componentDidMount() {
         this.loadPatient();
+        
+        ProblemService.getProblemStatus().then(res => {
+            let statuses = res.data;
+            this.setState({
+                problemStatuses: statuses
+            });
+        })
     }
     loadPatient() {
         PatientService.getPatientById(this.state.patientid).then(res => {
             let p = res.data;
-            //console.log(res)
             this.setState({
                 patientid: p.patientid,
                 name: p.name,
@@ -67,8 +74,6 @@ export default class ViewPatientComponent extends Component {
             }
             
         });
-
-        
     }
     editPatient(id) {
         window.localStorage.setItem("patientId", id);
@@ -92,14 +97,15 @@ export default class ViewPatientComponent extends Component {
         } else {
             if(this.state.patientid != null){
                 this.setState({ message: '' });
+                
                 let data = null;
                 let problem = {
                     problemName: this.state.addproblem.problemName,
                     problemDetail: this.state.addproblem.problemDetail,
                     creationDate: this.state.addproblem.creationDate,
+                    problemStatus: this.state.addproblem.problemStatus,
                     pid: this.state.patientid
                 };
-                //console.log(problem)
                 ProblemService.add(problem).then(res => {
                     data = res.data;
 
@@ -112,6 +118,7 @@ export default class ViewPatientComponent extends Component {
                         addproblem: {
                             problemName: '',
                             problemDetail: '',
+                            problemStatus:'AYAKTA',
                             creationDate: new Date()
                         }
                     });
@@ -126,45 +133,59 @@ export default class ViewPatientComponent extends Component {
             
         }
     }
-    onChange = (e) => {
+    onChangeName = (e) => {
         this.setState({
             addproblem: {
                 problemName: e.target.value,
                 problemDetail: this.state.addproblem.problemDetail,
+                problemStatus: this.state.addproblem.problemStatus,
                 creationDate: this.state.addproblem.creationDate
             }
         });
     }
-    onChange2 = (e) => {
+    onChangeDetail = (e) => {
         this.setState({
             addproblem: {
                 problemName: this.state.addproblem.problemName,
                 problemDetail: e.target.value,
+                problemStatus: this.state.addproblem.problemStatus,
                 creationDate: this.state.addproblem.creationDate
             }
         });
     }
+    handleChangeProblemStatus = (e) => {
+        this.setState({
+            addproblem: {
+                problemName: this.state.addproblem.problemName,
+                problemDetail: this.state.addproblem.problemName,
+                problemStatus: e.target.value,
+                creationDate: this.state.addproblem.creationDate
+            }
+        });
+    }
+
+    onChangeDate = date => {
+        this.setState({
+              addproblem: {
+                  problemName:   this.state.addproblem.problemName,
+                  problemDetail:   this.state.addproblem.problemDetail,
+                  problemStatus: this.state.addproblem.problemStatus,
+                  creationDate: date
+              }
+          });
+      }
     handleClose = () => this.setState({ modalIsOpen: false });
     openM = () => {
         this.setState({ message: null });
     };
     viewProblem(problemid) {
-        console.log(problemid)
         //window.localStorage.setItem("problemid", id);
         this.props.history.push('/patient/problem/' + problemid);
     }
     notFoundPage() {
         this.props.history.push('/notfound');
     }
-    handleChange = date => {
-      this.setState({
-            addproblem: {
-                problemName:   this.state.addproblem.problemName,
-                problemDetail:   this.state.addproblem.problemDetail,
-                creationDate: date
-            }
-        });
-    }
+
 
 
     render() {
@@ -235,7 +256,7 @@ export default class ViewPatientComponent extends Component {
                                                     name="problemName"
                                                     className="form-control"
                                                     value={this.state.addproblem.problemName}
-                                                    onChange={this.onChange} />
+                                                    onChange={this.onChangeName} />
                                             </div>
                                             <div className="form-group">
                                                 <label >Problem Detail:</label>
@@ -244,8 +265,24 @@ export default class ViewPatientComponent extends Component {
                                                     name="problemDetail"
                                                     className="form-control"
                                                     value={this.state.addproblem.problemDetail}
-                                                    onChange={this.onChange2} />
+                                                    onChange={this.onChangeDetail} />
                                             </div>
+                                            
+                                            <div className="form-group">
+                                                <label>City:</label>
+                                                <select className="form-control" 
+                                                        value={this.state.addproblem.problemStatus} 
+                                                        onChange={this.handleChangeProblemStatus} >
+                                                    {this.state.problemStatuses.map(status => 
+                                                        
+                                                        <option key={status} value={status}>{status}</option>
+                                                        )}
+
+                                                </select>
+                                            </div>
+
+
+
                                             <div className="form-group">
                                                 <label >Date :</label>
                                                 <DatePicker
@@ -253,7 +290,7 @@ export default class ViewPatientComponent extends Component {
                                                     // showTimeSelect
                                                     showTimeInput
                                                     selected={this.state.addproblem.creationDate}
-                                                    onChange={this.handleChange}
+                                                    onChange={this.onChangeDate}
                                                     filterDate={isWeekday}          // disable weekend
                                                     timeIntervals={15}              // time range around 15 min
                                                     //showWeekNumbers                 // show week number
@@ -316,6 +353,7 @@ export default class ViewPatientComponent extends Component {
                                     <tr>
                                         <th>Problem Name</th>
                                         <th>Problem Detail</th> 
+                                        <th>Problem Status</th> 
                                         <th>Create Date</th>
                                         <th>Action</th>
                                     </tr>
@@ -325,6 +363,7 @@ export default class ViewPatientComponent extends Component {
                                         <tr className="bg-default" key={problem.problemid}>
                                             <td>{problem.problemName}</td>
                                             <td>{problem.problemDetail}</td>
+                                            <td>{problem.problemStatus}</td>
                                             <td> 
                                                 <Moment format="YYYY/MM/DD HH:mm">
                                                 {problem.creationDate} 

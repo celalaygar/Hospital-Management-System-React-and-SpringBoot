@@ -22,8 +22,6 @@ export default class EditPatientComponent extends Component {
     }
     getAllCities(){
         PatientService.getCities().then(res => {
-
-            //console.log(res.data)
             this.setState({ cities: res.data });
 
         });
@@ -34,7 +32,6 @@ export default class EditPatientComponent extends Component {
     }
 
     loadPatient() {
-        //console.log(window.localStorage.getItem("patientId"))
         PatientService.getPatientById(window.localStorage.getItem("patientId"))
             .then((res) => {
                 let p = res.data;

@@ -1,5 +1,8 @@
 package com.example.demo.controller;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dto.ProblemDto;
 import com.example.demo.dto.ProblemDtoForPatientSingleDto;
 import com.example.demo.dto.ProblemGetDto;
+import com.example.demo.entity.City;
 import com.example.demo.entity.Patient;
+import com.example.demo.entity.ProblemStatus;
 import com.example.demo.repository.ProblemRepository;
 import com.example.demo.service.ProblemService;
 
@@ -54,5 +59,9 @@ public class ProblemController {
 	public ResponseEntity<Boolean> deletePatient(@PathVariable(name = "problemid", required = true) Long problemid)
 			throws Exception {
 		return ResponseEntity.ok(problemService.delete(problemid));
+	}
+	@GetMapping("/status")
+	public ResponseEntity<List<ProblemStatus>> getAllBookStatus() {
+		return ResponseEntity.ok(Arrays.asList(ProblemStatus.values()));
 	}
 }

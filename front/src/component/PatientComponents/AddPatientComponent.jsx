@@ -21,8 +21,6 @@ class AddPatientComponent extends Component {
     }
     getAllCities(){
         PatientService.getCities().then(res => {
-
-            //console.log(res.data)
             this.setState({ cities: res.data });
 
         });
