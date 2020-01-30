@@ -13,18 +13,18 @@ const items = [
     'city'
   ];
 let filterArray = []
+let checked = {
+    name: false,
+    lastname: false,
+    email: false,
+    city: false
+}
 class ListPatientComponent extends Component {
     constructor(props) {
         super(props)
         this.state = {
             patients: [],
             message: null,
-            checked: {
-                name: false,
-                lastname: false,
-                email: false,
-                city: false
-            }, 
             indeterminate: false,
             filters : []
         }
@@ -59,6 +59,9 @@ class ListPatientComponent extends Component {
         window.localStorage.removeItem("userId");
         this.props.history.push('/add-patient');
     }
+    onChangeSearchByName = (e) =>  { 
+        this.filterPatients(e.target.value);
+    }
     filterPatients =  (value)  => {
         var results= [];
         //let filters = ["name","lastname","email"];
@@ -66,83 +69,40 @@ class ListPatientComponent extends Component {
             results =this.state.patients.filter(patient =>{
                 let find = false;
                 //filters.forEach(filter=>{
-                this.state.filters.forEach(function(filter){
+                    filterArray.forEach(function(filter){
                     let control = patient[filter].toLowerCase().indexOf(value.toLowerCase());
                         if(control > -1)  find = true; 
                 });
                 return find;
             });
             this.setState({ patients:  results});
+            //alertify.success("Data is coming...");
         }
         else{
             this.reloadPatientList();
-        }
-    }
-    onChangeSearchByName = (e) =>  { 
-        this.setState({ filters:  filterArray});
-        this.filterPatients(e.target.value);
-    }
-    applyFilter(){
-        items.map(item=>{
-            this.controlFilter(item)
-        });
-        alertify.success("filtering parameters have been created for the search process.");
-    }
-    controlFilter( data ){
-        if(this.state.checked[data]){
-            var index =  filterArray.indexOf(data)
-            if (index === -1){
-                filterArray.push(data);   
-            }
-        }else{
-            var index =  filterArray.indexOf(data)
-            if (index !== -1){
-                filterArray.splice(index, 1);
-            }
         }
     }
     createCheckbox = label => (
         <div className="float-left" style={{margin: '0 30px 0 0 '}}  key={label} >
             <Checkbox 
                 nativeControlId='my-checkbox'
-                checked={this.state.checked[label]}
+                checked={checked[label]}
                 onChange={(e) => {  this.changeStateForChecked(e,label); } }
             />
             <label htmlFor='my-checkbox'>{label}</label>
         </div>
     )
     changeStateForChecked = (e,label) => {
-        if(label === 'name'){
-            this.setState({
-                checked:{name: e.target.checked,
-                    lastname: this.state.checked.lastname,
-                    email: this.state.checked.email,
-                    city: this.state.checked.city}, 
-                indeterminate: e.target.indeterminate });
-        }
-        else if(label === 'lastname'){
-            this.setState({
-                checked:{lastname: e.target.checked,
-                    name: this.state.checked.name,
-                    email: this.state.checked.email,
-                    city: this.state.checked.city},
-                indeterminate: e.target.indeterminate });
-        }
-        else if(label === 'email'){
-            this.setState({
-                checked:{ email: e.target.checked,
-                    name: this.state.checked.name,
-                    lastname: this.state.checked.lastname,
-                    city: this.state.checked.city},
-                indeterminate: e.target.indeterminate });
-        }
-        else if(label === 'city'){
-            this.setState({
-                checked:{ city: e.target.checked,
-                    name: this.state.checked.name,
-                    lastname: this.state.checked.lastname,
-                    email: this.state.checked.email},
-                indeterminate: e.target.indeterminate });
+        checked[label]=e.target.checked;
+        var index =  filterArray.indexOf(label);
+        if(checked[label]){
+            if (index === -1){
+                filterArray.push(label);   
+            }
+        }else{
+            if (index !== -1){
+                filterArray.splice(index, 1);
+            }
         }
     }
 
@@ -158,12 +118,11 @@ class ListPatientComponent extends Component {
                 <div className="col-lg-12">
                     <button className="btn btn-warning " style={{ width: '100px' }} onClick={() => this.addPatient()}> Add User</button>
                     <hr />
-                    <button className="btn btn-info " style={{ width: '100px' }} onClick={() => this.applyFilter()}> Apply </button>
                     {this.createCheckboxes()}
                     <hr />
                     <div className="form-group">
                         <input  type="text" 
-                                placeholder="Search Patient by Name or Lastname or Email" 
+                                placeholder="Search Patient by choosing any parameter" 
                                 name="searchByName" 
                                 className="form-control"  
                                 onChange={this.onChangeSearchByName} />
