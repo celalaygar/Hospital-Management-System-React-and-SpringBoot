@@ -36,6 +36,7 @@ export default class ViewPatientComponent extends Component {
             status: 1,
             message: null,
             modalIsOpen: false,
+            filters : ["problemName","problemStatus"],
             problemStatuses: [],
             errorMessage: "",
             checked: false, indeterminate: false
@@ -200,12 +201,12 @@ export default class ViewPatientComponent extends Component {
     }
     filterProblems(value){
         var results= [];
-        let filters = ["problemStatus","creationDate"];
+        //let filters = ["problemStatus","creationDate"];
         if(value !== ''){
             results = this.state.problems.filter(problem =>{
                 let find = false;
                 //filters.forEach(filter=>{
-                filters.forEach(function(filter){
+                this.state.filters.forEach(function(filter){
                     let control = problem[filter].toLowerCase().indexOf(value.toLowerCase());
                         if(control > -1)  find = true; 
                 });
@@ -217,8 +218,8 @@ export default class ViewPatientComponent extends Component {
             this.loadPatient();
         }
     }
-
     createCheckbox = label => (
+        <div key={label} >
         <Checkbox
         nativeControlId='my-checkbox'
         checked={this.state.checked}
@@ -227,19 +228,15 @@ export default class ViewPatientComponent extends Component {
           checked: e.target.checked,
           indeterminate: e.target.indeterminate})
         }
-      />
-
-        // <input
-        //     type="checkbox"
-        //     name= {label}
-        //     value={label}
-        //     onChange={this.toggleCheckboxChange}
-        // />
+        />
+        <label htmlFor='my-checkbox'>{label}</label>
+      </div>
     )
-    
-      createCheckboxes = () => (
-        items.map(this.createCheckbox)
-      )
+    createCheckboxes = () => (
+        items.map((item) => 
+            this.createCheckbox(item)
+        )
+    )
 
 
     render() {
@@ -258,8 +255,6 @@ export default class ViewPatientComponent extends Component {
                             {this.state.errorMessage}
                         </div> :  null
                         }
-                        
-                        {this.createCheckboxes()}
                         {/* <button
                             className="btn btn-sm btn-secondary"
                             onClick={() => this.openModal(true)}>
@@ -357,6 +352,7 @@ export default class ViewPatientComponent extends Component {
                                     </div>
                                     <div className="modal-footer">
                                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <div className="dropdown-divider"></div>
                                         <button type="button" className="btn btn-primary" onClick={this.addProblem} data-dismiss="modal">Add</button>
                                     </div>
                                 </div>
@@ -402,7 +398,7 @@ export default class ViewPatientComponent extends Component {
                         <hr />
                         <div className="form-group">
                             <input  type="text" 
-                                    placeholder="Search Problem by Status or Create Date" 
+                                    placeholder="Search Problem by problem Name or problem Status" 
                                     name="searchByName" 
                                     className="form-control" 
                                     onChange={this.onChangeSearchByStatusOrDate}

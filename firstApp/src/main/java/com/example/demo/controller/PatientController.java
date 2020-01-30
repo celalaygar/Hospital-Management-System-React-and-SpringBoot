@@ -34,7 +34,7 @@ public class PatientController {
 	private PatientService patientService;
 	
 	@GetMapping
-	public List<PatientDto> getAll(){
+	public List<PatientDto> getAll() throws Exception{
 		return patientService.findAll();
 	}
 

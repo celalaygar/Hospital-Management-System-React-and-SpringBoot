@@ -26,8 +26,8 @@ public class PatientService {
 		this.patientRepository = patientRepository;
 		this.modelMapper = modelMapper;
 	}
-
-	public List<PatientDto> findAll(){
+	
+	public List<PatientDto> findAll() throws Exception{
 		try {
 			List<Patient> patients = patientRepository.findAllByOrderByPatientidAsc();
 
@@ -35,9 +35,8 @@ public class PatientService {
 
 			return Arrays.asList(authorDtos);
 		} catch (Exception e) {
-			e.getStackTrace();
+			throw new Exception(e);
 		}
-		return null;
 	}
 
 	public Boolean save(Patient patient) {

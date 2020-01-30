@@ -1,34 +1,45 @@
 import React, { Component } from 'react'
 import PatientService from '../../services/PatientService';
+import "@material/react-checkbox/dist/checkbox.css";
+import Checkbox from '@material/react-checkbox';
+import * as alertify from 'alertifyjs';
+import "alertifyjs/build/css/alertify.css";
 
+
+const items = [
+    'name',
+    'lastname',
+    'email',
+    'city'
+  ];
+let filterArray = []
 class ListPatientComponent extends Component {
     constructor(props) {
         super(props)
         this.state = {
             patients: [],
-            message: null
+            message: null,
+            checked: {
+                name: false,
+                lastname: false,
+                email: false,
+                city: false
+            }, 
+            indeterminate: false,
+            filters : []
         }
-        // this.deleteUser = this.deleteUser.bind(this);
-        // this.editUser = this.editUser.bind(this);
-        // this.addUser = this.addUser.bind(this);
         this.reloadPatientList = this.reloadPatientList.bind(this);
     }
-
     componentDidMount() {
-        // let value = (9-1)/(10*2*2)/(6-4);
-        // let value2 = 8/40/2;
-        // console.log(value+" - - "+value2)
 
         this.reloadPatientList();
     }
-
     reloadPatientList() {
         PatientService.getPatients()
             .then((res) => {
                 this.setState({ patients: res.data })
             });
     }
-
     deletePatient(patientid) {
         PatientService.deletePatient(patientid)
             .then(res => {
@@ -36,7 +47,6 @@ class ListPatientComponent extends Component {
                 this.setState({ patients: this.state.patients.filter(patient => patient.patientid !== patientid) });
             })
     }
-
     editPatient(id) {
         window.localStorage.setItem("patientId", id);
         this.props.history.push('/edit-patient');
@@ -49,15 +59,14 @@ class ListPatientComponent extends Component {
         window.localStorage.removeItem("userId");
         this.props.history.push('/add-patient');
     }
-
     filterPatients =  (value)  => {
         var results= [];
-        let filters = ["name","lastname","email"];
+        //let filters = ["name","lastname","email"];
         if(value !== ''){
             results =this.state.patients.filter(patient =>{
                 let find = false;
                 //filters.forEach(filter=>{
-                filters.forEach(function(filter){
+                this.state.filters.forEach(function(filter){
                     let control = patient[filter].toLowerCase().indexOf(value.toLowerCase());
                         if(control > -1)  find = true; 
                 });
@@ -69,16 +78,88 @@ class ListPatientComponent extends Component {
             this.reloadPatientList();
         }
     }
-
     onChangeSearchByName = (e) =>  { 
-        //this.setState({ [e.target.name]: e.target.value }); 
+        this.setState({ filters:  filterArray});
         this.filterPatients(e.target.value);
     }
+    applyFilter(){
+        items.map(item=>{
+            this.controlFilter(item)
+        });
+        alertify.success("filtering parameters have been created for the search process.");
+    }
+    controlFilter( data ){
+        if(this.state.checked[data]){
+            var index =  filterArray.indexOf(data)
+            if (index === -1){
+                filterArray.push(data);   
+            }
+        }else{
+            var index =  filterArray.indexOf(data)
+            if (index !== -1){
+                filterArray.splice(index, 1);
+            }
+        }
+    }
+    createCheckbox = label => (
+        <div className="float-left" style={{margin: '0 30px 0 0 '}}  key={label} >
+            <Checkbox 
+                nativeControlId='my-checkbox'
+                checked={this.state.checked[label]}
+                onChange={(e) => {  this.changeStateForChecked(e,label); } }
+            />
+            <label htmlFor='my-checkbox'>{label}</label>
+        </div>
+    )
+    changeStateForChecked = (e,label) => {
+        if(label === 'name'){
+            this.setState({
+                checked:{name: e.target.checked,
+                    lastname: this.state.checked.lastname,
+                    email: this.state.checked.email,
+                    city: this.state.checked.city}, 
+                indeterminate: e.target.indeterminate });
+        }
+        else if(label === 'lastname'){
+            this.setState({
+                checked:{lastname: e.target.checked,
+                    name: this.state.checked.name,
+                    email: this.state.checked.email,
+                    city: this.state.checked.city},
+                indeterminate: e.target.indeterminate });
+        }
+        else if(label === 'email'){
+            this.setState({
+                checked:{ email: e.target.checked,
+                    name: this.state.checked.name,
+                    lastname: this.state.checked.lastname,
+                    city: this.state.checked.city},
+                indeterminate: e.target.indeterminate });
+        }
+        else if(label === 'city'){
+            this.setState({
+                checked:{ city: e.target.checked,
+                    name: this.state.checked.name,
+                    lastname: this.state.checked.lastname,
+                    email: this.state.checked.email},
+                indeterminate: e.target.indeterminate });
+        }
+    }
+
+    createCheckboxes = () => (
+        items.map((item) => 
+            this.createCheckbox(item)
+        )
+    )
+
     render() {
         return (
             <div >
                 <div className="col-lg-12">
                     <button className="btn btn-warning " style={{ width: '100px' }} onClick={() => this.addPatient()}> Add User</button>
+                    <hr />
+                    <button className="btn btn-info " style={{ width: '100px' }} onClick={() => this.applyFilter()}> Apply </button>
+                    {this.createCheckboxes()}
                     <hr />
                     <div className="form-group">
                         <input  type="text" 
@@ -121,7 +202,10 @@ class ListPatientComponent extends Component {
 
                                                 <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                                     <button className="dropdown-item" onClick={() => this.viewPatient(patient.patientid)} > View</button>
+                                                    
+                                                    <div className="dropdown-divider"></div>
                                                     <button className="dropdown-item" onClick={() => this.editPatient(patient.patientid)} > Edit</button>
+                                                    <div className="dropdown-divider"></div>
                                                     <button className="dropdown-item" onClick={() => this.deletePatient(patient.patientid)}> Delete </button>
 
                                                 </div>
