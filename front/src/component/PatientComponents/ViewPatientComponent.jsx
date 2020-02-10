@@ -9,6 +9,16 @@ import * as alertify from 'alertifyjs';
 import "alertifyjs/build/css/alertify.css";
 import "@material/react-checkbox/dist/checkbox.css";
 import Checkbox from '@material/react-checkbox';
+import {ErrorMessage, Field, Form, Formik} from "formik";
+import Select from 'react-select';
+
+var statuses=[];
+
+var options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' },
+  ];
 const items = [
     'One',
     'Two',
@@ -39,7 +49,9 @@ export default class ViewPatientComponent extends Component {
             filters : ["problemName","problemStatus"],
             problemStatuses: [],
             errorMessage: "",
-            checked: false, indeterminate: false
+            checked: false, indeterminate: false,
+            selectedOption: null,
+            options:[]
         }
         this.loadPatient = this.loadPatient.bind(this);
     }
@@ -47,10 +59,8 @@ export default class ViewPatientComponent extends Component {
         this.loadPatient();
         
         ProblemService.getProblemStatus().then(res => {
-            let statuses = res.data;
-            this.setState({
-                problemStatuses: statuses
-            });
+            //statuses = res.data;
+            this.setState({ problemStatuses: res.data  });
         })
     }
     loadPatient() {
@@ -115,9 +125,9 @@ export default class ViewPatientComponent extends Component {
                     problemStatus: this.state.addproblem.problemStatus,
                     pid: this.state.patientid
                 };
+                //console.log(problem)
                 ProblemService.add(problem).then(res => {
-                    data = res.data;
-
+                    data = res.data; 
                     // push new problem to problems
                     var newStateArray = this.state.problems.slice();
                     newStateArray.push(data);
@@ -134,7 +144,7 @@ export default class ViewPatientComponent extends Component {
                     // alertify.alert("This is an alert dialog.", function(){
                     //   alertify.success('Saving is ok');
                     // });
-                    alertify.success("Saving is ok : " + this.state.message);
+                    alertify.success("Saving problem for related patient is ok : ");
                 });
             }else{
                 this.setState({ message: "Hasta kaydı bulunamadı. Lütfen uygun bir hasta seçiniz." });
@@ -164,10 +174,11 @@ export default class ViewPatientComponent extends Component {
     }
     handleChangeProblemStatus = (e) => {
         this.setState({
+            e,
             addproblem: {
                 problemName: this.state.addproblem.problemName,
-                problemDetail: this.state.addproblem.problemName,
-                problemStatus: e.target.value,
+                problemDetail: this.state.addproblem.problemDetail,
+                problemStatus: e['value'],
                 creationDate: this.state.addproblem.creationDate
             }
         });
@@ -184,7 +195,11 @@ export default class ViewPatientComponent extends Component {
           });
       }
     handleClose = () => this.setState({ modalIsOpen: false });
-    openM = () => {
+    openModal = () => {
+        statuses=[];
+        for(var i=0; i<this.state.problemStatuses.length; i++){
+            statuses.push({ value: this.state.problemStatuses[i], label: this.state.problemStatuses[i] })
+        }
         this.setState({ message: null });
     };
     viewProblem(problemid) {
@@ -237,9 +252,28 @@ export default class ViewPatientComponent extends Component {
             this.createCheckbox(item)
         )
     )
+    validate(values) {
+        let errors = {};
 
+        if (!values.problemName)
+            errors.problemName = 'Enter a Problem Name!';
+        else if (values.problemName.length < 5)
+            errors.problemName = 'Enter at least 5 characters into Problem Name!';
+
+        if (!values.problemDetail)
+            errors.problemDetail = 'Enter a Problem Detail!';
+        else if (values.problemDetail.length < 5)
+            errors.problemDetail = 'Enter at least 5 characters into Problem Detail!';
+        return errors;
+    }
+    handleChange = selectedOption => {
+        this.setState({ selectedOption });
+        //console.log(`Option selected:`, selectedOption);
+    };
 
     render() {
+        let {problemName, problemDetail, problemStatus ,creationDate } = this.state.addproblem;
+        const { selectedOption } = this.state.options;
         const isWeekday = date => {
             const day = date.getDay(date);
             return day !== 0 && day !== 6;
@@ -255,35 +289,13 @@ export default class ViewPatientComponent extends Component {
                             {this.state.errorMessage}
                         </div> :  null
                         }
-                        {/* <button
-                            className="btn btn-sm btn-secondary"
-                            onClick={() => this.openModal(true)}>
-                            Launch demo modal
-                        </button> */}
                         <button
                             type="button"
                             className="btn btn-sm btn-primary"
                             data-toggle="modal"
                             data-target="#exampleModal"
-                            onClick={() => this.openM()}
+                            onClick={() => this.openModal()}
                             data-whatever="@getbootstrap">Add Problem</button>
-                        {/* 
-                        <Modal
-                            isOpen={this.state.modalIsOpen}
-                            onRequestClose={() => this.handleClose()}
-                            style={customStyles}
-                            contentLabel="Example Modal">
-
-                            <button onClick={() => this.handleClose()}>X </button>
-                            <p>hello Modal</p>
-                        </Modal> */}
-                            {/* {this.state.message !== null ?
-                                        <div className="alert alert-warning" role="alert">
-                                            <strong>Perfect! </strong>{this.state.message}
-                                            
-                                        </div>
-
-                                        : <p></p>} */}
 
                         {/* ADD PATİENT PROBLEM MODAL */}
                         <div className="modal fade" id="exampleModal"
@@ -297,66 +309,82 @@ export default class ViewPatientComponent extends Component {
                                         </button>
                                     </div>
                                     <div className="modal-body">
-                                        
-                                        <form>
-                                            <div className="form-group">
-                                                <label >Problem Name:</label>
-                                                <input type="text"
-                                                    placeholder="Problem Name"
-                                                    name="problemName"
-                                                    className="form-control"
-                                                    value={this.state.addproblem.problemName}
-                                                    onChange={this.onChangeName} />
-                                            </div>
-                                            <div className="form-group">
-                                                <label >Problem Detail:</label>
-                                                <input type="text"
-                                                    placeholder="Problem Detail"
-                                                    name="problemDetail"
-                                                    className="form-control"
-                                                    value={this.state.addproblem.problemDetail}
+                                    <Formik 
+                                        onSubmit={this.addProblem}
+                                        validate={this.validate}
+                                        initialValues={{problemName, problemDetail, problemStatus ,creationDate } }
+                                        enableReinitialize={true} > 
+                                        <Form>
+                                            <fieldset className="form-group">
+                                                <label>Problem Name :</label>
+                                                <Field 
+                                                    className="form-control" 
+                                                    type="text" 
+                                                    name="problemName" 
+                                                    value={problemName}
+                                                    onChange={this.onChangeName}/>
+                                                <ErrorMessage name="problemName" component="div" className="alert alert-danger text-danger"/>
+                                            </fieldset>
+                                            <fieldset className="form-group">
+                                                <label>Problem Detail :</label>
+                                                <Field 
+                                                    className="form-control" 
+                                                    type="text" 
+                                                    name="problemDetail" 
+                                                    value={problemDetail}
                                                     onChange={this.onChangeDetail} />
-                                            </div>
-                                            
-                                            <div className="form-group">
-                                                <label>City:</label>
-                                                <select className="form-control" 
-                                                        value={this.state.addproblem.problemStatus} 
+                                                <ErrorMessage name="problemDetail" component="div" className="alert alert-danger text-danger"/>
+                                            </fieldset>
+                                            <fieldset className="form-group">
+                                                <label >Status : </label>
+                                                {/* <select className="form-control" 
+                                                        name="problemStatus"
+                                                        value={problemStatus} 
                                                         onChange={this.handleChangeProblemStatus} >
-                                                    {this.state.problemStatuses.map(status => 
-                                                        
-                                                        <option key={status} value={status}>{status}</option>
-                                                        )}
+                                                {this.state.problemStatuses.map(status => 
+                                                    <option key={status} value={status}>{status}</option>
+                                                )}
 
-                                                </select>
-                                            </div>
-
-
-
-                                            <div className="form-group">
-                                                <label >Date :</label>
+                                                </select> */}
+                                                <Select
+                                                    value={selectedOption}
+                                                    onChange={this.handleChangeProblemStatus}
+                                                    options={statuses}
+                                                />
+                                            </fieldset>
+                                            <fieldset className="form-group">
+                                                <label >Date : </label>
                                                 <DatePicker
                                                     className="form-control"
                                                     // showTimeSelect
                                                     showTimeInput
-                                                    selected={this.state.addproblem.creationDate}
+                                                    selected={creationDate}
                                                     onChange={this.onChangeDate}
                                                     filterDate={isWeekday}          // disable weekend
                                                     timeIntervals={15}              // time range around 15 min
-                                                    //showWeekNumbers                 // show week number
+                                                    //showWeekNumbers               // show week number
                                                     timeFormat="HH:mm"              // show time format
                                                     dateFormat="yyyy/MM/dd h:mm aa" // show all of time format
                                                 />
+                                            </fieldset>
+                                            {/* <fieldset className="form-group">
+                                                <Select
+                                                    value={selectedOption}
+                                                    onChange={this.handleChange}
+                                                    options={statuses}
+                                                />
+                                            </fieldset> */}
+                                            <div className="modal-footer">
+                                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <div className="dropdown-divider"></div>
+                                                <button className="btn btn-success" type="submit">Save</button>
                                             </div>
-                                        </form>
-                                    </div>
-                                    <div className="modal-footer">
-                                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <div className="dropdown-divider"></div>
-                                        <button type="button" className="btn btn-primary" onClick={this.addProblem} data-dismiss="modal">Add</button>
-                                    </div>
+                                        </Form> 
+                                    </Formik> 
+                                    </div> 
+                                    
                                 </div>
-                            </div>
+                            </div>  
                         </div>
                         <hr />
                     </div>

@@ -39,7 +39,7 @@ class AddPatientComponent extends Component {
             .then(res => {
                 this.setState({ message: 'User added successfully.' });
                 this.props.history.push('/patients');
-                alertify.success("Adding is ok");
+                alertify.success("Adding patient is ok");
             });
     }
     handleChangeGender = (event) => this.setState({gender: event.target.value});

@@ -11,7 +11,7 @@ import IndexPage2 from './component/IndexPage2';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" style={{background: '#fff'}}>
       <div className="container">
         <div className="row">
           <div className="col-sm-12">

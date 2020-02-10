@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Axios from 'axios';
+//import Axios from 'axios';
 import {ErrorMessage, Field, Form, Formik} from "formik";
 
 export default class IndexPage2 extends Component {

@@ -4,7 +4,7 @@ import "@material/react-checkbox/dist/checkbox.css";
 import Checkbox from '@material/react-checkbox';
 import * as alertify from 'alertifyjs';
 import "alertifyjs/build/css/alertify.css";
-
+import Modal from 'react-modal';
 
 const items = [
     'name',
@@ -29,6 +29,7 @@ class ListPatientComponent extends Component {
             filters : []
         }
         this.reloadPatientList = this.reloadPatientList.bind(this);
+        //alertify.success("Hoş Geldiniz..");
     }
     componentDidMount() {
 
@@ -76,7 +77,7 @@ class ListPatientComponent extends Component {
                 return find;
             });
             this.setState({ patients:  results});
-            //alertify.success("Data is coming...");
+           
         }
         else{
             this.reloadPatientList();
@@ -89,7 +90,7 @@ class ListPatientComponent extends Component {
                 checked={checked[label]}
                 onChange={(e) => {  this.changeStateForChecked(e,label); } }
             />
-            <label htmlFor='my-checkbox'>{label}</label>
+            <label htmlFor={label+'my-checkbox'}>{label}</label>
         </div>
     )
     changeStateForChecked = (e,label) => {
@@ -119,7 +120,6 @@ class ListPatientComponent extends Component {
                     <button className="btn btn-warning " style={{ width: '100px' }} onClick={() => this.addPatient()}> Add User</button>
                     <hr />
                     {this.createCheckboxes()}
-                    <hr />
                     <div className="form-group">
                         <input  type="text" 
                                 placeholder="Search Patient by choosing any parameter" 
@@ -137,8 +137,8 @@ class ListPatientComponent extends Component {
                                     <th>Name</th>
                                     <th>Last Name</th>
                                     <th>Email</th>
-                                    <th>gender</th>
-                                    <th>city</th>
+                                    <th>Gender</th>
+                                    <th>City</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
