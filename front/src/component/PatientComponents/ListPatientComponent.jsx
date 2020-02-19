@@ -3,8 +3,10 @@ import PatientService from '../../services/PatientService';
 import "@material/react-checkbox/dist/checkbox.css";
 import Checkbox from '@material/react-checkbox';
 import "alertifyjs/build/css/alertify.css";
+import "alertifyjs/build/css/alertify.min.css";
+
 // import Modal from 'react-modal';
-// import * as alertify from 'alertifyjs';
+ import * as alertify from 'alertifyjs';
 
 const items = [
     'name',
@@ -46,11 +48,20 @@ class ListPatientComponent extends Component {
             });
     }
     deletePatient(patientid) {
-        PatientService.deletePatient(patientid)
-            .then(res => {
-                this.setState({ message: 'User deleted successfully. ' + res });
-                this.setState({ patients: this.state.patients.filter(patient => patient.patientid !== patientid) });
-            })
+
+        alertify.confirm("This is a confirm dialog.",
+            ok => {
+                PatientService.deletePatient(patientid)
+                .then(res => {
+                    this.setState({ message: 'User deleted successfully. ' + res });
+                    this.setState({ patients: this.state.patients.filter(patient => patient.patientid !== patientid) });
+                });
+                alertify.success('Delete patient is ok');
+            },
+            cancel => {
+                alertify.error('Cancel');
+            }
+        );
     }
     editPatient(id) {
         window.localStorage.setItem("patientId", id);
@@ -88,7 +99,7 @@ class ListPatientComponent extends Component {
         }
     }
     createCheckbox = label => (
-        <div className="float-left" style={{margin: '0 30px 0 0 '}}  key={label} >
+        <div className="float-left mx-auto"  key={label} >
             <Checkbox 
                 nativeControlId='my-checkbox'
                 checked={checked[label]}
@@ -121,7 +132,11 @@ class ListPatientComponent extends Component {
         return (
             <div >
                 <div className="col-lg-12">
-                    <button className="btn btn-warning " style={{ width: '100px' }} onClick={() => this.addPatient()}> Add User</button>
+                    <button 
+                        className="btn btn-primary btn-sm" 
+                        onClick={() => this.addPatient()}> 
+                        Add Patient
+                    </button>
                     <hr />
                     {this.createCheckboxes()}
                     <div className="form-group">

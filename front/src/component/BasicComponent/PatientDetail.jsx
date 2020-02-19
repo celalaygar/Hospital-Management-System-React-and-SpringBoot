@@ -1,24 +1,24 @@
 import React, { Component } from 'react'
 import * as alertify from 'alertifyjs';
-import { withRouter } from 'react-router';
 import PatientService from '../../services/PatientService';
+import { withRouter } from 'react-router';
 
- class PatientDetail extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            patientid: props.match.params.patientid,
-            name: props.name,
-            lastname: props.lastname,
-            email: props.email,
-            gender: props.gender,
-            age: props.age,
-            city: props.city,
-            message:''
-        }
-        this.editPatient = this.editPatient.bind(this);
-        this.deletePatient = this.deletePatient.bind(this);
-    }
+class PatientDetail extends Component {
+    // constructor(props) {
+    //     super(props)
+    //     this.state = {
+    //         patientid: props.patientid,
+    //         name: props.name,
+    //         lastname: props.lastname,
+    //         email: props.email,
+    //         gender: props.gender,
+    //         age: props.age,
+    //         city: props.city,
+    //         message:''
+    //     }
+    //     this.editPatient = this.editPatient.bind(this);
+    //     this.deletePatient = this.deletePatient.bind(this);
+    // }
     componentDidMount() {
     }
     editPatient(id) {
@@ -26,16 +26,21 @@ import PatientService from '../../services/PatientService';
         this.props.history.push('/edit-patient');
     }
     deletePatient(patientid) {
-        PatientService.deletePatient(patientid)
-            .then(res => {
-                this.setState({ message: 'User deleted successfully. ' + res });
-                //this.setState({ patients: this.state.patients.filter(patient => patient.patientid !== patientid) });
-
-                alertify.success("Deleting is ok : "+this.state.message);
-            })
-        
-        this.props.history.push('/');
+        //this.props.history.push('/');
+        alertify.confirm("Are you sure to delete this patient.",
+            function(){
+                PatientService.deletePatient(patientid)
+                .then(res => {
+                    window.location.href = '/patients';
+                    alertify.success("Deleting is ok ");
+                })
+            },
+            function(){
+                alertify.error('Cancel');
+            }
+        );
     }
+    
     render() {
         return (
             <div>
@@ -69,5 +74,4 @@ import PatientService from '../../services/PatientService';
         )
     }
 }
-
 export default withRouter(PatientDetail)

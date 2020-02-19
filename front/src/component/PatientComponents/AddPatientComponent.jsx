@@ -2,13 +2,7 @@ import React, { Component } from 'react'
 import PatientService from '../../services/PatientService';
 import * as alertify from 'alertifyjs';
 import "alertifyjs/build/css/alertify.css";
-import CKEditor from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-// const editorConfiguration = {
-//     plugins: [ Essentials, Bold, Italic, Paragraph ],
-//     toolbar: [ 'bold', 'italic' ]
-// };
 
 class AddPatientComponent extends Component {
     constructor(props) {
@@ -54,16 +48,8 @@ class AddPatientComponent extends Component {
     onChangePatientForm = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     }
-    onInitForCkEditor(editor){
-        //console.log( 'Editor is ready to use! ', editor, ' onInitForCkEditor' );
-    }
-    onChangeForCkEditor( event, editor ) {
-        const data = editor.getData();
-        //console.log( { event, editor, data } );
-        console.log(editor)
-    } 
+
     render() {
-        let data ='';
         return (
             <div className="container row">
                 <div className="col-sm-9">
@@ -107,27 +93,7 @@ class AddPatientComponent extends Component {
 
                             </select>
                          </div> 
-                         {/* <div className="form-group"   > 
-                            <label>About :</label>
-                            <CKEditor  
-                                className="form-control " 
-                                editor={ ClassicEditor}
-                                data="<p>Enter about</p>"
-                                onInit={this.onInitForCkEditor}
 
-                                onChange={this.onChangeForCkEditor}
-
-                                // onBlur={ ( event, editor ) => {
-                                //     console.log( 'Blur.', editor );
-                                // } }
-
-                                // onFocus={ ( event, editor ) => {
-                                //     console.log( 'Focus.', editor );
-                                // } }
-
-                                // config={ editorConfiguration }
-                            />
-                        </div> */}
                         <button className="btn btn-success" onClick={this.saveUser}>Save</button>
                     </form>
                 </div>

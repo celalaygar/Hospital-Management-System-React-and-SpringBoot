@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ProblemService from '../../../services/ProblemService'
-import Moment from 'react-moment';
+//import Moment from 'react-moment';
 import PatientDetail from '../../BasicComponent/PatientDetail';
 import ProblemDetail from '../../BasicComponent/ProblemDetail';
 
@@ -74,7 +74,7 @@ export default class ViewProblemComponent extends Component {
                     <div className="row">
                         <div className="col-sm-12">
                             <button 
-                            className="btn btn-danger"
+                            className="btn btn-danger btn-sm"
                             onClick={() => this.viewPatient(this.state.patient.patientid)}>Back</button>
                             <hr/>
                             <h5>Problem Detail for {this.state.patient.name} {this.state.patient.lastname}</h5>

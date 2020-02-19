@@ -8,23 +8,13 @@ import Moment from 'react-moment';
 import * as alertify from 'alertifyjs';
 import "alertifyjs/build/css/alertify.css";
 import "@material/react-checkbox/dist/checkbox.css";
-import Checkbox from '@material/react-checkbox';
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import Select from 'react-select';
 import PatientDetail from '../BasicComponent/PatientDetail';
 
 var statuses=[];
 
-// var options = [
-//     { value: 'chocolate', label: 'Chocolate' },
-//     { value: 'strawberry', label: 'Strawberry' },
-//     { value: 'vanilla', label: 'Vanilla' },
-//   ];
-const items = [
-    'One',
-    'Two',
-    'Three',
-  ];
+
 export default class ViewPatientComponent extends Component {
     constructor(props) {
         super(props)
@@ -98,13 +88,19 @@ export default class ViewPatientComponent extends Component {
         });
     }
     deleteProblem(problemid) {
-        ProblemService.delete(problemid)
-            .then(res => {
-                this.setState({ message: 'Problem Silindi' });
-                this.setState({ problems: this.state.problems.filter(p => p.problemid !== problemid) });
-                
-                alertify.success("Deleting is ok : "+this.state.message);
-            });
+        alertify.confirm("This is a confirm dialog.",
+            ok => {
+                ProblemService.delete(problemid)
+                .then(res => {
+                    this.setState({ message: 'Problem Silindi' });
+                    this.setState({ problems: this.state.problems.filter(p => p.problemid !== problemid) });
+                    alertify.success("Deleting is ok : "+this.state.message);
+                });
+            },
+            cancel => {
+            alertify.error('Cancel');
+            }
+        );
     }
     addProblem = () => {
         if (this.state.addproblem.problemName === '' || this.state.addproblem.problemDetail === '') {
@@ -228,25 +224,7 @@ export default class ViewPatientComponent extends Component {
             this.loadPatient();
         }
     }
-    createCheckbox = label => (
-        <div key={label} >
-        <Checkbox
-        nativeControlId='my-checkbox'
-        checked={this.state.checked}
-        indeterminate={this.state.indeterminate}
-        onChange={(e) => this.setState({
-          checked: e.target.checked,
-          indeterminate: e.target.indeterminate})
-        }
-        />
-        <label htmlFor='my-checkbox'>{label}</label>
-      </div>
-    )
-    createCheckboxes = () => (
-        items.map((item) => 
-            this.createCheckbox(item)
-        )
-    )
+
     validate(values) {
         let errors = {};
 
