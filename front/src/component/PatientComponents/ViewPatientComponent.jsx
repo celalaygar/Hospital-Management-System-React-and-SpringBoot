@@ -11,14 +11,15 @@ import "@material/react-checkbox/dist/checkbox.css";
 import Checkbox from '@material/react-checkbox';
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import Select from 'react-select';
+import PatientDetail from '../BasicComponent/PatientDetail';
 
 var statuses=[];
 
-var options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-  ];
+// var options = [
+//     { value: 'chocolate', label: 'Chocolate' },
+//     { value: 'strawberry', label: 'Strawberry' },
+//     { value: 'vanilla', label: 'Vanilla' },
+//   ];
 const items = [
     'One',
     'Two',
@@ -85,7 +86,9 @@ export default class ViewPatientComponent extends Component {
             if (error.response) {
                 console.log(error.response.data.message);
                 this.setState({ errorMessage: error.response.data.message ,patientid: null});
-                
+                alertify.alert(error.response.data.message, function(){
+                    alertify.error('OK');
+                });
             } else if (error.request) {
                 console.log(error.request);
             } else {
@@ -93,10 +96,6 @@ export default class ViewPatientComponent extends Component {
             }
             
         });
-    }
-    editPatient(id) {
-        window.localStorage.setItem("patientId", id);
-        this.props.history.push('/edit-patient');
     }
     deleteProblem(problemid) {
         ProblemService.delete(problemid)
@@ -107,9 +106,6 @@ export default class ViewPatientComponent extends Component {
                 alertify.success("Deleting is ok : "+this.state.message);
             });
     }
-    // back() {
-    //     this.props.history.push('/patients');
-    // }
     addProblem = () => {
         if (this.state.addproblem.problemName === '' || this.state.addproblem.problemDetail === '') {
             this.setState({ message: "Lütfen boş alanları doldurunuz..." });
@@ -123,6 +119,7 @@ export default class ViewPatientComponent extends Component {
                     problemDetail: this.state.addproblem.problemDetail,
                     creationDate: this.state.addproblem.creationDate,
                     problemStatus: this.state.addproblem.problemStatus,
+                    status:1,
                     pid: this.state.patientid
                 };
                 //console.log(problem)
@@ -149,7 +146,6 @@ export default class ViewPatientComponent extends Component {
             }else{
                 this.setState({ message: "Hasta kaydı bulunamadı. Lütfen uygun bir hasta seçiniz." });
             }
-            
         }
     }
     onChangeName = (e) => {
@@ -186,14 +182,14 @@ export default class ViewPatientComponent extends Component {
 
     onChangeDate = date => {
         this.setState({
-              addproblem: {
-                  problemName:   this.state.addproblem.problemName,
-                  problemDetail:   this.state.addproblem.problemDetail,
-                  problemStatus: this.state.addproblem.problemStatus,
-                  creationDate: date
-              }
-          });
-      }
+            addproblem: {
+                problemName:   this.state.addproblem.problemName,
+                problemDetail:   this.state.addproblem.problemDetail,
+                problemStatus: this.state.addproblem.problemStatus,
+                creationDate: date
+            }
+        });
+    }
     handleClose = () => this.setState({ modalIsOpen: false });
     openModal = () => {
         statuses=[];
@@ -209,7 +205,6 @@ export default class ViewPatientComponent extends Component {
     notFoundPage() {
         this.props.history.push('/notfound');
     }
-
     onChangeSearchByStatusOrDate = (e) =>  { 
         //this.setState({ [e.target.name]: e.target.value }); 
         this.filterProblems(e.target.value);
@@ -270,7 +265,9 @@ export default class ViewPatientComponent extends Component {
         this.setState({ selectedOption });
         //console.log(`Option selected:`, selectedOption);
     };
-
+    limitingPatientDetail(data){
+        return data.substr(0, 30)+"...";
+    }
     render() {
         let {problemName, problemDetail, problemStatus ,creationDate } = this.state.addproblem;
         const { selectedOption } = this.state.options;
@@ -390,31 +387,15 @@ export default class ViewPatientComponent extends Component {
                     </div>
                     {/* Patient Details */}
                     <div className="col-lg-6">
-                        <div className="card" >
-                            <div className="card-header">
-                                Patient Details 
-                            </div>
-                            <ul className="text-left list-group list-group-flush">
-                                <li className="list-group-item"><b>Name : </b>{this.state.name}</li>
-                                <li className="list-group-item"><b>Last Name : </b>{this.state.lastname}</li>
-                                <li className="list-group-item"><b>Email :</b>{this.state.email}</li>
-                                <li className="list-group-item"><b>City : </b>{this.state.city}</li>
-                                <li className="list-group-item"><b>Age : </b>{this.state.age}</li>
-                                <li className="list-group-item"><b>Gender : </b>{this.state.gender}</li>
-                                <li className="list-group-item">
-                                    <button
-                                        className="btn btn-sm btn-success"
-                                        onClick={() => this.editPatient(this.state.patientid)} >
-                                        Edit
-                                    </button>
-                                    <button
-                                        className="btn btn-sm btn-danger"
-                                        onClick={() => this.deletePatient(this.state.patientid)}>
-                                        Delete
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
+                        <PatientDetail 
+                            name={this.state.name} 
+                            lastname={this.state.lastname} 
+                            email={this.state.email} 
+                            city={this.state.city} 
+                            age={this.state.age} 
+                            gender={this.state.gender} 
+                            patientid={this.state.patientid} 
+                        />
                     </div>
 
                     <div className="col-lg-6">
@@ -446,9 +427,11 @@ export default class ViewPatientComponent extends Component {
                                 </thead>
                                 <tbody>
                                     {this.state.problems.map(problem =>
+                                    
                                         <tr className="bg-default" key={problem.problemid}>
                                             <td>{problem.problemName}</td>
-                                            <td>{problem.problemDetail}</td>
+                                            <td>{this.limitingPatientDetail(problem.problemDetail)}</td>
+                                            
                                             <td>{problem.problemStatus}</td>
                                             <td> 
                                                 <Moment format="YYYY/MM/DD HH:mm">
@@ -469,8 +452,6 @@ export default class ViewPatientComponent extends Component {
                                                             className="dropdown-item" 
                                                             onClick={() => this.viewProblem(problem.problemid)} > 
                                                                 View </button>
-                                                        
-                                                        {/* <button className="dropdown-item" onClick={() => this.editPatient(patient.patientid)} > Edit</button> */}
                                                         
                                                         <button 
                                                             className="dropdown-item" 

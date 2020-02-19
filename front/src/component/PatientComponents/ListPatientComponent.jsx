@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import PatientService from '../../services/PatientService';
 import "@material/react-checkbox/dist/checkbox.css";
 import Checkbox from '@material/react-checkbox';
-import * as alertify from 'alertifyjs';
 import "alertifyjs/build/css/alertify.css";
-import Modal from 'react-modal';
+// import Modal from 'react-modal';
+// import * as alertify from 'alertifyjs';
 
 const items = [
     'name',
@@ -32,6 +32,10 @@ class ListPatientComponent extends Component {
         //alertify.success("Hoş Geldiniz..");
     }
     componentDidMount() {
+
+        this.reloadPatientList();
+    }
+    componentDidUpdate() {
 
         this.reloadPatientList();
     }

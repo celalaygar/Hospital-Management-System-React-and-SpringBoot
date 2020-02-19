@@ -2,6 +2,13 @@ import React, { Component } from 'react'
 import PatientService from '../../services/PatientService';
 import * as alertify from 'alertifyjs';
 import "alertifyjs/build/css/alertify.css";
+import CKEditor from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+// const editorConfiguration = {
+//     plugins: [ Essentials, Bold, Italic, Paragraph ],
+//     toolbar: [ 'bold', 'italic' ]
+// };
 
 class AddPatientComponent extends Component {
     constructor(props) {
@@ -44,31 +51,41 @@ class AddPatientComponent extends Component {
     }
     handleChangeGender = (event) => this.setState({gender: event.target.value});
     handleChangeCity = (event) => this.setState({city: event.target.value});
-    onChange = (e) => {
+    onChangePatientForm = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     }
+    onInitForCkEditor(editor){
+        //console.log( 'Editor is ready to use! ', editor, ' onInitForCkEditor' );
+    }
+    onChangeForCkEditor( event, editor ) {
+        const data = editor.getData();
+        //console.log( { event, editor, data } );
+        console.log(editor)
+    } 
     render() {
+        let data ='';
         return (
             <div className="container row">
-                <div className="col-sm-6">
+                <div className="col-sm-9">
                     <h2 className="text-center">ADD PATİENT</h2>
                     <form>
                         <div className="form-group">
                             <label >User Name:</label>
-                            <input type="text" placeholder="name" name="name" className="form-control" value={this.state.name}  onChange={this.onChange}/>
+                            <input type="text" placeholder="name" name="name" className="form-control" value={this.state.name}  onChange={this.onChangePatientForm}/>
                         </div>
                         <div className="form-group">
                             <label>Last Name:</label>
-                            <input placeholder="Last name" name="lastname" className="form-control" value={this.state.lastname} onChange={this.onChange} />
+                            <input placeholder="Last name" name="lastname" className="form-control" value={this.state.lastname} onChange={this.onChangePatientForm} />
                         </div>
                         <div className="form-group">
                             <label>Email:</label>
-                            <input placeholder="Email" name="email" className="form-control" value={this.state.email} onChange={this.onChange} />
+                            <input placeholder="Email" name="email" className="form-control" value={this.state.email} onChange={this.onChangePatientForm} />
                         </div>
                         <div className="form-group">
                             <label>Age:</label>
-                            <input type="number" placeholder="age" name="age" className="form-control" value={this.state.age} onChange={this.onChange} />
+                            <input type="number" placeholder="age" name="age" className="form-control" value={this.state.age} onChange={this.onChangePatientForm} />
                         </div>
+
                         <div className="form-group">
                             <label>Gender:</label>
                             <select className="form-control" 
@@ -89,16 +106,33 @@ class AddPatientComponent extends Component {
                                     )}
 
                             </select>
-                         </div>
-                        {/* <div className="form-group">
-                            <label>Salary:</label>
-                            <input type="number" placeholder="salary" name="salary" className="form-control" value={this.state.salary} onChange={this.onChange} />
+                         </div> 
+                         {/* <div className="form-group"   > 
+                            <label>About :</label>
+                            <CKEditor  
+                                className="form-control " 
+                                editor={ ClassicEditor}
+                                data="<p>Enter about</p>"
+                                onInit={this.onInitForCkEditor}
+
+                                onChange={this.onChangeForCkEditor}
+
+                                // onBlur={ ( event, editor ) => {
+                                //     console.log( 'Blur.', editor );
+                                // } }
+
+                                // onFocus={ ( event, editor ) => {
+                                //     console.log( 'Focus.', editor );
+                                // } }
+
+                                // config={ editorConfiguration }
+                            />
                         </div> */}
                         <button className="btn btn-success" onClick={this.saveUser}>Save</button>
                     </form>
                 </div>
-                <div className="col-lg-6">
-                        <img style={{ width: 500, height: 300 }} src="https://cdn.dribbble.com/users/6060/screenshots/3028817/dribbble.jpg" alt="" />
+                <div className="col-lg-3">
+                        <img style={{ width: 300, height: 200 }} src="https://cdn.dribbble.com/users/6060/screenshots/3028817/dribbble.jpg" alt="" />
                 </div>
                 <div className="col-sm-12">
                     <hr/>

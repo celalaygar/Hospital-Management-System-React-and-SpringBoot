@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import ProblemService from '../../../services/ProblemService'
 import Moment from 'react-moment';
+import PatientDetail from '../../BasicComponent/PatientDetail';
+import ProblemDetail from '../../BasicComponent/ProblemDetail';
+
+
 
 export default class ViewProblemComponent extends Component {
     
@@ -77,37 +81,25 @@ export default class ViewProblemComponent extends Component {
                             <hr/>
                         </div>
                         <div className="col-lg-6">
-                            <div className="card" >
-                                <div className="card-header">
-                                    Patient Detail
-                                    </div>
-                                <ul className="text-left list-group list-group-flush">
-                                    <li className="list-group-item"><b>Name : </b>{this.state.patient.name}</li>
-                                    <li className="list-group-item"><b>Last Name : </b>{this.state.patient.lastname}</li>
-                                    <li className="list-group-item"><b>Email :</b>{this.state.patient.email}</li>
-                                    <li className="list-group-item"><b>City : </b>{this.state.patient.city}</li>
-                                    <li className="list-group-item"><b>Age : </b>{this.state.patient.age}</li>
-                                    <li className="list-group-item"><b>Gender : </b>{this.state.patient.gender}</li>
-                                </ul>
-                            </div>
+                            <PatientDetail 
+                                name={this.state.patient.name} 
+                                lastname={this.state.patient.lastname} 
+                                email={this.state.patient.email} 
+                                city={this.state.patient.city} 
+                                age={this.state.patient.age} 
+                                gender={this.state.patient.gender} 
+                                patientid={this.state.patient.patientid} 
+                            />
                         </div>
                         <div className="col-lg-6">
-                            <div className="card" >
-                                <div className="card-header">
-                                    Problem Detail
-                                    </div>
-                                <ul className="text-left list-group list-group-flush">
-                                    <li className="list-group-item"><b>Problem Name : </b>{this.state.problemName}</li>
-                                    <li className="list-group-item"><b>Problem Detail : </b>{this.state.problemDetail}</li>
-                                    <li className="list-group-item"><b>Problem Status : </b>{this.state.problemStatus}</li>
-
-                                    <li className="list-group-item"><b>Create Date : (Y/M/D H/M) </b>
-                                        <Moment format="YYYY/MM/DD HH:mm">
-                                            {this.state.creationDate} 
-                                        </Moment>
-                                    </li>
-                                </ul>
-                            </div>
+                            <ProblemDetail
+                                problemName={this.state.problemName} 
+                                problemDetail={this.state.problemDetail}
+                                problemStatus={this.state.problemStatus}
+                                creationDate={this.state.creationDate}
+                            /> 
+                        </div>
+                        <div className="col-lg-6">
                         </div>
                     </div>
                     }
