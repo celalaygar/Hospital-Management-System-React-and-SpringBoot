@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import * as alertify from 'alertifyjs';
+import "alertifyjs/build/css/themes/default.css";
+import "alertifyjs/build/css/alertify.css";
 import PatientService from '../../services/PatientService';
 import { withRouter } from 'react-router';
 
@@ -27,7 +29,7 @@ class PatientDetail extends Component {
     }
     deletePatient(patientid) {
         //this.props.history.push('/');
-        alertify.confirm("Are you sure to delete this patient.",
+        alertify.confirm("Are you sure to delete the patient.",
             function(){
                 PatientService.deletePatient(patientid)
                 .then(res => {
@@ -38,7 +40,7 @@ class PatientDetail extends Component {
             function(){
                 alertify.error('Cancel');
             }
-        );
+        ).set({title:"Attention"}).set({transition:'slide'}).show();
     }
     
     render() {

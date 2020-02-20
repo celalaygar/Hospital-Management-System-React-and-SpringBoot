@@ -2,18 +2,18 @@ import React, { Component } from 'react'
 import PatientService from '../../services/PatientService';
 import "@material/react-checkbox/dist/checkbox.css";
 import Checkbox from '@material/react-checkbox';
+import "alertifyjs/build/css/themes/default.css";
 import "alertifyjs/build/css/alertify.css";
-import "alertifyjs/build/css/alertify.min.css";
 
 // import Modal from 'react-modal';
- import * as alertify from 'alertifyjs';
+import * as alertify from 'alertifyjs';
 
 const items = [
     'name',
     'lastname',
     'email',
     'city'
-  ];
+];
 let filterArray = []
 let checked = {
     name: false,
@@ -28,40 +28,34 @@ class ListPatientComponent extends Component {
             patients: [],
             message: null,
             indeterminate: false,
-            filters : []
+            filters: []
         }
         this.reloadPatientList = this.reloadPatientList.bind(this);
         //alertify.success("Hoş Geldiniz..");
     }
     componentDidMount() {
-
         this.reloadPatientList();
     }
     componentDidUpdate() {
-
         this.reloadPatientList();
     }
     reloadPatientList() {
-        PatientService.getPatients()
-            .then((res) => {
-                this.setState({ patients: res.data })
-            });
+        PatientService.getPatients().then((res) => {
+            this.setState({ patients: res.data })
+        });
     }
     deletePatient(patientid) {
-
-        alertify.confirm("This is a confirm dialog.",
+        alertify.confirm(
+            "Are you sure to delete the patient.",
             ok => {
-                PatientService.deletePatient(patientid)
-                .then(res => {
+                PatientService.deletePatient(patientid).then(res => {
                     this.setState({ message: 'User deleted successfully. ' + res });
                     this.setState({ patients: this.state.patients.filter(patient => patient.patientid !== patientid) });
                 });
-                alertify.success('Delete patient is ok');
+                alertify.success('to delete patient is ok');
             },
-            cancel => {
-                alertify.error('Cancel');
-            }
-        );
+            cancel => { alertify.error('Cancel'); }
+        ).set({ title: "Attention" }).set({ transition: 'slide' }).show();
     }
     editPatient(id) {
         window.localStorage.setItem("patientId", id);
@@ -75,76 +69,71 @@ class ListPatientComponent extends Component {
         window.localStorage.removeItem("userId");
         this.props.history.push('/add-patient');
     }
-    onChangeSearchByName = (e) =>  { 
+    onChangeSearchByName = (e) => {
         this.filterPatients(e.target.value);
     }
-    filterPatients =  (value)  => {
-        var results= [];
+    filterPatients = (value) => {
+        var results = [];
         //let filters = ["name","lastname","email"];
-        if(value !== ''){
-            results =this.state.patients.filter(patient =>{
+        if (value !== '') {
+            results = this.state.patients.filter(patient => {
                 let find = false;
                 //filters.forEach(filter=>{
-                    filterArray.forEach(function(filter){
+                filterArray.forEach(function (filter) {
                     let control = patient[filter].toLowerCase().indexOf(value.toLowerCase());
-                        if(control > -1)  find = true; 
+                    if (control > -1) find = true;
                 });
                 return find;
             });
-            this.setState({ patients:  results});
-           
+            this.setState({ patients: results });
         }
-        else{
-            this.reloadPatientList();
-        }
+        else { this.reloadPatientList(); }
     }
     createCheckbox = label => (
-        <div className="float-left mx-auto"  key={label} >
-            <Checkbox 
+        <div className="float-left mx-auto" key={label} >
+            <Checkbox
                 nativeControlId='my-checkbox'
                 checked={checked[label]}
-                onChange={(e) => {  this.changeStateForChecked(e,label); } }
+                onChange={(e) => { this.changeStateForChecked(e, label); }}
             />
-            <label htmlFor={label+'my-checkbox'}>{label}</label>
+            <label htmlFor={label + 'my-checkbox'}>{label}</label>
         </div>
     )
-    changeStateForChecked = (e,label) => {
-        checked[label]=e.target.checked;
-        var index =  filterArray.indexOf(label);
-        if(checked[label]){
-            if (index === -1){
-                filterArray.push(label);   
+    changeStateForChecked = (e, label) => {
+        checked[label] = e.target.checked;
+        var index = filterArray.indexOf(label);
+        if (checked[label]) {
+            if (index === -1) {
+                filterArray.push(label);
             }
-        }else{
-            if (index !== -1){
+        } else {
+            if (index !== -1) {
                 filterArray.splice(index, 1);
             }
         }
     }
 
     createCheckboxes = () => (
-        items.map((item) => 
-            this.createCheckbox(item)
-        )
+        items.map((item) => this.createCheckbox(item))
     )
 
     render() {
         return (
             <div >
                 <div className="col-lg-12">
-                    <button 
-                        className="btn btn-primary btn-sm" 
-                        onClick={() => this.addPatient()}> 
+                    <button
+                        className="btn btn-primary btn-sm"
+                        onClick={() => this.addPatient()}>
                         Add Patient
                     </button>
                     <hr />
                     {this.createCheckboxes()}
                     <div className="form-group">
-                        <input  type="text" 
-                                placeholder="Search Patient by choosing any parameter" 
-                                name="searchByName" 
-                                className="form-control"  
-                                onChange={this.onChangeSearchByName} />
+                        <input type="text"
+                            placeholder="Search Patient by choosing any parameter"
+                            name="searchByName"
+                            className="form-control"
+                            onChange={this.onChangeSearchByName} />
                     </div>
                     <hr />
                 </div>
@@ -163,7 +152,7 @@ class ListPatientComponent extends Component {
                             </thead>
                             <tbody>
                                 {this.state.patients.map(patient =>
-                                    <tr className={patient.gender === "Male" ? "bg-default" : "bg-danger"}  key={patient.patientid}>
+                                    <tr className={patient.gender === "Male" ? "bg-default" : "bg-danger"} key={patient.patientid}>
                                         <td>{patient.patientid} - {patient.name}</td>
                                         <td>{patient.lastname}</td>
                                         <td>{patient.email}</td>
@@ -180,7 +169,7 @@ class ListPatientComponent extends Component {
 
                                                 <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                                     <button className="dropdown-item" onClick={() => this.viewPatient(patient.patientid)} > View</button>
-                                                    
+
                                                     <div className="dropdown-divider"></div>
                                                     <button className="dropdown-item" onClick={() => this.editPatient(patient.patientid)} > Edit</button>
                                                     <div className="dropdown-divider"></div>
@@ -193,10 +182,10 @@ class ListPatientComponent extends Component {
                                 )}
                             </tbody>
                         </table>
-                    <hr/>
-                    <hr/>
-                    <hr/>
-                    <hr/>
+                        <hr />
+                        <hr />
+                        <hr />
+                        <hr />
                     </div>
                 </div>
             </div>
