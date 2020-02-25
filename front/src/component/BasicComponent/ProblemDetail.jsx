@@ -7,7 +7,7 @@ class ProblemDetail extends Component {
         return (
             <div>
                 <div className="card" >
-                    <div className="card-header"> Problem Detail </div>
+                    <div className="card-header"><h3> Problem Detail</h3> </div>
                     <ul className="text-left list-group list-group-flush">
                         <li className="list-group-item"><b>Problem Name : </b>{this.props.problemName}</li>
                         <li className="list-group-item"><b>Problem Detail : </b>{this.props.problemDetail}</li>

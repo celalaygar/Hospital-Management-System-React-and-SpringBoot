@@ -30,26 +30,24 @@ class PatientDetail extends Component {
     deletePatient(patientid) {
         //this.props.history.push('/');
         alertify.confirm("Are you sure to delete the patient.",
-            function(){
+            function () {
                 PatientService.deletePatient(patientid)
-                .then(res => {
-                    window.location.href = '/patients';
-                    alertify.success("Deleting is ok ");
-                })
+                    .then(res => {
+                        window.location.href = '/patients';
+                        alertify.success("Deleting is ok ");
+                    })
             },
-            function(){
+            function () {
                 alertify.error('Cancel');
             }
-        ).set({title:"Attention"}).set({transition:'slide'}).show();
+        ).set({ title: "Attention" }).set({ transition: 'slide' }).show();
     }
-    
+
     render() {
         return (
             <div>
                 <div className="card" >
-                    <div className="card-header">
-                        Patient Detail
-                        </div>
+                    <div className="card-header"> <h3> Patient Detail</h3>  </div>
                     <ul className="text-left list-group list-group-flush">
                         <li className="list-group-item"><b>Patient id : </b>{this.props.patientid}</li>
                         <li className="list-group-item"><b>Name : </b>{this.props.name}</li>
