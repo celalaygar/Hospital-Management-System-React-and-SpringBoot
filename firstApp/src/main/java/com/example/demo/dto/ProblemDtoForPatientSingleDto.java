@@ -21,7 +21,8 @@ public class ProblemDtoForPatientSingleDto  implements Serializable {
 	private String problemName;
 	private String problemDetail;
 	private ProblemStatus problemStatus;
-	private Long pId;	
+	private Long pId;
+	private int status;
 	private Date creationDate;
 
 }

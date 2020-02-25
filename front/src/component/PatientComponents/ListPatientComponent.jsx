@@ -6,6 +6,7 @@ import "alertifyjs/build/css/themes/default.css";
 import "alertifyjs/build/css/alertify.css";
 
 // import Modal from 'react-modal';
+
 import * as alertify from 'alertifyjs';
 
 const items = [
@@ -90,7 +91,7 @@ class ListPatientComponent extends Component {
         else { this.reloadPatientList(); }
     }
     createCheckbox = label => (
-        <div className="float-left mx-auto" key={label} >
+        <div className="float-left " style={{margin: '-10px 0 0 0'}} key={label} >
             <Checkbox
                 nativeControlId='my-checkbox'
                 checked={checked[label]}
@@ -126,6 +127,7 @@ class ListPatientComponent extends Component {
                         onClick={() => this.addPatient()}>
                         Add Patient
                     </button>
+
                     <hr />
                     {this.createCheckboxes()}
                     <div className="form-group">

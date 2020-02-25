@@ -22,6 +22,6 @@ public class ProblemGetDto implements Serializable {
 	private ProblemStatus problemStatus;
 	private Long pId;
 	private Date creationDate;
-
+	private int status;
 	private PatientDtoForProblemGetDto patient;
 }

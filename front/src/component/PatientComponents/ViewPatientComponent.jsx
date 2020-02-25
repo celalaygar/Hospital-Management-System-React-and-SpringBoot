@@ -139,7 +139,7 @@ export default class ViewPatientComponent extends Component {
     onChangeName = (e) => {
         this.setState({
             addproblem: {
-                problemName: e.target.value,
+                [e.target.name]: e.target.value,
                 problemDetail: this.state.addproblem.problemDetail,
                 problemStatus: this.state.addproblem.problemStatus,
                 creationDate: this.state.addproblem.creationDate
@@ -151,7 +151,7 @@ export default class ViewPatientComponent extends Component {
         this.setState({
             addproblem: {
                 problemName: this.state.addproblem.problemName,
-                problemDetail: e.target.value,
+                [e.target.name]: e.target.value,
                 problemStatus: this.state.addproblem.problemStatus,
                 creationDate: this.state.addproblem.creationDate
             }
@@ -159,6 +159,7 @@ export default class ViewPatientComponent extends Component {
     }
 
     handleChangeProblemStatus = (e) => {
+        
         this.setState({
             e,
             addproblem: {
@@ -171,6 +172,7 @@ export default class ViewPatientComponent extends Component {
     }
 
     onChangeDate = date => {
+        console.log(date)
         this.setState({
             addproblem: {
                 problemName: this.state.addproblem.problemName,
@@ -301,14 +303,16 @@ export default class ViewPatientComponent extends Component {
                                                 </fieldset>
                                                 <fieldset className="form-group">
                                                     <label >Status : </label>
-                                                    {/* <select className="form-control" 
-                                                            name="problemStatus"
-                                                            value={problemStatus} 
-                                                            onChange={this.handleChangeProblemStatus} >
-                                                            {this.state.problemStatuses.map(status => 
-                                                                <option key={status} value={status}>{status}</option>
-                                                            )}
-                                                        </select> */}
+                                                    {/* 
+                                                    <select className="form-control" 
+                                                        name="problemStatus"
+                                                        value={problemStatus} 
+                                                        onChange={this.handleChangeProblemStatus} >
+                                                        {this.state.problemStatuses.map(status => 
+                                                            <option key={status} value={status}>{status}</option>
+                                                        )}
+                                                    </select> 
+                                                    */}
                                                     <Select
                                                         value={selectedOption}
                                                         onChange={this.handleChangeProblemStatus}

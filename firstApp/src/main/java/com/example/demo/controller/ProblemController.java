@@ -41,7 +41,7 @@ public class ProblemController {
 			throws NotFoundException {
 		return ResponseEntity.ok(problemService.findByProblemid(problemid));
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<ProblemDtoForPatientSingleDto> saveProblem(@Valid @RequestBody ProblemDto dto)
 			throws NotFoundException {
@@ -49,17 +49,17 @@ public class ProblemController {
 	}
 
 	@PutMapping("/{problemid}")
-	public ResponseEntity<Boolean> updatePatient(
-			@PathVariable(name = "problemid", required = true) Long problemid,
+	public ResponseEntity<Boolean> updatePatient(@PathVariable(name = "problemid", required = true) Long problemid,
 			@Valid @RequestBody ProblemDtoForPatientSingleDto dto) throws Exception {
-		return ResponseEntity.ok(problemService.update(problemid,dto));
+		return ResponseEntity.ok(problemService.update(problemid, dto));
 	}
-	
+
 	@DeleteMapping("/{problemid}")
 	public ResponseEntity<Boolean> deletePatient(@PathVariable(name = "problemid", required = true) Long problemid)
 			throws Exception {
 		return ResponseEntity.ok(problemService.delete(problemid));
 	}
+
 	@GetMapping("/status")
 	public ResponseEntity<List<ProblemStatus>> getAllBookStatus() {
 		return ResponseEntity.ok(Arrays.asList(ProblemStatus.values()));

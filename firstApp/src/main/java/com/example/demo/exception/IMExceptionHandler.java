@@ -13,11 +13,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestController
 @RestControllerAdvice
 public class IMExceptionHandler extends ResponseEntityExceptionHandler {
-	
+
 	@ExceptionHandler(PatientNotFoundException.class)
 	public final ResponseEntity<?> handlePatientNotFoundException(Exception ex, WebRequest request) {
 		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage());
-		//logger.error("--Application was Error : "+ex.getMessage());
-		return new ResponseEntity<>(exceptionResponse, HttpStatus.EXPECTATION_FAILED); 
+		logger.error("--Application was Error : "+ex.getMessage());
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
 	}
 }

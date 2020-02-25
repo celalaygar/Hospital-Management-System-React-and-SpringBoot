@@ -28,17 +28,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="aapatient")
+@Table(name = "aapatient")
 public class Patient {
-	
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AA_PATIENT_SEQ")
-    @SequenceGenerator(sequenceName = "AA_PATIENT_SEQ", allocationSize = 1, name = "AA_PATIENT_SEQ" )
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AA_PATIENT_SEQ")
+	@SequenceGenerator(sequenceName = "AA_PATIENT_SEQ", allocationSize = 1, name = "AA_PATIENT_SEQ")
 	@Column(name = "patientid")
 	private Long patientid;
 	private String name;
@@ -46,22 +45,37 @@ public class Patient {
 	private String gender;
 	private String age;
 	private String city;
-	
-	
+
 //	@Column(name = "city", length = 100)
 //	@Enumerated(EnumType.STRING)
 //	private City city;
 	private String email;
 	private int status;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Problem> problems;
 
-
+	
+	
+	
 	@Override
 	public String toString() {
 		return "Patient [patientid=" + patientid + ", name=" + name + ", lastname=" + lastname + ", gender=" + gender
 				+ ", age=" + age + ", city=" + city + "]";
 	}
-	
+
+
+
+
+	public Patient(String name, String lastname, String gender, String age, String city, String email, int status) {
+		super();
+		this.name = name;
+		this.lastname = lastname;
+		this.gender = gender;
+		this.age = age;
+		this.city = city;
+		this.email = email;
+		this.status = status;
+	}
+
 }

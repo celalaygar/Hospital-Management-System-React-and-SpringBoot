@@ -8,10 +8,11 @@ import EditPatientComponent from './component/PatientComponents/EditPatientCompo
 import NotFoundComponent from './NotFound/NotFoundComponent';
 import ViewProblemComponent from './component/PatientComponents/ProblemComponent/ViewProblemComponent';
 import IndexPage2 from './component/IndexPage2';
-
+import { Lines } from 'react-preloaders';
 function App() {
-  return (
+  return (            
     <div className="App" style={{background: '#fff'}}>
+
       <div className="container">
         <div className="row">
           <div className="col-sm-12">
@@ -40,6 +41,14 @@ function App() {
           </div>
         </div>
       </div>
+      {/* <Lines /> */}
+      {/* <Lines animation="slide-left" />; */}
+      
+      <Lines animation="slide" />;
+
+      {/* <Lines animation="slide-down" />; */}
+
+      {/* <Lines animation="slide-right" />; */}
     </div>
   );
 }

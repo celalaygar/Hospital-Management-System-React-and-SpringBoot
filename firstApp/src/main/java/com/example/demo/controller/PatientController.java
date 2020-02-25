@@ -32,9 +32,9 @@ public class PatientController {
 
 	@Autowired
 	private PatientService patientService;
-	
+
 	@GetMapping
-	public List<PatientDto> getAll() throws Exception{
+	public List<PatientDto> getAll() throws Exception {
 		return patientService.findAll();
 	}
 
@@ -43,36 +43,41 @@ public class PatientController {
 			@PathVariable(name = "patientid", required = true) Long patientid) throws Exception {
 		return ResponseEntity.ok(patientService.findByPatientId(patientid));
 	}
-	
+
 	@GetMapping("/find-by-email/{email}")
-	public ResponseEntity<Patient> getPatientByEmail(
-			@PathVariable(name = "email", required = true) String email) throws Exception {
+	public ResponseEntity<Patient> getPatientByEmail(@PathVariable(name = "email", required = true) String email)
+			throws Exception {
 		return ResponseEntity.ok(patientService.findByEmail(email));
 	}
-	
+
 	@GetMapping("/find-by-name/{name}")
-	public ResponseEntity<List<Patient>> getPatientByName(
-			@PathVariable(name = "name", required = true) String name) throws Exception {
+	public ResponseEntity<List<Patient>> getPatientByName(@PathVariable(name = "name", required = true) String name)
+			throws Exception {
 		return ResponseEntity.ok(patientService.findByName(name));
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<Boolean> savePatient(@Valid @RequestBody Patient patient) {
 		return ResponseEntity.ok(patientService.save(patient));
 	}
-	
+
 	@PutMapping("/{patientid}")
-	public ResponseEntity<Boolean> updatePatient(
-			@PathVariable(name = "patientid", required = true) Long patientid,
+	public ResponseEntity<Boolean> updatePatient(@PathVariable(name = "patientid", required = true) Long patientid,
 			@Valid @RequestBody Patient patient) throws Exception {
-		return ResponseEntity.ok(patientService.update(patientid,patient));
+		return ResponseEntity.ok(patientService.update(patientid, patient));
 	}
-	
+
 	@DeleteMapping("/{patientid}")
-	public ResponseEntity<Boolean> deletePatient(@PathVariable(name = "patientid", required = true) Long patientid) throws Exception {
+	public ResponseEntity<Boolean> deletePatient(@PathVariable(name = "patientid", required = true) Long patientid)
+			throws Exception {
 		return ResponseEntity.ok(patientService.delete(patientid));
 	}
-	
+
+	@GetMapping("/deleted-patients")
+	public ResponseEntity<List<PatientDto>> getAllDeletedPatients() throws Exception {
+		return ResponseEntity.ok(patientService.findAllDeletedPatients());
+	}
+
 	@GetMapping("/cities")
 	public ResponseEntity<List<City>> getAllBookStatus() {
 		return ResponseEntity.ok(Arrays.asList(City.values()));

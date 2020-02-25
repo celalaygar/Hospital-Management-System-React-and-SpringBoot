@@ -48,6 +48,8 @@ public class Problem{
 	@Enumerated(EnumType.STRING)
 	private ProblemStatus problemStatus;
 	
+	private int status;
+	
 	private Long pId;
 
     @Temporal(TemporalType.TIMESTAMP)

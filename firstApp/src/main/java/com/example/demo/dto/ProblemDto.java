@@ -22,5 +22,6 @@ public class ProblemDto implements Serializable {
 	private String problemDetail;
 	private ProblemStatus problemStatus;
 	private Long pId;
+	private int status;
 	private Date creationDate;
 }
