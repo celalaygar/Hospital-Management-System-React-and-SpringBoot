@@ -22,7 +22,7 @@ import javassist.NotFoundException;
 public class PatientService {
 
 	private final PatientRepository patientRepository;
-	private final ModelMapper modelMapper;    
+	private final ModelMapper modelMapper;
 	private final Logger logger;
 
 	public PatientService(PatientRepository patientRepository, ModelMapper modelMapper, Logger logger) {
@@ -36,7 +36,7 @@ public class PatientService {
 
 			// List<Patient> patients = patientRepository.findAllByOrderByPatientidAsc();
 			List<Patient> patients = patientRepository.findAllByStatusEquelsOne();
-			if(patients.size() < 1) {
+			if (patients.size() < 1) {
 				logger.error("There is never patients ");
 				throw new PatientNotFoundException("There is never patient ");
 			}
@@ -56,19 +56,21 @@ public class PatientService {
 
 			PatientDto[] authorDtos = modelMapper.map(patients, PatientDto[].class);
 			return Arrays.asList(authorDtos);
-
-		} else
+		} else {
 			logger.error("There is no deleted patient ");
 			throw new PatientNotFoundException("There is no deleted patient ");
 
+		}
 	}
 
-	public Boolean save(Patient patient) {
+	public Patient save(Patient patient) {
+		patient.setStatus(1);
 		patient = patientRepository.save(patient);
 		if (patient.getPatientid() > -1)
-			return true;
-		else
-			return false;
+			return patient;
+		else{
+			throw new PatientNotFoundException("A problem occurred during saving patient" );
+		}
 	}
 
 	public Boolean delete(@Valid Long patientid) throws Exception {
@@ -82,10 +84,11 @@ public class PatientService {
 			patientRepository.save(optPatient.get());
 			// patientRepository.delete(optpatient.get());
 			return true;
-		} else
-			// return false;
+		} else {
 			logger.error("--Patient does not exist with this id " + patientid);
 			throw new PatientNotFoundException("Patient does not exist with this id " + patientid);
+
+		}
 	}
 
 	public PatientSingleDto findByPatientId(Long patientid) throws Exception {
@@ -96,9 +99,11 @@ public class PatientService {
 			PatientSingleDto dto = modelMapper.map(optPatient.get(), PatientSingleDto.class);
 
 			return dto;
-		} else        
+		} else {
+
 			logger.error("--Patient does not exist with this id " + patientid);
 			throw new PatientNotFoundException("Patient does not exist with this id " + patientid);
+		}
 	}
 
 	public Patient findByEmail(String email) throws Exception {
@@ -106,9 +111,11 @@ public class PatientService {
 		if (patient.isPresent())
 
 			return patient.get();
-		else
+		else {
+
 			logger.error("--Patient does not exist with this email " + email);
 			throw new PatientNotFoundException("Patient does not exist with this email " + email);
+		}
 	}
 
 	public Boolean update(Long patientid, @Valid Patient patient) throws Exception {
@@ -119,9 +126,10 @@ public class PatientService {
 			patientRepository.save(patient);
 
 			return true;
-		} else
+		} else {
 			logger.error("--Patient does not exist with this id " + patientid);
 			throw new PatientNotFoundException("Patient does not exist with this id " + patientid);
+		}
 	}
 
 	public List<Patient> findByName(String name) throws Exception {
@@ -130,9 +138,11 @@ public class PatientService {
 		if (patients.size() > 0) {
 
 			return patients;
-		} else
+		} else {
+
 			logger.error("--Patient does not exist with this name " + name);
 			throw new PatientNotFoundException("Patient does not exist with this name " + name);
+		}
 	}
 
 }

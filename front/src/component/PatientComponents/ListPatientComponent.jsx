@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import PatientService from '../../services/PatientService';
 import "@material/react-checkbox/dist/checkbox.css";
 import Checkbox from '@material/react-checkbox';
-import "alertifyjs/build/css/themes/default.css";
-import "alertifyjs/build/css/alertify.css";
+import "alertifyjs/build/css/themes/default.min.css";
+import "alertifyjs/build/css/themes/bootstrap.min.css"; 
+import "alertifyjs/build/css/alertify.min.css";
 import "./ListPatientComponent.css"
 // import Modal from 'react-modal';
 
@@ -77,21 +78,28 @@ class ListPatientComponent extends Component {
         this.filterPatients(e.target.value);
     }
     filterPatients = (value) => {
-        var results = [];
-        //let filters = ["name","lastname","email"];
-        if (value !== '') {
-            results = this.state.patients.filter(patient => {
-                let find = false;
-                //filters.forEach(filter=>{
-                filterArray.forEach(function (filter) {
-                    let control = patient[filter.toLowerCase()].toLowerCase().indexOf(value.toLowerCase());
-                    if (control > -1) find = true;
+        if(filterArray.length > 0){
+            var results = [];
+            //let filterArray = ["name","lastname","email"];
+            if (value !== '') {
+                results = this.state.patients.filter(patient => {
+                    let find = false;
+                    //filterArray.forEach(filter=>{
+                    filterArray.forEach(function (filter) {
+                        let control = patient[filter.toLowerCase()].toLowerCase().indexOf(value.toLowerCase());
+                        if (control > -1) find = true;
+                    });
+                    return find;
                 });
-                return find;
-            });
-            this.setState({ patients: results });
+                this.setState({ patients: results });
+            }
+            else { this.reloadPatientList(); }
+        } else {
+            alertify.set('notifier','delay', 1);
+            //alertify.set('notifier','position', 'top-center');
+            alertify.notify('Please select any parameters');
         }
-        else { this.reloadPatientList(); }
+
     }
     createCheckbox = label => (
         <div className="float-left " key={label} >
@@ -125,10 +133,7 @@ class ListPatientComponent extends Component {
                         </button> 
                         <hr/>
                     </div>
-                    <div className="col-lg-4">
-                        {this.createCheckboxes()}
-                    </div>
-                    <div className="col-lg-8" >
+                    <div className="col-lg-7" >
                         <div className="form-group">
                             <input type="text"
                                 placeholder="Search Patient by choosing any parameter"
@@ -136,6 +141,10 @@ class ListPatientComponent extends Component {
                                 className="form-control"
                                 onChange={this.onChangeSearchByName} />
                         </div>
+                        <hr/>
+                    </div>
+                    <div className="col-lg-5">
+                        {this.createCheckboxes()}
                     </div>
                     <div className="col-lg-12">
                         

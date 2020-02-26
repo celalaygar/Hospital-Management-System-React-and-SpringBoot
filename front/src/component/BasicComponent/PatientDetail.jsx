@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import * as alertify from 'alertifyjs';
-import "alertifyjs/build/css/themes/default.css";
-import "alertifyjs/build/css/alertify.css";
+import "alertifyjs/build/css/themes/default.min.css";
+import "alertifyjs/build/css/themes/bootstrap.min.css"; 
+import "alertifyjs/build/css/alertify.min.css";
 import PatientService from '../../services/PatientService';
 import { withRouter } from 'react-router';
 
@@ -22,10 +23,19 @@ class PatientDetail extends Component {
     //     this.deletePatient = this.deletePatient.bind(this);
     // }
     componentDidMount() {
+        
     }
     editPatient(id) {
-        window.localStorage.setItem("patientId", id);
-        this.props.history.push('/edit-patient');
+        alertify.confirm(
+            "Are you sure to edit the patient.",
+            ok => {
+                window.localStorage.setItem("patientId", id);
+                this.props.history.push('/edit-patient');
+            },
+            cancel => {
+                alertify.error('Cancel');
+            }
+        ).set({ title: "Attention" }).set({ transition: 'slide' }).show();
     }
     deletePatient(patientid) {
         //this.props.history.push('/');

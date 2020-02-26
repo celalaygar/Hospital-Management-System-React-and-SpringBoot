@@ -57,7 +57,7 @@ public class PatientController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Boolean> savePatient(@Valid @RequestBody Patient patient) {
+	public ResponseEntity<Patient> savePatient(@Valid @RequestBody Patient patient) {
 		return ResponseEntity.ok(patientService.save(patient));
 	}
 
