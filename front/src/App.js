@@ -11,7 +11,7 @@ import IndexPage2 from './component/IndexPage2';
 import { Lines } from 'react-preloaders';
 function App() {
   return (            
-    <div className="App" style={{background: '#fff'}}>
+    <div className="App" >
 
       <div className="container">
         <div className="row">
@@ -39,10 +39,10 @@ function App() {
           </div>
         </div>
       </div>
-      {/* <Lines /> */}
+      <Lines />
       {/* <Lines animation="slide-left" />; */}
       
-      <Lines animation="slide" />;
+      {/* <Lines animation="slide" />; */}
 
       {/* <Lines animation="slide-down" />; */}
 

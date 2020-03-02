@@ -3,7 +3,7 @@ import PatientService from '../../services/PatientService';
 import "@material/react-checkbox/dist/checkbox.css";
 import Checkbox from '@material/react-checkbox';
 import "alertifyjs/build/css/themes/default.min.css";
-import "alertifyjs/build/css/themes/bootstrap.min.css"; 
+import "alertifyjs/build/css/themes/bootstrap.min.css";
 import "alertifyjs/build/css/alertify.min.css";
 import "./ListPatientComponent.css"
 // import Modal from 'react-modal';
@@ -78,9 +78,8 @@ class ListPatientComponent extends Component {
         this.filterPatients(e.target.value);
     }
     filterPatients = (value) => {
-        if(filterArray.length > 0){
-            var results = [];
-            //let filterArray = ["name","lastname","email"];
+        if (filterArray.length > 0) {
+            var results = []; 
             if (value !== '') {
                 results = this.state.patients.filter(patient => {
                     let find = false;
@@ -95,45 +94,43 @@ class ListPatientComponent extends Component {
             }
             else { this.reloadPatientList(); }
         } else {
-            alertify.set('notifier','delay', 1);
+            alertify.set('notifier', 'delay', 2);
             //alertify.set('notifier','position', 'top-center');
-            alertify.notify('Please select any parameters');
+            alertify.error('Please select any parameters');
         }
-
     }
+    createCheckboxes = () => (items.map((item) => this.createCheckbox(item)))
     createCheckbox = label => (
-        <div className="float-left " key={label} >
+        <div className="float-left" style={{margin: "0 25px 0 0"}} key={label} >
             <Checkbox
                 nativeControlId='my-checkbox'
                 checked={checked[label]}
                 onChange={(e) => { this.changeStateForChecked(e, label); }}
             />
-            <label className="checkbox-label" htmlFor={label + 'my-checkbox'}><b>{label}</b></label>
+            <label className="checkbox-label" ><b>{label}</b></label>
         </div>
     )
-    createCheckboxes = () => (  items.map((item) => this.createCheckbox(item))  )
     changeStateForChecked = (e, label) => {
         checked[label] = e.target.checked;
         var index = filterArray.indexOf(label);
         if (checked[label]) {
-            if (index === -1) {  filterArray.push(label); }
+            if (index === -1) { filterArray.push(label); }
         } else {
-            if (index !== -1) {  filterArray.splice(index, 1);  }
+            if (index !== -1) { filterArray.splice(index, 1); }
         }
     }
     render() {
-        return (
-            <div className="container">
+        return ( 
                 <div className="row">
                     <div className="col-lg-12">
                         <button
                             className="btn btn-primary btn-sm"
                             onClick={() => this.addPatient()}>
                             Add Patient
-                        </button> 
-                        <hr/>
+                        </button>
+                        <hr />
                     </div>
-                    <div className="col-lg-7" >
+                    <div className="col-lg-6" >
                         <div className="form-group">
                             <input type="text"
                                 placeholder="Search Patient by choosing any parameter"
@@ -141,47 +138,48 @@ class ListPatientComponent extends Component {
                                 className="form-control"
                                 onChange={this.onChangeSearchByName} />
                         </div>
-                        <hr/>
+                        <hr />
                     </div>
-                    <div className="col-lg-5">
-                        {this.createCheckboxes()}
-                    </div>
+                    <div className="col-lg-6"> {this.createCheckboxes()} </div>
                     <div className="col-lg-12">
-                        
                         <div className="table-responsive">
                             <table className="table table-bordered table-sm table-dark table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Last Name</th>
-                                        <th>Email</th>
-                                        <th>Gender</th>
+                                        <th>Name Last Name</th> 
+                                        <th>Email</th> 
                                         <th>City</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody style={{textAlign: "center"}}>
                                     {this.state.patients.map(patient =>
                                         <tr className={patient.gender === "Male" ? "bg-default" : "bg-danger"} key={patient.patientid}>
-                                            <td>{patient.patientid} - {patient.name}</td>
-                                            <td>{patient.lastname}</td>
+                                            <td>{patient.name} {patient.lastname}</td> 
+                                            {/* {patient.patientid} */} 
                                             <td>{patient.email}</td>
-                                            <td>{patient.gender}</td>
+                                            {/* <td>{patient.gender}</td> */}
                                             <td>{patient.city}</td>
                                             <td>
-                                                <div className="btn-group" role="group">
+                                                <div className="btn-group btn-sm" role="group">
                                                     <button id="btnGroupDrop1"
                                                         type="button"
-                                                        className="btn btn-secondary dropdown-toggle"
+                                                        className="btn btn-secondary  btn-sm dropdown-toggle"
                                                         data-toggle="dropdown"
                                                         aria-haspopup="true"
                                                         aria-expanded="false"> Actions </button>
                                                     <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                        <button className="dropdown-item" onClick={() => this.viewPatient(patient.patientid)} > View</button>
+                                                        <button
+                                                            className="dropdown-item"
+                                                            onClick={() => this.viewPatient(patient.patientid)} >  View </button>
                                                         <div className="dropdown-divider"></div>
-                                                        <button className="dropdown-item" onClick={() => this.editPatient(patient.patientid)} > Edit</button>
+                                                        <button
+                                                            className="dropdown-item"
+                                                            onClick={() => this.editPatient(patient.patientid)} > Edit</button>
                                                         <div className="dropdown-divider"></div>
-                                                        <button className="dropdown-item" onClick={() => this.deletePatient(patient.patientid)}> Delete </button>
+                                                        <button
+                                                            className="dropdown-item"
+                                                            onClick={() => this.deletePatient(patient.patientid)}> Delete </button>
                                                     </div>
                                                 </div>
                                             </td>
@@ -195,8 +193,7 @@ class ListPatientComponent extends Component {
                             <hr />
                         </div>
                     </div>
-                </div>
-            </div>
+                </div> 
         );
     }
 

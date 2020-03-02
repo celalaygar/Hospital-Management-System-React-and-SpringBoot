@@ -34,8 +34,8 @@ public class PatientController {
 	private PatientService patientService;
 
 	@GetMapping
-	public List<PatientDto> getAll() throws Exception {
-		return patientService.findAll();
+	public ResponseEntity<List<PatientDto>> getAll() throws Exception {
+		return  ResponseEntity.ok(patientService.findAll());
 	}
 
 	@GetMapping("/find-by-id/{patientid}")

@@ -40,7 +40,7 @@ public class ProblemService {
 		Optional<Patient> patient = patientRepository.findById(dto.getPId());
 		if (!patient.isPresent()) {
 			logger.error("Patient does already exist wtih patientid : " + dto.getPId());
-			throw new NotFoundException("Patient does already exist wtih patientid : " + dto.getPId());
+			throw new NotFoundException("Patient does already exist with patientid : " + dto.getPId());
 		}
 		Problem problem = modelMapper.map(dto, Problem.class);
 		problem.setPatient(patient.get());
@@ -53,7 +53,7 @@ public class ProblemService {
 		Optional<Problem> optional = problemRepository.findById(problemid);
 		if (!optional.isPresent()) {
 			logger.error("Problem does not exist wtih problemid : " + problemid);
-			throw new NotFoundException("Problem does not exist wtih problemid : " + problemid);
+			throw new NotFoundException("Problem does not exist with problemid : " + problemid);
 		}
 		optional.get().setStatus(0);
 		problemRepository.save(optional.get());
@@ -65,7 +65,7 @@ public class ProblemService {
 		Optional<Problem> optional = problemRepository.findById(problemid);
 		if (!optional.isPresent()) {
 			logger.error("Problem does not exist wtih problemid : " + problemid);
-			throw new NotFoundException("Problem does not exist wtih problemid : " + problemid);
+			throw new NotFoundException("Problem does not exist with problemid : " + problemid);
 		}
 		ProblemGetDto dto = modelMapper.map(optional.get(), ProblemGetDto.class);
 		return dto;
@@ -75,7 +75,7 @@ public class ProblemService {
 		Optional<Problem> optional = problemRepository.findById(problemid);
 		if (!optional.isPresent()) {
 			logger.error("Problem does not exist wtih problemid : " + problemid);
-			throw new NotFoundException("Problem does not exist wtih problemid : " + problemid);
+			throw new NotFoundException("Problem does not exist with problemid : " + problemid);
 		}
 		return true;
 	}

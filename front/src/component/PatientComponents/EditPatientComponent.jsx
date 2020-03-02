@@ -62,7 +62,7 @@ export default class EditPatientComponent extends Component {
             .then(res => {
                 this.props.history.push('/patients');
                 
-                alertify.success("Editing is ok");
+                alertify.success("Updated patient is ok");
             });
     }
 
@@ -70,8 +70,7 @@ export default class EditPatientComponent extends Component {
     handleChangeCity = (event) => this.setState({ city: event.target.value});
     onChange = (e) =>  this.setState({ [e.target.name]: e.target.value });
     render() {
-        return (
-            <div className="container">
+        return ( 
                 <div className="row">
                     <div className="col-lg-6">
                         <h2 className="text-center">Edit Patient</h2>
@@ -111,20 +110,16 @@ export default class EditPatientComponent extends Component {
                          </div>
                         <button className="btn btn-success" onClick={this.editPatient}>Update</button>
                     </form>
-                    </div>
-                    
+                    </div> 
                     <div className="col-lg-6">
-                        <img style={{width: 500, height: 300}} src="https://cdn.dribbble.com/users/6060/screenshots/3028817/dribbble.jpg" alt="" />
-
+                        <img style={{width: 500, height: 300}} src="https://cdn.dribbble.com/users/6060/screenshots/3028817/dribbble.jpg" alt="" /> 
                     </div>
-                    <div className="col-sm-12">
-                        
+                    <div className="col-sm-12"> 
                         <hr/>
                         <hr/>
                         <hr/>
                     </div>
-                </div>
-            </div>
+                </div> 
         )
     }
 }

@@ -37,8 +37,7 @@ class PatientDetail extends Component {
             }
         ).set({ title: "Attention" }).set({ transition: 'slide' }).show();
     }
-    deletePatient(patientid) {
-        //this.props.history.push('/');
+    deletePatient(patientid) { 
         alertify.confirm("Are you sure to delete the patient.",
             function () {
                 PatientService.deletePatient(patientid)

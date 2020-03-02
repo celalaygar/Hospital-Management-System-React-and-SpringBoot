@@ -12,6 +12,7 @@ import "@material/react-checkbox/dist/checkbox.css";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import Select from 'react-select';
 import PatientDetail from '../BasicComponent/PatientDetail';
+import AlerService from '../../services/AlerService';
 
 var statuses = [];
 
@@ -68,12 +69,10 @@ export default class ViewPatientComponent extends Component {
                 modalIsOpen: false
             });
         }).catch((error) => {
-            if (error.response) {
-                console.log(error.response.data.message);
-                this.setState({ errorMessage: error.response.data.message, patientid: null });
-                alertify.alert(error.response.data.message, function () {
-                    alertify.error('OK');
-                });
+            if (error.response) { 
+                this.setState({ errorMessage: error.response.data.message, patientid: null }); 
+                AlerService.alert(error.response.data.message);
+                this.props.history.push('/patients');
             }
             else if (error.request) console.log(error.request);
             else console.log(error.message);
@@ -244,20 +243,19 @@ export default class ViewPatientComponent extends Component {
             const day = date.getDay(date);
             return day !== 0 && day !== 6;
         };
-        return (
-            <div className="container">
+        return ( 
                 <div className="row">
                     {/* Show and close modal */}
                     <div className="col-lg-12">
-                        {
+                        {/* {
                             this.state.errorMessage !== '' ?
                                 <div className="alert alert-danger" role="alert">
                                     {this.state.errorMessage}
                                 </div> : null
-                        }
+                        } */}
                         <button
                             type="button"
-                            className="btn btn-sm btn-primary"
+                            className="btn btn-primary"
                             data-toggle="modal"
                             data-target="#exampleModal"
                             onClick={() => this.openModal()}
@@ -360,9 +358,9 @@ export default class ViewPatientComponent extends Component {
                         />
                     </div>
 
-                    <div className="col-lg-6">
-                        <img style={{ width: 500, height: 300 }} src="https://cdn.dribbble.com/users/6060/screenshots/3028817/dribbble.jpg" alt="" />
-                    </div>
+                    {/* <div className="col-lg-6">
+                        <img style={{height: 300 }} src="https://cdn.dribbble.com/users/6060/screenshots/3028817/dribbble.jpg" alt="" />
+                    </div> */}
 
                     {/* Patient's Problem List */}
                     <div className="col-lg-12">
@@ -434,8 +432,7 @@ export default class ViewPatientComponent extends Component {
                             <hr />
                         </div>
                     </div>
-                </div>
-            </div>
+                </div> 
         )
     }
 }

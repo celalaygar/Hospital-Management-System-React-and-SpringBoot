@@ -32,34 +32,28 @@ public class PatientService {
 	}
 
 	public List<PatientDto> findAll() throws Exception {
-		try {
-
+		try { 
 			// List<Patient> patients = patientRepository.findAllByOrderByPatientidAsc();
 			List<Patient> patients = patientRepository.findAllByStatusEquelsOne();
 			if (patients.size() < 1) {
 				logger.error("There is never patients ");
 				throw new PatientNotFoundException("There is never patient ");
 			}
-			PatientDto[] authorDtos = modelMapper.map(patients, PatientDto[].class);
-
+			PatientDto[] authorDtos = modelMapper.map(patients, PatientDto[].class); 
 			return Arrays.asList(authorDtos);
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
 	}
 
-	public List<PatientDto> findAllDeletedPatients() {
-
-		List<Patient> patients = patientRepository.findAllByStatusEquelsZero();
-
-		if (patients.size() > 0) {
-
+	public List<PatientDto> findAllDeletedPatients() { 
+		List<Patient> patients = patientRepository.findAllByStatusEquelsZero(); 
+		if (patients.size() > 0) { 
 			PatientDto[] authorDtos = modelMapper.map(patients, PatientDto[].class);
 			return Arrays.asList(authorDtos);
 		} else {
 			logger.error("There is no deleted patient ");
-			throw new PatientNotFoundException("There is no deleted patient ");
-
+			throw new PatientNotFoundException("There is no deleted patient "); 
 		}
 	}
 
@@ -75,8 +69,7 @@ public class PatientService {
 
 	public Boolean delete(@Valid Long patientid) throws Exception {
 		Optional<Patient> optPatient = patientRepository.findById(patientid);
-		if (optPatient.isPresent()) {
-
+		if (optPatient.isPresent()) { 
 			optPatient.get().setStatus(0);
 			optPatient.get().getProblems().forEach(p -> {
 				p.setStatus(0);
@@ -86,21 +79,17 @@ public class PatientService {
 			return true;
 		} else {
 			logger.error("--Patient does not exist with this id " + patientid);
-			throw new PatientNotFoundException("Patient does not exist with this id " + patientid);
-
+			throw new PatientNotFoundException("Patient does not exist with this id " + patientid); 
 		}
 	}
 
 	public PatientSingleDto findByPatientId(Long patientid) throws Exception {
 		Optional<Patient> optPatient = patientRepository.findById(patientid);
-		if (optPatient.isPresent()) {
-
+		if (optPatient.isPresent()) { 
 			optPatient.get().getProblems().removeIf(problem -> problem.getStatus() == 0);
-			PatientSingleDto dto = modelMapper.map(optPatient.get(), PatientSingleDto.class);
-
+			PatientSingleDto dto = modelMapper.map(optPatient.get(), PatientSingleDto.class); 
 			return dto;
-		} else {
-
+		} else { 
 			logger.error("--Patient does not exist with this id " + patientid);
 			throw new PatientNotFoundException("Patient does not exist with this id " + patientid);
 		}
@@ -108,11 +97,9 @@ public class PatientService {
 
 	public Patient findByEmail(String email) throws Exception {
 		Optional<Patient> patient = patientRepository.findByEmail(email);
-		if (patient.isPresent())
-
+		if (patient.isPresent()) 
 			return patient.get();
-		else {
-
+		else { 
 			logger.error("--Patient does not exist with this email " + email);
 			throw new PatientNotFoundException("Patient does not exist with this email " + email);
 		}
@@ -120,11 +107,9 @@ public class PatientService {
 
 	public Boolean update(Long patientid, @Valid Patient patient) throws Exception {
 		Optional<Patient> p = patientRepository.findById(patientid);
-		if (p.isPresent()) {
-
+		if (p.isPresent()) { 
 			patient.setPatientid(patientid);
-			patientRepository.save(patient);
-
+			patientRepository.save(patient); 
 			return true;
 		} else {
 			logger.error("--Patient does not exist with this id " + patientid);
@@ -132,14 +117,11 @@ public class PatientService {
 		}
 	}
 
-	public List<Patient> findByName(String name) throws Exception {
-		System.out.println("name : " + name);
+	public List<Patient> findByName(String name) throws Exception { 
 		List<Patient> patients = patientRepository.findByName(name);
-		if (patients.size() > 0) {
-
+		if (patients.size() > 0) { 
 			return patients;
-		} else {
-
+		} else { 
 			logger.error("--Patient does not exist with this name " + name);
 			throw new PatientNotFoundException("Patient does not exist with this name " + name);
 		}
