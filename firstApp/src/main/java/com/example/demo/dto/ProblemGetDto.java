@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.example.demo.entity.Patient;
-import com.example.demo.entity.ProblemStatus;
+import com.example.demo.entity.enums.ProblemStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,6 +1,8 @@
 package com.example.demo.entity;
 import javax.persistence.*;
 
+import com.example.demo.entity.enums.Role;
+
 import lombok.Data;
 import javax.persistence.*;
 

@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.PatientDto;
 import com.example.demo.dto.PatientSingleDto;
-import com.example.demo.entity.City;
 import com.example.demo.entity.Patient;
+import com.example.demo.entity.enums.City;
 import com.example.demo.service.PatientService;
 
 import javassist.NotFoundException;

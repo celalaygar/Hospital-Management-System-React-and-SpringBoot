@@ -3,6 +3,8 @@ package com.example.demo.dto;
 import java.io.Serializable;
 import java.util.List;
 
+import com.example.demo.entity.enums.City;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +19,7 @@ public class PatientSingleDto implements Serializable {
 	private String lastname;
 	private String gender;
 	private String age;
-	private String city;
+	private City city;
 	private String email;
 	private int status;
 	

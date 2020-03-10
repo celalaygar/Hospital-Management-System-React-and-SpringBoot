@@ -346,7 +346,7 @@ export default class ViewPatientComponent extends Component {
                         <hr />
                     </div>
                     {/* Patient Details */}
-                    <div className="col-lg-6">
+                    <div className="col-lg-7">
                         <PatientDetail
                             name={this.state.name}
                             lastname={this.state.lastname}
@@ -358,9 +358,10 @@ export default class ViewPatientComponent extends Component {
                         />
                     </div>
 
-                    {/* <div className="col-lg-6">
-                        <img style={{height: 300 }} src="https://cdn.dribbble.com/users/6060/screenshots/3028817/dribbble.jpg" alt="" />
-                    </div> */}
+                    <div className="col"></div>
+                    <div className="col-lg-4">
+                        <img style={{height: 300 }} src="https://cdn1.iconfinder.com/data/icons/education-vol-1-1/64/009-512.png" alt="" />
+                    </div>
 
                     {/* Patient's Problem List */}
                     <div className="col-lg-12">

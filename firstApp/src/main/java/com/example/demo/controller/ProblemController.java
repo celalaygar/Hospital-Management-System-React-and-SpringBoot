@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dto.ProblemDto;
 import com.example.demo.dto.ProblemDtoForPatientSingleDto;
 import com.example.demo.dto.ProblemGetDto;
-import com.example.demo.entity.City;
 import com.example.demo.entity.Patient;
-import com.example.demo.entity.ProblemStatus;
+import com.example.demo.entity.enums.City;
+import com.example.demo.entity.enums.ProblemStatus;
 import com.example.demo.repository.ProblemRepository;
 import com.example.demo.service.ProblemService;
 

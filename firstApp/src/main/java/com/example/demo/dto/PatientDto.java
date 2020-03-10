@@ -9,6 +9,7 @@ import javax.persistence.OneToMany;
 
 import com.example.demo.entity.Patient;
 import com.example.demo.entity.Problem;
+import com.example.demo.entity.enums.City;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,7 +26,7 @@ public class PatientDto implements Serializable {
 	private String lastname;
 	private String gender;
 	private String age;
-	private String city;
+	private City city;
 	private String email;
 	private int status;
 	

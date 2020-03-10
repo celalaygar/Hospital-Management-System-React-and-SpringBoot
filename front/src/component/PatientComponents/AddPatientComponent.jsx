@@ -98,7 +98,7 @@ class AddPatientComponent extends Component {
                     </form>
                 </div>
                 <div className="col-lg-3">
-                        <img style={{ width: 300, height: 200 }} src="https://cdn.dribbble.com/users/6060/screenshots/3028817/dribbble.jpg" alt="" />
+                        <img style={{  height: 200 }} src="https://i1.wp.com/www.nosinmiubuntu.com/wp-content/uploads/2013/02/New-Database.png?w=770" alt="" />
                 </div>
                 <div className="col-sm-12">
                     <hr/>

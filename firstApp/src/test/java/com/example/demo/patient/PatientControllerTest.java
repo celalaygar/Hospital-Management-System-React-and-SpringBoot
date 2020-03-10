@@ -31,6 +31,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.example.demo.controller.PatientController;
 import com.example.demo.dto.PatientDto;
 import com.example.demo.entity.Patient;
+import com.example.demo.entity.enums.City;
 import com.example.demo.service.PatientService;
 
 @ExtendWith(SpringExtension.class)
@@ -61,7 +62,7 @@ public class PatientControllerTest {
 	@Test
 	public void savePatientV1() {
 		try {
-			Patient p1 = new Patient("zipato", "zazula", "Male", "44", "ANKARA", "zipato@gmail.com", 1);
+			Patient p1 = new Patient("zipato", "zazula", "Male", "44", City.ANKARA, "zipato@gmail.com", 1);
 			String addURI = "http://localhost:8185/patient";
 			
 			HttpHeaders headers = new HttpHeaders();
@@ -79,7 +80,7 @@ public class PatientControllerTest {
 
 	@Test
 	void savePatientV2() {
-		Patient p1 = new Patient("kamara", "tamara", "Female", "44", "ANKARA", "kamara.tamara@mynet.com", 1);
+		Patient p1 = new Patient("kamara", "tamara", "Female", "44", City.ANKARA, "kamara.tamara@mynet.com", 1);
 		Patient p2 = patientService.save(p1);
 		assertThat(p2.getPatientid()).isNotNull();
 	}

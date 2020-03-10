@@ -142,17 +142,17 @@ class ListPatientComponent extends Component {
                     </div>
                     <div className="col-lg-6"> {this.createCheckboxes()} </div>
                     <div className="col-lg-12">
-                        <div className="table-responsive">
-                            <table className="table table-bordered table-sm table-dark table-hover">
+                        <div className="table-responsive-lg">
+                            <table className="table table-bordered table-sm table-dark table-hover" style={{textAlign: "center"}}>
                                 <thead>
                                     <tr>
-                                        <th>Name Last Name</th> 
+                                        <th>Ndame Last Name</th> 
                                         <th>Email</th> 
                                         <th>City</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody style={{textAlign: "center"}}>
+                                <tbody >
                                     {this.state.patients.map(patient =>
                                         <tr className={patient.gender === "Male" ? "bg-default" : "bg-danger"} key={patient.patientid}>
                                             <td>{patient.name} {patient.lastname}</td> 
