@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -12,11 +13,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.StaffDto;
 import com.example.demo.entity.Patient;
 import com.example.demo.entity.Staff;
+import com.example.demo.entity.enums.City;
+import com.example.demo.entity.enums.Department;
 import com.example.demo.service.StaffService;
 
 import javassist.NotFoundException;
@@ -31,20 +35,30 @@ public class StaffController {
 	public StaffController(StaffService staffService) {
 		this.staffService = staffService;
 	}
-	
-	@GetMapping
+	// headers = "Accept=application/json",
+	@RequestMapping(method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<List<StaffDto>> savePatient() throws NotFoundException {
 		return ResponseEntity.ok(staffService.getAll());
 	}
 	
-	
-	@PostMapping
+	@RequestMapping(method = RequestMethod.POST, produces = "application/json")
 	public ResponseEntity<StaffDto> savePatient(@Valid @RequestBody Staff staff) throws Exception {
 		return ResponseEntity.ok(staffService.save(staff));
 	}
+	
 	@DeleteMapping("/{staffid}")
 	public ResponseEntity<Boolean> deletePatient(@PathVariable(name = "staffid", required = true) Long staffid)
 			throws Exception {
 		return ResponseEntity.ok(staffService.delete(staffid));
+	}
+	
+	@GetMapping("/cities")
+	public ResponseEntity<List<City>> getAllCities() {
+		return ResponseEntity.ok(Arrays.asList(City.values()));
+	}
+	
+	@GetMapping("/department")
+	public ResponseEntity<List<Department>> getAllDepertman() {
+		return ResponseEntity.ok(Arrays.asList(Department.values()));
 	}
 }

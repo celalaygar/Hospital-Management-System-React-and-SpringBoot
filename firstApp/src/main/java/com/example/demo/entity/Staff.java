@@ -46,7 +46,7 @@ public class Staff {
 	
 	@Column(name = "email", unique = true)
 	private String email;
-	@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.ORDINAL)
 	private City city;
 	
 	@Column(name = "department", length = 100)

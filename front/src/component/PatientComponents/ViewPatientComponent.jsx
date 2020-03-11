@@ -15,7 +15,9 @@ import PatientDetail from '../BasicComponent/PatientDetail';
 import AlerService from '../../services/AlerService';
 
 var statuses = [];
+let filterAllProblem  = [];
 
+let filters= ["problemName", "problemStatus"];
 export default class ViewPatientComponent extends Component {
     constructor(props) {
         super(props)
@@ -38,7 +40,6 @@ export default class ViewPatientComponent extends Component {
             status: 1,
             message: null,
             modalIsOpen: false,
-            filters: ["problemName", "problemStatus"],
             problemStatuses: [],
             errorMessage: "",
             checked: false, indeterminate: false,
@@ -68,6 +69,7 @@ export default class ViewPatientComponent extends Component {
                 problems: p.problems,
                 modalIsOpen: false
             });
+            filterAllProblem =  p.problems;
         }).catch((error) => {
             if (error.response) { 
                 this.setState({ errorMessage: error.response.data.message, patientid: null }); 
@@ -204,10 +206,10 @@ export default class ViewPatientComponent extends Component {
     filterProblems(value) {
         var results = [];
         if (value !== '') {
-            results = this.state.problems.filter(problem => {
+            results = filterAllProblem.filter(problem => {
                 let find = false;
                 //filters.forEach(filter=>{
-                this.state.filters.forEach(function (filter) {
+                filters.forEach(function (filter) {
                     let control = problem[filter].toLowerCase().indexOf(value.toLowerCase());
                     if (control > -1) find = true;
                 });
@@ -234,7 +236,10 @@ export default class ViewPatientComponent extends Component {
 
     handleChange = selectedOption => { this.setState({ selectedOption }); }
 
-    limitingPatientDetail(data) { return data.substr(0, 30) + "..."; }
+    limitingPatientDetail(data) {
+        if(data.length<31) return data;
+        else return data.substr(0, 30) + "..."; 
+    }
 
     render() {
         let { problemName, problemDetail, problemStatus, creationDate } = this.state.addproblem;
@@ -246,13 +251,7 @@ export default class ViewPatientComponent extends Component {
         return ( 
                 <div className="row">
                     {/* Show and close modal */}
-                    <div className="col-lg-12">
-                        {/* {
-                            this.state.errorMessage !== '' ?
-                                <div className="alert alert-danger" role="alert">
-                                    {this.state.errorMessage}
-                                </div> : null
-                        } */}
+                    <div className="col-lg-12"> 
                         <button
                             type="button"
                             className="btn btn-primary"
@@ -300,17 +299,7 @@ export default class ViewPatientComponent extends Component {
                                                     <ErrorMessage name="problemDetail" component="div" className="alert alert-danger text-danger" />
                                                 </fieldset>
                                                 <fieldset className="form-group">
-                                                    <label >Status : </label>
-                                                    {/* 
-                                                    <select className="form-control" 
-                                                        name="problemStatus"
-                                                        value={problemStatus} 
-                                                        onChange={this.handleChangeProblemStatus} >
-                                                        {this.state.problemStatuses.map(status => 
-                                                            <option key={status} value={status}>{status}</option>
-                                                        )}
-                                                    </select> 
-                                                    */}
+                                                    <label >Status : </label> 
                                                     <Select
                                                         value={selectedOption}
                                                         onChange={this.handleChangeProblemStatus}
@@ -403,7 +392,7 @@ export default class ViewPatientComponent extends Component {
                                                 <div className="btn-group" role="group">
                                                     <button id="btnGroupDrop1"
                                                         type="button"
-                                                        className="btn btn-secondary dropdown-toggle"
+                                                        className="btn btn-sm btn-secondary dropdown-toggle"
                                                         data-toggle="dropdown"
                                                         aria-haspopup="true"
                                                         aria-expanded="false"> Actions </button>
@@ -413,6 +402,7 @@ export default class ViewPatientComponent extends Component {
                                                             className="dropdown-item"
                                                             onClick={() => this.viewProblem(problem.problemid)} >
                                                             View </button>
+                                                        <div className="dropdown-divider"></div>
 
                                                         <button
                                                             className="dropdown-item"

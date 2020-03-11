@@ -79,7 +79,7 @@ public class PatientController {
 	}
 
 	@GetMapping("/cities")
-	public ResponseEntity<List<City>> getAllBookStatus() {
+	public ResponseEntity<List<City>> getAllCities() {
 		return ResponseEntity.ok(Arrays.asList(City.values()));
 	}
 }

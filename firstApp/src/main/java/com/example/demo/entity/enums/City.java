@@ -16,7 +16,7 @@ public enum City {
 	  BURSA,
 	  BURDUR,
 	  ÇANAKKALE,
-	  ÇORUMU,
+	  ÇORUM,
 	  ÇANKIRI,
 	  DENIZLI,
 	  DİYARBAKIR,

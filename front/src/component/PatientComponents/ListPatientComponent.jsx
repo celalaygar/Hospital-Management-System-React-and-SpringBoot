@@ -23,6 +23,7 @@ let checked = {
     email: false,
     city: false
 }
+let filterAllPatients
 class ListPatientComponent extends Component {
     constructor(props) {
         super(props)
@@ -47,6 +48,7 @@ class ListPatientComponent extends Component {
     reloadPatientList() {
         PatientService.getPatients().then((res) => {
             this.setState({ patients: res.data })
+            filterAllPatients = res.data
         });
     }
     deletePatient(patientid) {
@@ -78,10 +80,11 @@ class ListPatientComponent extends Component {
         this.filterPatients(e.target.value);
     }
     filterPatients = (value) => {
+        console.log(filterAllPatients.length)
         if (filterArray.length > 0) {
-            var results = []; 
-            if (value !== '') {
-                results = this.state.patients.filter(patient => {
+            var results = [];
+            if (value !== '' && value.length > 0) {
+                results = filterAllPatients.filter(patient => {
                     let find = false;
                     //filterArray.forEach(filter=>{
                     filterArray.forEach(function (filter) {
@@ -101,7 +104,7 @@ class ListPatientComponent extends Component {
     }
     createCheckboxes = () => (items.map((item) => this.createCheckbox(item)))
     createCheckbox = label => (
-        <div className="float-left" style={{margin: "0 25px 0 0"}} key={label} >
+        <div className="float-left" style={{ margin: "0 25px 0 0" }} key={label} >
             <Checkbox
                 nativeControlId='my-checkbox'
                 checked={checked[label]}
@@ -120,80 +123,80 @@ class ListPatientComponent extends Component {
         }
     }
     render() {
-        return ( 
-                <div className="row">
-                    <div className="col-lg-12">
-                        <button
-                            className="btn btn-primary btn-sm"
-                            onClick={() => this.addPatient()}>
-                            Add Patient
+        return (
+            <div className="row">
+                <div className="col-lg-12">
+                    <button
+                        className="btn btn-primary btn-sm"
+                        onClick={() => this.addPatient()}>
+                        Add Patient
                         </button>
-                        <hr />
+                    <hr />
+                </div>
+                <div className="col-lg-6" >
+                    <div className="form-group">
+                        <input type="text"
+                            placeholder="Search Patient by choosing any parameter"
+                            name="searchByName"
+                            className="form-control"
+                            onChange={this.onChangeSearchByName} />
                     </div>
-                    <div className="col-lg-6" >
-                        <div className="form-group">
-                            <input type="text"
-                                placeholder="Search Patient by choosing any parameter"
-                                name="searchByName"
-                                className="form-control"
-                                onChange={this.onChangeSearchByName} />
-                        </div>
-                        <hr />
-                    </div>
-                    <div className="col-lg-6"> {this.createCheckboxes()} </div>
-                    <div className="col-lg-12">
-                        <div className="table-responsive-lg">
-                            <table className="table table-bordered table-sm table-dark table-hover" style={{textAlign: "center"}}>
-                                <thead>
-                                    <tr>
-                                        <th>Ndame Last Name</th> 
-                                        <th>Email</th> 
-                                        <th>City</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody >
-                                    {this.state.patients.map(patient =>
-                                        <tr className={patient.gender === "Male" ? "bg-default" : "bg-danger"} key={patient.patientid}>
-                                            <td>{patient.name} {patient.lastname}</td> 
-                                            {/* {patient.patientid} */} 
-                                            <td>{patient.email}</td>
-                                            {/* <td>{patient.gender}</td> */}
-                                            <td>{patient.city}</td>
-                                            <td>
-                                                <div className="btn-group btn-sm" role="group">
-                                                    <button id="btnGroupDrop1"
-                                                        type="button"
-                                                        className="btn btn-secondary  btn-sm dropdown-toggle"
-                                                        data-toggle="dropdown"
-                                                        aria-haspopup="true"
-                                                        aria-expanded="false"> Actions </button>
-                                                    <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                        <button
-                                                            className="dropdown-item"
-                                                            onClick={() => this.viewPatient(patient.patientid)} >  View </button>
-                                                        <div className="dropdown-divider"></div>
-                                                        <button
-                                                            className="dropdown-item"
-                                                            onClick={() => this.editPatient(patient.patientid)} > Edit</button>
-                                                        <div className="dropdown-divider"></div>
-                                                        <button
-                                                            className="dropdown-item"
-                                                            onClick={() => this.deletePatient(patient.patientid)}> Delete </button>
-                                                    </div>
+                    <hr />
+                </div>
+                <div className="col-lg-6"> {this.createCheckboxes()} </div>
+                <div className="col-lg-12">
+                    <div className="table-responsive-lg">
+                        <table className="table table-bordered table-sm table-dark table-hover" style={{ textAlign: "center" }}>
+                            <thead>
+                                <tr>
+                                    <th>Ndame Last Name</th>
+                                    <th>Email</th>
+                                    <th>City</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody >
+                                {this.state.patients.map(patient =>
+                                    <tr className={patient.gender === "Male" ? "bg-default" : "bg-danger"} key={patient.patientid}>
+                                        <td>{patient.name} {patient.lastname}</td>
+                                        {/* {patient.patientid} */}
+                                        <td>{patient.email}</td>
+                                        {/* <td>{patient.gender}</td> */}
+                                        <td>{patient.city}</td>
+                                        <td>
+                                            <div className="btn-group" role="group">
+                                                <button id="btnGroupDrop1"
+                                                    type="button"
+                                                    className="btn btn-secondary btn-sm dropdown-toggle"
+                                                    data-toggle="dropdown"
+                                                    aria-haspopup="true"
+                                                    aria-expanded="false"> Actions </button>
+                                                <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                    <button
+                                                        className="dropdown-item"
+                                                        onClick={() => this.viewPatient(patient.patientid)} >  View </button>
+                                                    <div className="dropdown-divider"></div>
+                                                    <button
+                                                        className="dropdown-item"
+                                                        onClick={() => this.editPatient(patient.patientid)} > Edit</button>
+                                                    <div className="dropdown-divider"></div>
+                                                    <button
+                                                        className="dropdown-item"
+                                                        onClick={() => this.deletePatient(patient.patientid)}> Delete </button>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                            <hr />
-                            <hr />
-                            <hr />
-                            <hr />
-                        </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                        <hr />
+                        <hr />
+                        <hr />
+                        <hr />
                     </div>
-                </div> 
+                </div>
+            </div>
         );
     }
 
