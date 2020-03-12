@@ -7,7 +7,7 @@ import * as alertify from 'alertifyjs';
 import "alertifyjs/build/css/alertify.css";
 import "alertifyjs/build/css/themes/default.css";
 import "@material/react-checkbox/dist/checkbox.css";
-import AlerService from '../../../services/AlerService';
+import AlertifyService from '../../../services/AlertifyService';
 
 
 
@@ -46,7 +46,7 @@ export default class ViewProblemComponent extends Component {
             // Error
             if (error.response) {
                 this.setState({ errorMessage: error.response.data.message, problemid: null });
-                AlerService.alert(error.response.data.message);
+                AlertifyService.alert(error.response.data.message);
                 this.props.history.push('/patients');
             } else if (error.request) {
                 console.log(error.request);

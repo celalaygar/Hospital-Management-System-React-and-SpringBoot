@@ -10,4 +10,6 @@ import com.example.demo.entity.Staff;
 public interface StaffRepository extends JpaRepository<Staff, Long> {
 	@Query("select s from Staff s where s.status = 1 order by s.staffid ASC")
 	List<Staff> findAllByStatusEquelsOne();
+	@Query("select s from Staff s where s.status = 0 order by s.staffid ASC")
+	List<Staff> findAllByStatusEquelsZero();
 }

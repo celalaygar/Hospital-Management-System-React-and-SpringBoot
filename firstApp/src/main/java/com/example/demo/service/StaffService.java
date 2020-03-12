@@ -57,6 +57,16 @@ public class StaffService {
 			throw new NotFoundException("There is never Staff");
 		}
 	}
+	public List<StaffDto> getAllDeletedStaff() throws NotFoundException {
+		List<Staff> staffs = staffRepository.findAllByStatusEquelsZero();
+		if (staffs.size() > 0) {
+			StaffDto[] staffDtos = modelMapper.map(staffs, StaffDto[].class);
+			return Arrays.asList(staffDtos);
+		} else {
+			logger.error("--There is never deleted Staff");
+			throw new NotFoundException("There is never deleted Staff");
+		}
+	}
 	public Boolean delete(@Valid Long staffid) throws Exception {
 		Optional<Staff> optional = staffRepository.findById(staffid);
 		if (optional.isPresent()) {
@@ -68,4 +78,5 @@ public class StaffService {
 			throw new Exception("Staff does not exist with this id " + staffid);
 		}
 	}
+
 }

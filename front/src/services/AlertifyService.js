@@ -3,7 +3,7 @@ import "alertifyjs/build/css/alertify.css";
 import "alertifyjs/build/css/themes/default.css";
 import "@material/react-checkbox/dist/checkbox.css";
  
-class AlertService {
+class AlertifyService {
 
     // confirm(message) {
     //     alertify.alert(message, function () {
@@ -23,4 +23,4 @@ class AlertService {
 
 }
 
-export default new AlertService();
+export default new AlertifyService();

@@ -36,9 +36,16 @@ public class StaffController {
 		this.staffService = staffService;
 	}
 	// headers = "Accept=application/json",
-	@RequestMapping(method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<List<StaffDto>> savePatient() throws NotFoundException {
+	//@RequestMapping(method = RequestMethod.GET, produces = "application/json")
+	@GetMapping
+	public ResponseEntity<List<StaffDto>> getAllStaff() throws NotFoundException {
 		return ResponseEntity.ok(staffService.getAll());
+	}
+	
+	@RequestMapping(value = "/deleted-staff",method = RequestMethod.GET, produces = "application/json")
+	//@GetMapping("/deleted-staff")
+	public ResponseEntity<List<StaffDto>> getAllDeletedStaff() throws NotFoundException {
+		return ResponseEntity.ok(staffService.getAllDeletedStaff());
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json")
