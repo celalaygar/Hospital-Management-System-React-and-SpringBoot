@@ -3,6 +3,7 @@ import PatientService from '../../services/PatientService';
 import * as alertify from 'alertifyjs';
 import "alertifyjs/build/css/alertify.css";
 import DatePicker from "react-datepicker";
+import AlertifyService from '../../services/AlertifyService';
 
 class AddPatientComponent extends Component {
     constructor(props) {
@@ -35,13 +36,21 @@ class AddPatientComponent extends Component {
             email: this.state.email, 
             city: this.state.city,
             bornDate : this.state.bornDate,
-            status: this.state.status };
-        console.log(patient);
+            status: this.state.status }; 
         PatientService.addPatient(patient)
             .then(res => {
                 this.setState({ message: 'User added successfully.' });
                 this.props.history.push('/patients');
                 alertify.success("Adding patient is ok");
+            }).catch((error) => {
+                console.log(error.response)
+                if (error.response) {
+                    this.setState({ errorMessage: error.response.data.message, patientid: null });
+                    AlertifyService.alert(error.response.data.message);
+                    //this.props.history.push('/patients');
+                }
+                else if (error.request) console.log(error.request);
+                else console.log(error.message);
             });
     }
     handleChangeGender = (event) => this.setState({gender: event.target.value});

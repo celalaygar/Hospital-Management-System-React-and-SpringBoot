@@ -14,7 +14,7 @@ class ProblemDetail extends Component {
                         <li className="list-group-item"><b>Problem Status : </b>{this.props.problemStatus}</li>
 
                         <li className="list-group-item"><b>Create Date : (Y/M/D H/M) </b>
-                            <Moment format="YYYY/MM/DD HH:mm">
+                            <Moment format="YYYY / MM / DD  HH:mm">
                                 {this.props.creationDate}
                             </Moment>
                         </li>

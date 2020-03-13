@@ -3,13 +3,8 @@ import ProblemService from '../../../services/ProblemService'
 //import Moment from 'react-moment';
 import PatientDetail from '../../BasicComponent/PatientDetail';
 import ProblemDetail from '../../BasicComponent/ProblemDetail';
-import * as alertify from 'alertifyjs';
-import "alertifyjs/build/css/alertify.css";
-import "alertifyjs/build/css/themes/default.css";
 import "@material/react-checkbox/dist/checkbox.css";
 import AlertifyService from '../../../services/AlertifyService';
-
-
 
 export default class ViewProblemComponent extends Component {
 
@@ -25,10 +20,13 @@ export default class ViewProblemComponent extends Component {
             creationDate: null,
             errorMessage: ""
         }
-    }
-    componentDidMount() {
         this.loadProblemDetail();
+        this.loadProblemDetail = this.loadProblemDetail.bind(this);
     }
+    // componentDidMount() {
+    //     this.loadProblemDetail();
+    // }
+
     loadProblemDetail() {
         ProblemService.getProblem(this.state.problemid).then(res => {
             let p = res.data;
@@ -58,6 +56,7 @@ export default class ViewProblemComponent extends Component {
         this.props.history.push('/view-patient/' + id);
     }
     render() {
+
         return (
             <div className="row">
                 <div className="col-sm-12">

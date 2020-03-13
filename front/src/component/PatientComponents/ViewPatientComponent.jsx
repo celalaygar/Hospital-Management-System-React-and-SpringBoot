@@ -63,7 +63,7 @@ export default class ViewPatientComponent extends Component {
                 lastname: p.lastname,
                 email: p.email,
                 gender: p.gender,
-                bornDate:p.bornDate,
+                bornDate: p.bornDate,
                 city: p.city,
                 status: p.status,
                 problems: p.problems,

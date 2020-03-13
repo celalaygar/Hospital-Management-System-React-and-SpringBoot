@@ -21,9 +21,20 @@ class PatientDetail extends Component {
             message:''
         };
     }
-    componentDidMount() {
+    // componentDidMount() {
         
-    }
+    // }
+    // componentWillReceiveProps() {
+    //     this.setState({
+    //         patientid: this.props.patientid,
+    //         name: this.props.name,
+    //         lastname: this.props.lastname,
+    //         email: this.props.email,
+    //         bornDate: this.props.bornDate,
+    //         gender: this.props.gender,
+    //         city: this.props.city,
+    //     });
+    // }
     editPatient(id) {
         alertify.confirm(
             "Are you sure to edit the patient.",
@@ -36,7 +47,7 @@ class PatientDetail extends Component {
             }
         ).set({ title: "Attention" }).set({ transition: 'slide' }).show();
     }
-    deletePatient(patientid) { 
+    deletePatient(patientid) {
         alertify.confirm("Are you sure to delete the patient.",
             function () {
                 PatientService.deletePatient(patientid)
@@ -53,12 +64,11 @@ class PatientDetail extends Component {
 
     render() {
         var age = null ;
-        if(this.props.bornDate !== null){
+        if(this.props.bornDate != null){
             var born = Number(this.props.bornDate.substr(0, 4)) ;
             var now = Number(new Date().toLocaleDateString('tr-TR').substr(6, 4));
             age = now - born;
-            console.log(age);
-        }
+        } 
             
         return (
             <div>
@@ -73,7 +83,7 @@ class PatientDetail extends Component {
                         </li>
                         <li className="list-group-item"><b>Born Date : </b>
                             {this.props.bornDate !== null ?
-                                <Moment format="YYYY/MM/DD HH:mm">
+                                <Moment format="YYYY / MM / DD  HH:mm">
                                     {this.props.bornDate}
                                 </Moment>
                             : null} 

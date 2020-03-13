@@ -19,8 +19,7 @@ class ApiService {
         return axios.delete(API_BASE_URL + url);
     }
 
-    post(url, data) {
-        console.log(data)
+    post(url, data) { 
         return axios.post(API_BASE_URL + url, data);
     }
 

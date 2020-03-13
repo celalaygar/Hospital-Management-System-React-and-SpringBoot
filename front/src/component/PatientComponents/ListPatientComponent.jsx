@@ -43,7 +43,8 @@ class ListPatientComponent extends Component {
     // componentDidUpdate() {
     //     this.reloadPatientList();
     // }
-    componentWillMount() {
+    // componentWillMount
+    UNSAFE_componentWillMount() {
         this.reloadPatientList();
     }
     reloadPatientList() {
