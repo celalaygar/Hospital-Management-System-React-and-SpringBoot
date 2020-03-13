@@ -20,6 +20,7 @@ class ApiService {
     }
 
     post(url, data) {
+        console.log(data)
         return axios.post(API_BASE_URL + url, data);
     }
 

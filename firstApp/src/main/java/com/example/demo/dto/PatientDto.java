@@ -1,6 +1,7 @@
 package com.example.demo.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -24,8 +25,8 @@ public class PatientDto implements Serializable {
 	private Long patientid;
 	private String name;
 	private String lastname;
+	private Date bornDate;
 	private String gender;
-	private String age;
 	private City city;
 	private String email;
 	private int status;

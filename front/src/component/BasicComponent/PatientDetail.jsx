@@ -5,23 +5,22 @@ import "alertifyjs/build/css/themes/bootstrap.min.css";
 import "alertifyjs/build/css/alertify.min.css";
 import PatientService from '../../services/PatientService';
 import { withRouter } from 'react-router';
+import Moment from 'react-moment';
 
 class PatientDetail extends Component {
-    // constructor(props) {
-    //     super(props)
-    //     this.state = {
-    //         patientid: props.patientid,
-    //         name: props.name,
-    //         lastname: props.lastname,
-    //         email: props.email,
-    //         gender: props.gender,
-    //         age: props.age,
-    //         city: props.city,
-    //         message:''
-    //     }
-    //     this.editPatient = this.editPatient.bind(this);
-    //     this.deletePatient = this.deletePatient.bind(this);
-    // }
+    constructor(props) {
+        super(props)
+        this.state = {
+            patientid: props.patientid,
+            name: props.name,
+            lastname: props.lastname,
+            email: props.email,
+            bornDate: props.bornDate,
+            gender: props.gender,
+            city: props.city,
+            message:''
+        };
+    }
     componentDidMount() {
         
     }
@@ -53,6 +52,14 @@ class PatientDetail extends Component {
     }
 
     render() {
+        var age = null ;
+        if(this.props.bornDate !== null){
+            var born = Number(this.props.bornDate.substr(0, 4)) ;
+            var now = Number(new Date().toLocaleDateString('tr-TR').substr(6, 4));
+            age = now - born;
+            console.log(age);
+        }
+            
         return (
             <div>
                 <div className="card" >
@@ -61,9 +68,19 @@ class PatientDetail extends Component {
                         <li className="list-group-item"><b>Patient id : </b>{this.props.patientid}</li>
                         <li className="list-group-item"><b>Name : </b>{this.props.name}</li>
                         <li className="list-group-item"><b>Last Name : </b>{this.props.lastname}</li>
+                        <li className="list-group-item"><b>Age : </b>
+                            {age !== null ? age : null}
+                        </li>
+                        <li className="list-group-item"><b>Born Date : </b>
+                            {this.props.bornDate !== null ?
+                                <Moment format="YYYY/MM/DD HH:mm">
+                                    {this.props.bornDate}
+                                </Moment>
+                            : null} 
+                        </li>
+                        
                         <li className="list-group-item"><b>Email :</b>{this.props.email}</li>
                         <li className="list-group-item"><b>City : </b>{this.props.city}</li>
-                        <li className="list-group-item"><b>Age : </b>{this.props.age}</li>
                         <li className="list-group-item"><b>Gender : </b>{this.props.gender}</li>
                         <li className="list-group-item">
                             <button

@@ -73,7 +73,7 @@ public class PatientController {
 		return ResponseEntity.ok(patientService.delete(patientid));
 	}
 
-	@GetMapping("/deleted-patients")
+	@GetMapping("/deleted-patient")
 	public ResponseEntity<List<PatientDto>> getAllDeletedPatients() throws Exception {
 		return ResponseEntity.ok(patientService.findAllDeletedPatients());
 	}

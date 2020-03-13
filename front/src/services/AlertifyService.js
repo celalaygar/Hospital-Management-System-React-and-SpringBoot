@@ -20,7 +20,14 @@ class AlertifyService {
         }); //.set({ title: "Attention" }).set({ transition: 'slide' }).show();
         return true;
     }
-
+    successMessage(message){
+        alertify.success(message);
+        return true;
+    }
+    errorMessage(message){
+        alertify.error(message); 
+        return true;
+    }
 }
 
 export default new AlertifyService();

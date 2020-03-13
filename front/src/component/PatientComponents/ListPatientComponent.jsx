@@ -9,6 +9,7 @@ import "./ListPatientComponent.css"
 // import Modal from 'react-modal';
 
 import * as alertify from 'alertifyjs';
+import Moment from 'react-moment';
 
 const items = [
     'Name',
@@ -53,7 +54,7 @@ class ListPatientComponent extends Component {
     }
     deletePatient(patientid) {
         alertify.confirm(
-            "Are you sure to delete the patient.",
+            "Are you sure to delete this patient.",
             ok => {
                 PatientService.deletePatient(patientid).then(res => {
                     this.setState({ message: 'User deleted successfully. ' + res });
@@ -65,8 +66,17 @@ class ListPatientComponent extends Component {
         ).set({ title: "Attention" }).set({ transition: 'slide' }).show();
     }
     editPatient(id) {
-        window.localStorage.setItem("patientId", id);
-        this.props.history.push('/edit-patient');
+
+        alertify.confirm(
+            "Are you sure to edit this patient.",
+            ok => {
+                window.localStorage.setItem("patientId", id);
+                this.props.history.push('/edit-patient');
+            },
+            cancel => { alertify.error('Cancel'); }
+        ).set({ title: "Attention" }).set({ transition: 'slide' }).show();
+
+
     }
     viewPatient(id) {
         window.localStorage.setItem("patientId", id);
@@ -151,6 +161,7 @@ class ListPatientComponent extends Component {
                                 <tr>
                                     <th>Ndame Last Name</th>
                                     <th>Email</th>
+                                    <th>Born Date</th>
                                     <th>City</th>
                                     <th>Action</th>
                                 </tr>
@@ -161,7 +172,13 @@ class ListPatientComponent extends Component {
                                         <td>{patient.name} {patient.lastname}</td>
                                         {/* {patient.patientid} */}
                                         <td>{patient.email}</td>
-                                        {/* <td>{patient.gender}</td> */}
+                                        <td>
+                                            {patient.bornDate !== null ?
+                                                <Moment format="YYYY/MM/DD HH:mm">
+                                                    {patient.bornDate}
+                                                </Moment>
+                                            : null}
+                                        </td>
                                         <td>{patient.city}</td>
                                         <td>
                                             <div className="btn-group" role="group">

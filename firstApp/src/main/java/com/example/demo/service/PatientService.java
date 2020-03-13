@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +21,7 @@ import javassist.NotFoundException;
 
 @Service
 public class PatientService {
+	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 	private final PatientRepository patientRepository;
 	private final ModelMapper modelMapper;
@@ -39,7 +41,13 @@ public class PatientService {
 				logger.error("There is never patients ");
 				throw new PatientNotFoundException("There is never patient ");
 			}
-			PatientDto[] authorDtos = modelMapper.map(patients, PatientDto[].class); 
+			PatientDto[] authorDtos = modelMapper.map(patients, PatientDto[].class);
+			List<PatientDto> patientDtos = Arrays.asList(authorDtos);
+			patientDtos.forEach(patient->{
+				patient.getProblems().forEach(problem->{
+					problem.setPId(patient.getPatientid());
+				});
+			});
 			return Arrays.asList(authorDtos);
 		} catch (Exception e) {
 			throw new Exception(e);

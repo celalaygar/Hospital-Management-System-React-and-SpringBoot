@@ -27,7 +27,7 @@ export default class ViewPatientComponent extends Component {
             lastname: '',
             email: '',
             gender: '',
-            age: 0,
+            bornDate: null,
             city: '',
             problems: [],
             addproblem: {
@@ -63,7 +63,7 @@ export default class ViewPatientComponent extends Component {
                 lastname: p.lastname,
                 email: p.email,
                 gender: p.gender,
-                age: p.age,
+                bornDate:p.bornDate,
                 city: p.city,
                 status: p.status,
                 problems: p.problems,
@@ -94,10 +94,10 @@ export default class ViewPatientComponent extends Component {
                     .then(res => {
                         this.setState({ message: 'Problem Silindi' });
                         this.setState({ problems: this.state.problems.filter(p => p.problemid !== problemid) });
-                        alertify.success("Deleting is ok : " + this.state.message);
+                        AlertifyService.successMessage('Deleting is ok : ' + this.state.message);
                     });
             },
-            cancel => { alertify.error('Cancel'); }
+            cancel => { AlertifyService.errorMessage('Cancel'); }
         ).set({ title: "Attention" }).set({ transition: 'slide' }).show();
     }
 
@@ -132,7 +132,7 @@ export default class ViewPatientComponent extends Component {
                             creationDate: new Date()
                         }
                     });
-                    alertify.success("Saving problem for related patient is ok : ");
+                    AlertifyService.successMessage("Saving problem for related patient is ok.. ");
                 });
             } else { this.setState({ message: "Hasta kaydı bulunamadı." }); }
         }
@@ -173,7 +173,7 @@ export default class ViewPatientComponent extends Component {
     }
 
     onChangeDate = date => {
-        console.log(date)
+        //console.log(date)
         this.setState({
             addproblem: {
                 problemName: this.state.addproblem.problemName,
@@ -254,7 +254,7 @@ export default class ViewPatientComponent extends Component {
                 <div className="col-lg-12">
                     <button
                         type="button"
-                        className="btn btn-primary"
+                        className="btn btn-primary btn-sm"
                         data-toggle="modal"
                         data-target="#exampleModal"
                         onClick={() => this.openModal()}
@@ -340,7 +340,7 @@ export default class ViewPatientComponent extends Component {
                         lastname={this.state.lastname}
                         email={this.state.email}
                         city={this.state.city}
-                        age={this.state.age}
+                        bornDate={this.state.bornDate}
                         gender={this.state.gender}
                         patientid={this.state.patientid}
                     />

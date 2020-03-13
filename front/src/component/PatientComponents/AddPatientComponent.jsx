@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PatientService from '../../services/PatientService';
 import * as alertify from 'alertifyjs';
 import "alertifyjs/build/css/alertify.css";
-
+import DatePicker from "react-datepicker";
 
 class AddPatientComponent extends Component {
     constructor(props) {
@@ -12,8 +12,8 @@ class AddPatientComponent extends Component {
             lastname: '',
             email:'',
             gender: 'Male',
-            age: 0,
             city: 'ANKARA',
+            bornDate: new Date(),
             status: 1,
             cities:[]
         }
@@ -32,10 +32,11 @@ class AddPatientComponent extends Component {
             name: this.state.name, 
             lastname: this.state.lastname, 
             gender: this.state.gender, 
-            age: this.state.age, 
             email: this.state.email, 
             city: this.state.city,
+            bornDate : this.state.bornDate,
             status: this.state.status };
+        console.log(patient);
         PatientService.addPatient(patient)
             .then(res => {
                 this.setState({ message: 'User added successfully.' });
@@ -48,8 +49,15 @@ class AddPatientComponent extends Component {
     onChangePatientForm = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     }
-
-    render() {
+    onChangeDate = date => {
+        this.setState({  bornDate: date });
+    }
+    render() { 
+        let bornDate = this.state.bornDate;
+        const isWeekday = date => {
+            const day = date.getDay(date);
+            return day !== 0 && day !== 6;
+        };
         return (
             <div className="container row">
                 <div className="col-sm-9">
@@ -67,11 +75,24 @@ class AddPatientComponent extends Component {
                             <label>Email:</label>
                             <input placeholder="Email" name="email" className="form-control" value={this.state.email} onChange={this.onChangePatientForm} />
                         </div>
-                        <div className="form-group">
-                            <label>Age:</label>
-                            <input type="number" placeholder="age" name="age" className="form-control" value={this.state.age} onChange={this.onChangePatientForm} />
-                        </div>
 
+                        <div className="form-group">
+                            <label>Born Date:</label>
+                            <div className="form-group">
+                                <DatePicker
+                                    className="form-control"
+                                    // showTimeSelect
+                                    showTimeInput
+                                    selected={bornDate}
+                                    onChange={this.onChangeDate}
+                                    filterDate={isWeekday}          // disable weekend
+                                    timeIntervals={15}              // time range around 15 min
+                                    //showWeekNumbers               // show week number
+                                    timeFormat="HH:mm"              // show time format
+                                    dateFormat="yyyy/MM/dd h:mm aa" // show all of time format
+                                />
+                            </div>
+                        </div>
                         <div className="form-group">
                             <label>Gender:</label>
                             <select className="form-control" 

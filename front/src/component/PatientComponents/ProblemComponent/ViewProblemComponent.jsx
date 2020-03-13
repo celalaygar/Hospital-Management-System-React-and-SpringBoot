@@ -25,9 +25,7 @@ export default class ViewProblemComponent extends Component {
             creationDate: null,
             errorMessage: ""
         }
-        
     }
-
     componentDidMount() {
         this.loadProblemDetail();
     }
@@ -66,7 +64,6 @@ export default class ViewProblemComponent extends Component {
                     <h1>Problem Details</h1>
                     <hr />
                 </div>
-
                     <div className="col-sm-12">
                         <div className="row">
                             <div className="col-sm-12">
@@ -81,7 +78,7 @@ export default class ViewProblemComponent extends Component {
                                     lastname={this.state.patient.lastname}
                                     email={this.state.patient.email}
                                     city={this.state.patient.city}
-                                    age={this.state.patient.age}
+                                    bornDate={this.state.patient.bornDate}
                                     gender={this.state.patient.gender}
                                     patientid={this.state.patient.patientid}
                                 />

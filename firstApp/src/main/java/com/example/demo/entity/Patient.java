@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -49,8 +50,8 @@ public class Patient {
 	private Long patientid;
 	private String name;
 	private String lastname;
+	private Date bornDate;
 	private String gender;
-	private String age;
 	
 	@Enumerated(EnumType.ORDINAL)
 	private City city;
@@ -67,12 +68,21 @@ public class Patient {
 	private List<Admission> admissions;
 
 
-	public Patient(String name, String lastname, String gender, String age, City city, String email, int status) {
+	public Patient(String name, String lastname,Date bornDate, String gender, String age, City city, String email, int status) {
+		super();
+		this.name = name;
+		this.lastname = lastname;
+		this.bornDate = bornDate;
+		this.gender = gender;
+		this.city = city;
+		this.email = email;
+		this.status = status;
+	}
+	public Patient(String name, String lastname, String gender,  City city, String email, int status) {
 		super();
 		this.name = name;
 		this.lastname = lastname;
 		this.gender = gender;
-		this.age = age;
 		this.city = city;
 		this.email = email;
 		this.status = status;
