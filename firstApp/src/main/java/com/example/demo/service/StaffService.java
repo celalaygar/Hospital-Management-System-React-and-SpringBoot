@@ -31,6 +31,7 @@ public class StaffService {
 		this.modelMapper = modelMapper;
 		this.logger = logger;
 	}
+
 	public StaffDto save(Staff staff) throws Exception {
 		try {
 			staff.setCreatedDate(new Date());
@@ -47,6 +48,7 @@ public class StaffService {
 			throw new Exception(e);
 		}
 	}
+
 	public List<StaffDto> getAll() throws NotFoundException {
 		List<Staff> staffs = staffRepository.findAllByStatusEquelsOne();
 		if (staffs.size() > 0) {
@@ -57,6 +59,7 @@ public class StaffService {
 			throw new NotFoundException("There is never Staff");
 		}
 	}
+
 	public List<StaffDto> getAllDeletedStaff() throws NotFoundException {
 		List<Staff> staffs = staffRepository.findAllByStatusEquelsZero();
 		if (staffs.size() > 0) {
@@ -67,6 +70,7 @@ public class StaffService {
 			throw new NotFoundException("There is never deleted Staff");
 		}
 	}
+
 	public Boolean delete(@Valid Long staffid) throws Exception {
 		Optional<Staff> optional = staffRepository.findById(staffid);
 		if (optional.isPresent()) {

@@ -1,18 +1,17 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import ListPatientComponent from './component/PatientComponents/ListPatientComponent';
-import ViewPatientComponent from './component/PatientComponents/ViewPatientComponent';
-import AddPatientComponent from './component/PatientComponents/AddPatientComponent';
-import EditPatientComponent from './component/PatientComponents/EditPatientComponent';
+import ListPatientComponent from './Routes/PatientComponents/ListPatientComponent';
+import ViewPatientComponent from './Routes/PatientComponents/ViewPatientComponent';
+import AddPatientComponent from './Routes/PatientComponents/AddPatientComponent';
+import EditPatientComponent from './Routes/PatientComponents/EditPatientComponent';
 import NotFoundComponent from './NotFound/NotFoundComponent';
-import ViewProblemComponent from './component/PatientComponents/ProblemComponent/ViewProblemComponent';
-import IndexPage2 from './component/IndexPage2';
+import ViewProblemComponent from './Routes/PatientComponents/ProblemComponent/ViewProblemComponent';
+import IndexPage2 from './Routes/IndexPage2';
 import { Lines } from 'react-preloaders';
 function App() {
   return (            
     <div className="App" >
-
       <div className="container">
         <div className="row">
           <div className="col-sm-12">
@@ -39,10 +38,10 @@ function App() {
           </div>
         </div>
       </div>
-      <Lines />
+      {/* <Lines /> */}
       {/* <Lines animation="slide-left" />; */}
       
-      {/* <Lines animation="slide" />; */}
+      <Lines animation="slide" />
 
       {/* <Lines animation="slide-down" />; */}
 

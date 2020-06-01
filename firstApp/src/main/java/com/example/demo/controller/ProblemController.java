@@ -25,12 +25,13 @@ import com.example.demo.entity.enums.City;
 import com.example.demo.entity.enums.ProblemStatus;
 import com.example.demo.repository.ProblemRepository;
 import com.example.demo.service.ProblemService;
+import com.example.demo.util.ApiPaths;
 
 import javassist.NotFoundException;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/patient/problem")
+@RequestMapping(ApiPaths.ProblemCtrl.CTRL)
 public class ProblemController {
 
 	@Autowired

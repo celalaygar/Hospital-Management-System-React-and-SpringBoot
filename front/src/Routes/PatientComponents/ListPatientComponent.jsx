@@ -5,7 +5,7 @@ import Checkbox from '@material/react-checkbox';
 import "alertifyjs/build/css/themes/default.min.css";
 import "alertifyjs/build/css/themes/bootstrap.min.css";
 import "alertifyjs/build/css/alertify.min.css";
-import "./ListPatientComponent.css"
+import "../../Assets/css/ListPatientComponent.css"
 // import Modal from 'react-modal';
 
 import * as alertify from 'alertifyjs';

@@ -22,12 +22,13 @@ import com.example.demo.dto.PatientSingleDto;
 import com.example.demo.entity.Patient;
 import com.example.demo.entity.enums.City;
 import com.example.demo.service.PatientService;
+import com.example.demo.util.ApiPaths;
 
 import javassist.NotFoundException;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/patient")
+@RequestMapping(ApiPaths.PatientCtrl.CTRL)
 public class PatientController {
 
 	@Autowired
