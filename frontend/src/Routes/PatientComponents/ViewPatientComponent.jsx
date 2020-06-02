@@ -23,6 +23,7 @@ export default class ViewPatientComponent extends Component {
         super(props)
         this.state = {
             patientid: props.match.params.patientid,
+            patient:null,
             name: '',
             lastname: '',
             email: '',
@@ -38,8 +39,7 @@ export default class ViewPatientComponent extends Component {
                 pid: props.match.params.patientid
             },
             status: 1,
-            message: null,
-            modalIsOpen: false,
+            message: null, 
             problemStatuses: [],
             errorMessage: "",
             checked: false, indeterminate: false,
@@ -57,6 +57,7 @@ export default class ViewPatientComponent extends Component {
     loadPatient() {
         PatientService.getPatientById(this.state.patientid).then(res => {
             let p = res.data;
+            this.setState({patient:p});
             this.setState({
                 patientid: p.patientid,
                 name: p.name,
@@ -66,8 +67,7 @@ export default class ViewPatientComponent extends Component {
                 bornDate: p.bornDate,
                 city: p.city,
                 status: p.status,
-                problems: p.problems,
-                modalIsOpen: false
+                problems: p.problems 
             });
             filterAllProblem = p.problems;
         }).catch((error) => {
@@ -90,12 +90,10 @@ export default class ViewPatientComponent extends Component {
     deleteProblem(problemid) {
         alertify.confirm("Are you sure to delete the problem.",
             ok => {
-                ProblemService.delete(problemid)
-                    .then(res => {
-                        this.setState({ message: 'Problem Silindi' });
-                        this.setState({ problems: this.state.problems.filter(p => p.problemid !== problemid) });
-                        AlertifyService.successMessage('Deleting is ok : ' + this.state.message);
-                    });
+                ProblemService.delete(problemid) .then(res => { 
+                    this.setState({ problems: this.state.problems.filter(p => p.problemid !== problemid) });
+                    AlertifyService.successMessage('Deleting is ok : ');
+                });
             },
             cancel => { AlertifyService.errorMessage('Cancel'); }
         ).set({ title: "Attention" }).set({ transition: 'slide' }).show();
@@ -103,27 +101,19 @@ export default class ViewPatientComponent extends Component {
 
     addProblem = () => {
         if (this.state.addproblem.problemName === '' || this.state.addproblem.problemDetail === '') {
-            this.setState({ message: "Lütfen boş alanları doldurunuz..." });
+            this.setState({ message: "Fill in the blanks" });
         } else {
             if (this.state.patientid != null) {
                 this.setState({ message: '' });
                 let data = null;
-                let problem = {
-                    problemName: this.state.addproblem.problemName,
-                    problemDetail: this.state.addproblem.problemDetail,
-                    creationDate: this.state.addproblem.creationDate,
-                    problemStatus: this.state.addproblem.problemStatus,
-                    status: 1,
-                    pid: this.state.patientid
-                };
-                //console.log(problem)
-                ProblemService.add(problem).then(res => {
+                let newProblem = this.state.addproblem;
+                newProblem['status']=1;
+                newProblem['pid']=this.state.patientid;
+                ProblemService.add(newProblem).then(res => {
                     data = res.data;
-                    // push new problem to problems
                     var newStateArray = this.state.problems.slice();
                     newStateArray.push(data);
-                    this.setState({ problems: newStateArray });
-                    this.setState({ message: "Kayıt işlemi başarılı..." });
+                    this.setState({ problems: newStateArray }); 
                     this.setState({
                         addproblem: {
                             problemName: '',
@@ -134,57 +124,19 @@ export default class ViewPatientComponent extends Component {
                     });
                     AlertifyService.successMessage("Saving problem for related patient is ok.. ");
                 });
-            } else { this.setState({ message: "Hasta kaydı bulunamadı." }); }
+            } else { 
+                AlertifyService.alert("There is no patient..");
+            }
         }
-    }
-    onChangeName = (e) => {
-        this.setState({
-            addproblem: {
-                [e.target.name]: e.target.value,
-                problemDetail: this.state.addproblem.problemDetail,
-                problemStatus: this.state.addproblem.problemStatus,
-                creationDate: this.state.addproblem.creationDate
-            }
-        });
-    }
+    } 
 
-    onChangeDetail = (e) => {
-        this.setState({
-            addproblem: {
-                problemName: this.state.addproblem.problemName,
-                [e.target.name]: e.target.value,
-                problemStatus: this.state.addproblem.problemStatus,
-                creationDate: this.state.addproblem.creationDate
-            }
-        });
+    onChangeData(type, e)  {
+        console.log(type+" : "+e)
+        const addproblem = this.state.addproblem;
+        addproblem[type]=e;
+        this.setState({  addproblem });
     }
-
-    handleChangeProblemStatus = (e) => {
-
-        this.setState({
-            e,
-            addproblem: {
-                problemName: this.state.addproblem.problemName,
-                problemDetail: this.state.addproblem.problemDetail,
-                problemStatus: e['value'],
-                creationDate: this.state.addproblem.creationDate
-            }
-        });
-    }
-
-    onChangeDate = date => {
-        //console.log(date)
-        this.setState({
-            addproblem: {
-                problemName: this.state.addproblem.problemName,
-                problemDetail: this.state.addproblem.problemDetail,
-                problemStatus: this.state.addproblem.problemStatus,
-                creationDate: date
-            }
-        });
-    }
-
-    handleClose = () => this.setState({ modalIsOpen: false });
+ 
 
     openModal = () => {
         statuses = [];
@@ -243,6 +195,7 @@ export default class ViewPatientComponent extends Component {
 
     render() {
         let { problemName, problemDetail, problemStatus, creationDate } = this.state.addproblem;
+        console.log(this.state.patient)
         const { selectedOption } = this.state.options;
         const isWeekday = date => {
             const day = date.getDay(date);
@@ -284,7 +237,7 @@ export default class ViewPatientComponent extends Component {
                                                     type="text"
                                                     name="problemName"
                                                     value={problemName}
-                                                    onChange={this.onChangeName} />
+                                                    onChange={e => this.onChangeData('problemName', e.target.value)} />
                                                 <ErrorMessage name="problemName" component="div" className="alert alert-danger text-danger" />
                                             </fieldset>
                                             <fieldset className="form-group">
@@ -293,15 +246,15 @@ export default class ViewPatientComponent extends Component {
                                                     className="form-control"
                                                     type="text"
                                                     name="problemDetail"
-                                                    value={problemDetail}
-                                                    onChange={this.onChangeDetail} />
+                                                    value={problemDetail}    
+                                                    onChange={e => this.onChangeData('problemDetail', e.target.value)} />
                                                 <ErrorMessage name="problemDetail" component="div" className="alert alert-danger text-danger" />
                                             </fieldset>
                                             <fieldset className="form-group">
                                                 <label >Status : </label>
                                                 <Select
                                                     value={selectedOption}
-                                                    onChange={this.handleChangeProblemStatus}
+                                                    onChange={e => this.onChangeData('problemStatus', e.value)}
                                                     options={statuses}
                                                 />
                                             </fieldset>
@@ -311,8 +264,8 @@ export default class ViewPatientComponent extends Component {
                                                     className="form-control"
                                                     // showTimeSelect
                                                     showTimeInput
-                                                    selected={creationDate}
-                                                    onChange={this.onChangeDate}
+                                                    selected={creationDate}     
+                                                    onChange={e => this.onChangeData('creationDate', e)}
                                                     filterDate={isWeekday}          // disable weekend
                                                     timeIntervals={15}              // time range around 15 min
                                                     //showWeekNumbers               // show week number

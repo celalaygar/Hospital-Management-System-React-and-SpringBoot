@@ -76,28 +76,24 @@ class ListPatientComponent extends Component {
             },
             cancel => { alertify.error('Cancel'); }
         ).set({ title: "Attention" }).set({ transition: 'slide' }).show();
-
-
     }
     viewPatient(id) {
         window.localStorage.setItem("patientId", id);
         this.props.history.push('/view-patient/' + id);
     }
     addPatient() {
-        window.localStorage.removeItem("userId");
+        //window.localStorage.removeItem("userId");
         this.props.history.push('/add-patient');
     }
     onChangeSearchByName = (e) => {
         this.filterPatients(e.target.value);
     }
     filterPatients = (value) => {
-        console.log(filterAllPatients.length)
         if (filterArray.length > 0) {
             var results = [];
             if (value !== '' && value.length > 0) {
                 results = filterAllPatients.filter(patient => {
                     let find = false;
-                    //filterArray.forEach(filter=>{
                     filterArray.forEach(function (filter) {
                         let control = patient[filter.toLowerCase()].toLowerCase().indexOf(value.toLowerCase());
                         if (control > -1) find = true;
@@ -178,7 +174,7 @@ class ListPatientComponent extends Component {
                                                 <Moment format="YYYY/MM/DD HH:mm">
                                                     {patient.bornDate}
                                                 </Moment>
-                                            : null}
+                                                : null}
                                         </td>
                                         <td>{patient.city}</td>
                                         <td>
