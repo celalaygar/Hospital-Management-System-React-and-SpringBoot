@@ -60,13 +60,6 @@ export default class ViewPatientComponent extends Component {
             this.setState({patient:p});
             this.setState({
                 patientid: p.patientid,
-                name: p.name,
-                lastname: p.lastname,
-                email: p.email,
-                gender: p.gender,
-                bornDate: p.bornDate,
-                city: p.city,
-                status: p.status,
                 problems: p.problems 
             });
             filterAllProblem = p.problems;
@@ -131,13 +124,11 @@ export default class ViewPatientComponent extends Component {
     } 
 
     onChangeData(type, e)  {
-        console.log(type+" : "+e)
         const addproblem = this.state.addproblem;
         addproblem[type]=e;
-        this.setState({  addproblem });
+        this.setState({ addproblem });
     }
  
-
     openModal = () => {
         statuses = [];
         for (var i = 0; i < this.state.problemStatuses.length; i++) {
@@ -195,8 +186,8 @@ export default class ViewPatientComponent extends Component {
 
     render() {
         let { problemName, problemDetail, problemStatus, creationDate } = this.state.addproblem;
-        console.log(this.state.patient)
         const { selectedOption } = this.state.options;
+        let patient = this.state.patient;
         const isWeekday = date => {
             const day = date.getDay(date);
             return day !== 0 && day !== 6;
@@ -288,15 +279,17 @@ export default class ViewPatientComponent extends Component {
                 </div>
                 {/* Patient Details */}
                 <div className="col-lg-7">
+                    { patient != null ? 
                     <PatientDetail
-                        name={this.state.name}
-                        lastname={this.state.lastname}
-                        email={this.state.email}
-                        city={this.state.city}
-                        bornDate={this.state.bornDate}
-                        gender={this.state.gender}
-                        patientid={this.state.patientid}
+                        name={patient.name}
+                        lastname={patient.lastname}
+                        email={patient.email}
+                        city={patient.city}
+                        bornDate={patient.bornDate}
+                        gender={patient.gender}
+                        patientid={patient.patientid}
                     />
+                    : null }
                 </div>
 
                 <div className="col"></div>
@@ -369,10 +362,7 @@ export default class ViewPatientComponent extends Component {
                         </table>
                         <hr />
                         <hr />
-                        <hr />
-                        <hr />
-                        <hr />
-                        <hr />
+                        <hr /> 
                     </div>
                 </div>
             </div>
