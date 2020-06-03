@@ -23,9 +23,9 @@ export default class ViewProblemComponent extends Component {
         this.loadProblemDetail();
         this.loadProblemDetail = this.loadProblemDetail.bind(this);
     }
-    // componentDidMount() {
-    //     this.loadProblemDetail();
-    // }
+    componentDidMount() {
+        this.loadProblemDetail();
+    }
 
     loadProblemDetail() {
         ProblemService.getProblem(this.state.problemid).then(res => {
@@ -93,9 +93,6 @@ export default class ViewProblemComponent extends Component {
                             <div className="col-lg-12">
                                 <hr/>
                                 <hr/>
-                                <hr/>
-                                <hr/>
-                                <hr/>   
                                 <hr/>
                             </div>
                         </div>

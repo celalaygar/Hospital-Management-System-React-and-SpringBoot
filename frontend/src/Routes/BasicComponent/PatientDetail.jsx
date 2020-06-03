@@ -89,7 +89,7 @@ class PatientDetail extends Component {
                             : null} 
                         </li>
                         
-                        <li className="list-group-item"><b>Email :</b>{this.props.email}</li>
+                        <li className="list-group-item"><b>Email : </b>{this.props.email}</li>
                         <li className="list-group-item"><b>City : </b>{this.props.city}</li>
                         <li className="list-group-item"><b>Gender : </b>{this.props.gender}</li>
                         <li className="list-group-item">

@@ -29,14 +29,7 @@ class AddPatientComponent extends Component {
     }
     saveUser = (e) => {
         e.preventDefault();
-        let patient = { 
-            name: this.state.name, 
-            lastname: this.state.lastname, 
-            gender: this.state.gender, 
-            email: this.state.email, 
-            city: this.state.city,
-            bornDate : this.state.bornDate,
-            status: this.state.status }; 
+        let patient = this.state;
         PatientService.addPatient(patient)
             .then(res => {
                 this.setState({ message: 'User added successfully.' });
@@ -52,37 +45,36 @@ class AddPatientComponent extends Component {
                 else if (error.request) console.log(error.request);
                 else console.log(error.message);
             });
-    }
-    handleChangeGender = (event) => this.setState({gender: event.target.value});
-    handleChangeCity = (event) => this.setState({city: event.target.value});
-    onChangePatientForm = (e) => {
-        this.setState({ [e.target.name]: e.target.value });
-    }
-    onChangeDate = date => {
-        this.setState({  bornDate: date });
+    } 
+    onChangeData (type, data) {
+        const stateData = this.state;
+        stateData[type] = data;
+        this.setState({  stateData });
     }
     render() { 
-        let bornDate = this.state.bornDate;
+        //let bornDate = this.state.bornDate;
         const isWeekday = date => {
             const day = date.getDay(date);
             return day !== 0 && day !== 6;
         };
+        let {name, lastname, email, bornDate, gender, city} = this.state;
         return (
+
             <div className="container row">
                 <div className="col-sm-9">
                     <h2 className="text-center">ADD PATİENT</h2>
                     <form>
                         <div className="form-group">
                             <label >User Name:</label>
-                            <input type="text" placeholder="name" name="name" className="form-control" value={this.state.name}  onChange={this.onChangePatientForm}/>
+                            <input type="text" placeholder="name" name="name" className="form-control" value={name}  onChange={e => this.onChangeData('name', e.target.value)}  />
                         </div>
                         <div className="form-group">
                             <label>Last Name:</label>
-                            <input placeholder="Last name" name="lastname" className="form-control" value={this.state.lastname} onChange={this.onChangePatientForm} />
+                            <input placeholder="Last name" name="lastname" className="form-control" value={lastname} onChange={e => this.onChangeData('lastname', e.target.value)}  />
                         </div>
                         <div className="form-group">
                             <label>Email:</label>
-                            <input placeholder="Email" name="email" className="form-control" value={this.state.email} onChange={this.onChangePatientForm} />
+                            <input placeholder="Email" name="email" className="form-control" value={email} onChange={e => this.onChangeData('email', e.target.value)}  />
                         </div>
 
                         <div className="form-group">
@@ -93,7 +85,7 @@ class AddPatientComponent extends Component {
                                     // showTimeSelect
                                     showTimeInput
                                     selected={bornDate}
-                                    onChange={this.onChangeDate}
+                                    onChange={e => this.onChangeData('bornDate', e)} 
                                     filterDate={isWeekday}          // disable weekend
                                     timeIntervals={15}              // time range around 15 min
                                     //showWeekNumbers               // show week number
@@ -105,8 +97,8 @@ class AddPatientComponent extends Component {
                         <div className="form-group">
                             <label>Gender:</label>
                             <select className="form-control" 
-                                    value={this.state.gender} 
-                                    onChange={this.handleChangeGender} >
+                                    value={gender} 
+                                    onChange={e => this.onChangeData('gender', e.target.value)} >
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                             </select>
@@ -114,8 +106,8 @@ class AddPatientComponent extends Component {
                         <div className="form-group">
                             <label>City:</label>
                             <select className="form-control" 
-                                    value={this.state.city} 
-                                    onChange={this.handleChangeCity} >
+                                    value={city} 
+                                    onChange={e => this.onChangeData('city', e.target.value)} >
                                 {this.state.cities.map(city => 
                                     
                                     <option key={city} value={city}>{city}</option>

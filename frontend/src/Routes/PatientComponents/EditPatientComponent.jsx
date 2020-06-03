@@ -13,7 +13,7 @@ export default class EditPatientComponent extends Component {
             lastname: '',
             gender: 'Male',
             email: '',
-            bornDate: null ,
+            bornDate: null,
             city: 'Ankara',
             status: 1,
             cities: []
@@ -25,64 +25,53 @@ export default class EditPatientComponent extends Component {
     getAllCities() {
         PatientService.getCities().then(res => {
             this.setState({ cities: res.data });
-
         });
     }
-    // componentDidMount() {
-    //     this.loadPatient();
-    // }
+    componentDidMount() {
+        this.loadPatient();
+        this.getAllCities();
+    }
 
     loadPatient() {
-        PatientService.getPatientById(window.localStorage.getItem("patientId"))
-            .then((res) => {
-                let p = res.data; 
-                this.setState({
-                    patientid: p.patientid,
-                    name: p.name,
-                    lastname: p.lastname,
-                    email: p.email,
-                    bornDate: p.bornDate,
-                    gender: p.gender,
-                    city: p.city,
-                    status: p.status,
-                })
+        PatientService.getPatientById(window.localStorage.getItem("patientId")).then((res) => {
+            let p = res.data;
+            this.setState({
+                patientid: p.patientid,
+                name: p.name,
+                lastname: p.lastname,
+                email: p.email,
+                bornDate: p.bornDate,
+                gender: p.gender,
+                city: p.city,
+                status: p.status,
             });
+        });
     }
     editPatient = (e) => {
         e.preventDefault();
-        let patient = {
-            patientid: window.localStorage.getItem("patientId"),
-            name: this.state.name,
-            lastname: this.state.lastname,
-            email: this.state.email,
-            bornDate: this.state.bornDate,
-            gender: this.state.gender,
-            city: this.state.city,
-            status: this.state.status
-        };
+        let patient = this.state;
+        patient['patientid'] = window.localStorage.getItem("patientId");
         PatientService.editPatient(patient)
             .then(res => {
                 this.props.history.push('/patients');
-
                 alertify.success("Updated patient is ok");
             });
     }
-
-    handleChangeGender = (event) => this.setState({ gender: event.target.value });
-    handleChangeCity = (event) => this.setState({ city: event.target.value });
-    onChange = (e) => this.setState({ [e.target.name]: e.target.value });
-    onChangeDate = date => {
-        this.setState({ bornDate: date });
+    onChangeData(type, data) {
+        const stateData = this.state;
+        stateData[type] = data;
+        this.setState({ stateData });
     }
     render() {
         let bornDate = new Date();
-        
-        if (this.state.bornDate !== null) 
+
+        if (this.state.bornDate !== null)
             bornDate = new Date(this.state.bornDate.toString());
         const isWeekday = date => {
             const day = date.getDay(date);
             return day !== 0 && day !== 6;
-        }; 
+        };
+        let {name, lastname, email, gender, city} = this.state;
         return (
             <div className="row">
                 <div className="col-lg-7">
@@ -91,15 +80,15 @@ export default class EditPatientComponent extends Component {
                     <form>
                         <div className="form-group">
                             <label >User Name:</label>
-                            <input type="text" placeholder="name" name="name" className="form-control" value={this.state.name} onChange={this.onChange} />
+                            <input type="text" placeholder="name" name="name" className="form-control" value={name} onChange={e => this.onChangeData('name', e.target.value)} />
                         </div>
                         <div className="form-group">
                             <label>Last Name:</label>
-                            <input type="text" placeholder="Last name" name="lastname" className="form-control" value={this.state.lastname} onChange={this.onChange} />
+                            <input type="text" placeholder="Last name" name="lastname" className="form-control" value={lastname} onChange={e => this.onChangeData('lastname', e.target.value)} />
                         </div>
                         <div className="form-group">
                             <label>Email:</label>
-                            <input type="email" placeholder="Email" name="email" className="form-control" value={this.state.email} onChange={this.onChange} />
+                            <input type="email" placeholder="Email" name="email" className="form-control" value={email} onChange={e => this.onChangeData('email', e.target.value)} />
                         </div>
                         <div className="form-group">
                             <label>Born Date:</label>
@@ -110,7 +99,7 @@ export default class EditPatientComponent extends Component {
                                         // showTimeSelect
                                         showTimeInput
                                         selected={bornDate}
-                                        onChange={this.onChangeDate}
+                                        onChange={e => this.onChangeData('bornDate', e)}
                                         filterDate={isWeekday}          // disable weekend
                                         timeIntervals={15}              // time range around 15 min
                                         //showWeekNumbers               // show week number
@@ -125,17 +114,17 @@ export default class EditPatientComponent extends Component {
                         </div>
                         <div className="form-group">
                             <label>Gender:</label>
-                            <select className="form-control" value={this.state.gender} onChange={this.handleChangeGender} >
+                            <select className="form-control" value={gender} onChange={e => this.onChangeData('gender', e.target.value)} >
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                             </select>
                         </div>
                         <div className="form-group">
                             <label>City:</label>
-                            <select className="form-control" value={this.state.city} onChange={this.handleChangeCity} >
-                                {this.state.cities.map(city =>
+                            <select className="form-control" value={city} onChange={e => this.onChangeData('city', e.target.value)}>
+                                {this.state.cities.map(c =>
 
-                                    <option key={city} value={city}>{city}</option>
+                                    <option key={c} value={c}>{c}</option>
                                 )}
                             </select>
                         </div>
@@ -146,12 +135,12 @@ export default class EditPatientComponent extends Component {
 
                 </div>
                 <div className="col-lg-4">
-                    <img style={{margin: '20px 0', height: 300 }} src="https://www.shareicon.net/data/512x512/2016/02/26/725010_document_512x512.png" alt="" />
+                    <img style={{ margin: '20px 0', height: 300 }} src="https://www.shareicon.net/data/512x512/2016/02/26/725010_document_512x512.png" alt="" />
                 </div>
                 <div className="col-sm-12">
-                    <hr />
-                    <hr />
-                    <hr />
+                <hr />
+                <hr />
+                <hr />
                 </div>
             </div>
         )
