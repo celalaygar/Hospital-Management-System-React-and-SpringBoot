@@ -9,6 +9,8 @@ import NotFoundComponent from './NotFound/NotFoundComponent';
 import ViewProblemComponent from './Routes/PatientComponents/ProblemComponent/ViewProblemComponent';
 import IndexPage2 from './Routes/IndexPage2';
 import { Lines } from 'react-preloaders';
+import ReceipeFormComponent from './Routes/PatientComponents/ReceipeComponent/ReceipeFormComponent';
+// https://www.youtube.com/watch?v=DQ93TxqKkWo
 function App() {
   return (            
     <div className="App" >
@@ -29,7 +31,8 @@ function App() {
                 <Route path="/view-patient/:patientid" component={ViewPatientComponent} />
                 <Route path="/add-patient" component={AddPatientComponent} />
                 <Route path="/edit-patient" component={EditPatientComponent} />
-                <Route path="/patient/problem/:problemid" component={ViewProblemComponent} />
+                <Route path="/problem/:problemid" component={ViewProblemComponent} />
+                <Route path="/receipe-form" component={ReceipeFormComponent} />
                 <Route path="/notfound" component={NotFoundComponent} />
                 <Route path="/de" component={IndexPage2} />
                 <Route path="*" component={NotFoundComponent} />

@@ -24,17 +24,6 @@ class PatientDetail extends Component {
     // componentDidMount() {
         
     // }
-    // componentWillReceiveProps() {
-    //     this.setState({
-    //         patientid: this.props.patientid,
-    //         name: this.props.name,
-    //         lastname: this.props.lastname,
-    //         email: this.props.email,
-    //         bornDate: this.props.bornDate,
-    //         gender: this.props.gender,
-    //         city: this.props.city,
-    //     });
-    // }
     editPatient(id) {
         alertify.confirm(
             "Are you sure to edit the patient.",
@@ -88,7 +77,6 @@ class PatientDetail extends Component {
                                 </Moment>
                             : null} 
                         </li>
-                        
                         <li className="list-group-item"><b>Email : </b>{this.props.email}</li>
                         <li className="list-group-item"><b>City : </b>{this.props.city}</li>
                         <li className="list-group-item"><b>Gender : </b>{this.props.gender}</li>

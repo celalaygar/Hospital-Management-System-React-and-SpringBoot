@@ -1,12 +1,12 @@
 import ApiService from "./ApiService";
 
 
-const PROBLEM_API_BASE_URL = '/patient/problem';
+const PROBLEM_API_BASE_URL = '/problem';
 const PROBLEM_STATUS = '/status';
 class ProblemService {
 
     getProblem(problemid) {
-        return ApiService.getAllDatas(PROBLEM_API_BASE_URL + '/find-by-id/' + problemid);
+        return ApiService.getAll(PROBLEM_API_BASE_URL + '/find-by-id/' + problemid);
     }
 
     // getPatientById(patientId) {

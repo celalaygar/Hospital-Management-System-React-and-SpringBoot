@@ -61,7 +61,7 @@ class AddPatientComponent extends Component {
         return (
 
             <div className="container row">
-                <div className="col-sm-9">
+                <div className="col-sm-9 border">
                     <h2 className="text-center">ADD PATİENT</h2>
                     <form>
                         <div className="form-group">

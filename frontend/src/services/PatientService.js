@@ -6,7 +6,7 @@ const CITIES = '/cities';
 class PatientService {
 
     getPatients() {
-        return ApiService.getAllDatas(PATIENT_API_BASE_URL);
+        return ApiService.getAll(PATIENT_API_BASE_URL);
     }
 
     getPatientById(patientId) {

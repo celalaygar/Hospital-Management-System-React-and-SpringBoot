@@ -6,7 +6,9 @@ class ApiService {
     getAllDatas(url) {
         return axios.get(API_BASE_URL + url);
     }
-
+    getAll(url) {
+        return axios.get(API_BASE_URL + url);
+    }
     getOneById(url) {
         return axios.get(API_BASE_URL + url);
     }

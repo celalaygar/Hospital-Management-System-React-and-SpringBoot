@@ -6,8 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger; 
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.ProblemDto;

@@ -20,49 +20,47 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dto.ProblemDto;
 import com.example.demo.dto.ProblemDtoForPatientSingleDto;
 import com.example.demo.dto.ProblemGetDto;
+import com.example.demo.dto.ReceipeDto;
 import com.example.demo.entity.Patient;
 import com.example.demo.entity.enums.City;
 import com.example.demo.entity.enums.ProblemStatus;
 import com.example.demo.repository.ProblemRepository;
 import com.example.demo.service.ProblemService;
+import com.example.demo.service.ReceipeService;
 import com.example.demo.util.ApiPaths;
 
 import javassist.NotFoundException;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping(ApiPaths.ProblemCtrl.CTRL)
-public class ProblemController {
+@RequestMapping(ApiPaths.ReceipeCtrl.CTRL)
+public class ReceipeController {
 
 	@Autowired
 	ProblemService problemService;
+	
+	@Autowired
+	ReceipeService receipeService;
 
-	@GetMapping("/find-by-id/{problemid}")
-	public ResponseEntity<ProblemGetDto> getProblem(@PathVariable(name = "problemid", required = true) Long problemid)
-			throws NotFoundException {
-		return ResponseEntity.ok(problemService.findByProblemid(problemid));
+	@GetMapping("/find-all-by-problemid/{problemid}")
+	public ResponseEntity<List<ReceipeDto>> getReceipe(@PathVariable(name = "problemid", required = true) Long problemid) throws Exception {
+		return ResponseEntity.ok(receipeService.findAllByProblemId(problemid));
 	}
 
 	@PostMapping
-	public ResponseEntity<ProblemDtoForPatientSingleDto> saveProblem(@Valid @RequestBody ProblemDto dto)
-			throws NotFoundException {
-		return ResponseEntity.ok(problemService.save(dto));
+	public ResponseEntity<ReceipeDto> saveReceipe(@Valid @RequestBody ReceipeDto dto) throws NotFoundException {
+		return ResponseEntity.ok(receipeService.save(dto));
 	}
 
-	@PutMapping("/{problemid}")
-	public ResponseEntity<Boolean> updateProblem(@PathVariable(name = "problemid", required = true) Long problemid,
-			@Valid @RequestBody ProblemDtoForPatientSingleDto dto) throws Exception {
-		return ResponseEntity.ok(problemService.update(problemid, dto));
+//	@PutMapping("/{receipeid}")
+//	public ResponseEntity<Boolean> updateReceipe(@PathVariable(name = "receipeid", required = true) Long problemid,
+//			@Valid @RequestBody ProblemDtoForPatientSingleDto dto) throws Exception {
+//		return ResponseEntity.ok(problemService.update(problemid, dto));
+//	}
+
+	@DeleteMapping("/{receipeid}")
+	public ResponseEntity<Boolean> deleteReceipe(@PathVariable(name = "receipeid", required = true) Long receipeid) throws Exception {
+		return ResponseEntity.ok(receipeService.delete(receipeid));
 	}
 
-	@DeleteMapping("/{problemid}")
-	public ResponseEntity<Boolean> deleteProblem(@PathVariable(name = "problemid", required = true) Long problemid)
-			throws Exception {
-		return ResponseEntity.ok(problemService.delete(problemid));
-	}
-
-	@GetMapping("/status")
-	public ResponseEntity<List<ProblemStatus>> getAllBookStatus() {
-		return ResponseEntity.ok(Arrays.asList(ProblemStatus.values()));
-	}
 }

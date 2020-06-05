@@ -16,7 +16,7 @@ public class IMExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(PatientNotFoundException.class)
 	public final ResponseEntity<?> handlePatientNotFoundException(Exception ex, WebRequest request) {
-		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage());
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage().split(":")[1]);
 		logger.error("--Application was Error : "+ex.getMessage());
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
 	}

@@ -77,9 +77,9 @@ class ListPatientComponent extends Component {
             cancel => { alertify.error('Cancel'); }
         ).set({ title: "Attention" }).set({ transition: 'slide' }).show();
     }
-    viewPatient(id) {
-        window.localStorage.setItem("patientId", id);
-        this.props.history.push('/view-patient/' + id);
+    viewPatient(patientid) {
+        window.localStorage.setItem("patientId", patientid);
+        this.props.history.push('/view-patient/' + patientid);
     }
     addPatient() {
         //window.localStorage.removeItem("userId");
@@ -156,7 +156,7 @@ class ListPatientComponent extends Component {
                         <table className="table table-bordered table-sm table-dark table-hover" style={{ textAlign: "center" }}>
                             <thead>
                                 <tr>
-                                    <th>Ndame Last Name</th>
+                                    <th>Full Name</th>
                                     <th>Email</th>
                                     <th>Born Date</th>
                                     <th>City</th>

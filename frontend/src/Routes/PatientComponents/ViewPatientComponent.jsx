@@ -23,7 +23,7 @@ export default class ViewPatientComponent extends Component {
         super(props)
         this.state = {
             patientid: props.match.params.patientid,
-            patient:null,
+            patient: null,
             name: '',
             lastname: '',
             email: '',
@@ -39,7 +39,7 @@ export default class ViewPatientComponent extends Component {
                 pid: props.match.params.patientid
             },
             status: 1,
-            message: null, 
+            message: null,
             problemStatuses: [],
             errorMessage: "",
             checked: false, indeterminate: false,
@@ -47,6 +47,7 @@ export default class ViewPatientComponent extends Component {
             options: []
         }
         this.loadPatient = this.loadPatient.bind(this);
+        this.loadStatus = this.loadStatus.bind(this);
     }
 
     componentDidMount() {
@@ -57,15 +58,14 @@ export default class ViewPatientComponent extends Component {
     loadPatient() {
         PatientService.getPatientById(this.state.patientid).then(res => {
             let p = res.data;
-            this.setState({patient:p});
+            this.setState({ patient: p });
             this.setState({
                 patientid: p.patientid,
-                problems: p.problems 
+                problems: p.problems
             });
             filterAllProblem = p.problems;
         }).catch((error) => {
             if (error.response) {
-                this.setState({ errorMessage: error.response.data.message, patientid: null });
                 AlertifyService.alert(error.response.data.message);
                 this.props.history.push('/patients');
             }
@@ -75,15 +75,19 @@ export default class ViewPatientComponent extends Component {
     }
 
     loadStatus() {
+        statuses = [];
         ProblemService.getProblemStatus().then(res => {
             this.setState({ problemStatuses: res.data });
-        })
+            for (var i = 0; i < this.state.problemStatuses.length; i++) {
+                statuses.push({ value: this.state.problemStatuses[i], label: this.state.problemStatuses[i] })
+            }
+        }); 
     }
 
     deleteProblem(problemid) {
         alertify.confirm("Are you sure to delete the problem.",
             ok => {
-                ProblemService.delete(problemid) .then(res => { 
+                ProblemService.delete(problemid).then(res => {
                     this.setState({ problems: this.state.problems.filter(p => p.problemid !== problemid) });
                     AlertifyService.successMessage('Deleting is ok : ');
                 });
@@ -94,19 +98,18 @@ export default class ViewPatientComponent extends Component {
 
     addProblem = () => {
         if (this.state.addproblem.problemName === '' || this.state.addproblem.problemDetail === '') {
-            this.setState({ message: "Fill in the blanks" });
+            AlertifyService.alert("Fill in the blanks");
         } else {
             if (this.state.patientid != null) {
-                this.setState({ message: '' });
                 let data = null;
                 let newProblem = this.state.addproblem;
-                newProblem['status']=1;
-                newProblem['pid']=this.state.patientid;
+                newProblem['status'] = 1;
+                newProblem['pid'] = this.state.patientid;
                 ProblemService.add(newProblem).then(res => {
                     data = res.data;
                     var newStateArray = this.state.problems.slice();
                     newStateArray.push(data);
-                    this.setState({ problems: newStateArray }); 
+                    this.setState({ problems: newStateArray });
                     this.setState({
                         addproblem: {
                             problemName: '',
@@ -117,32 +120,22 @@ export default class ViewPatientComponent extends Component {
                     });
                     AlertifyService.successMessage("Saving problem for related patient is ok.. ");
                 });
-            } else { 
+            } else {
                 AlertifyService.alert("There is no patient..");
             }
         }
-    } 
+    }
 
-    onChangeData(type, e)  {
+    onChangeData(type, e) {
         const addproblem = this.state.addproblem;
-        addproblem[type]=e;
+        addproblem[type] = e;
         this.setState({ addproblem });
     }
- 
-    openModal = () => {
-        statuses = [];
-        for (var i = 0; i < this.state.problemStatuses.length; i++) {
-            statuses.push({ value: this.state.problemStatuses[i], label: this.state.problemStatuses[i] })
-        }
-        this.setState({ message: null });
-    };
 
     viewProblem(problemid) {
         //window.localStorage.setItem("problemid", id);
-        this.props.history.push('/patient/problem/' + problemid);
+        this.props.history.push('/problem/' + problemid);
     }
-
-    notFoundPage() { this.props.history.push('/notfound'); }
 
     onChangeSearchByStatusOrDate = (e) => { this.filterProblems(e.target.value); }
 
@@ -201,7 +194,6 @@ export default class ViewPatientComponent extends Component {
                         className="btn btn-primary btn-sm"
                         data-toggle="modal"
                         data-target="#exampleModal"
-                        onClick={() => this.openModal()}
                         data-whatever="@getbootstrap">Add Problem</button>
                     {/* ADD PATİENT PROBLEM MODAL */}
                     <div className="modal fade" id="exampleModal"
@@ -237,25 +229,27 @@ export default class ViewPatientComponent extends Component {
                                                     className="form-control"
                                                     type="text"
                                                     name="problemDetail"
-                                                    value={problemDetail}    
+                                                    value={problemDetail}
                                                     onChange={e => this.onChangeData('problemDetail', e.target.value)} />
                                                 <ErrorMessage name="problemDetail" component="div" className="alert alert-danger text-danger" />
                                             </fieldset>
-                                            <fieldset className="form-group">
-                                                <label >Status : </label>
-                                                <Select
-                                                    value={selectedOption}
-                                                    onChange={e => this.onChangeData('problemStatus', e.value)}
-                                                    options={statuses}
-                                                />
-                                            </fieldset>
+                                            {this.state.problemStatuses.length > 0 ?
+                                                <fieldset className="form-group">
+                                                    <label >Status : {statuses}  </label>
+                                                    <Select
+                                                        value={selectedOption}
+                                                        onChange={e => this.onChangeData('problemStatus', e.value)}
+                                                        options={statuses}
+                                                    />
+                                                </fieldset>
+                                                : null }
                                             <fieldset className="form-group">
                                                 <label >Date : </label>
                                                 <DatePicker
                                                     className="form-control"
                                                     // showTimeSelect
                                                     showTimeInput
-                                                    selected={creationDate}     
+                                                    selected={creationDate}
                                                     onChange={e => this.onChangeData('creationDate', e)}
                                                     filterDate={isWeekday}          // disable weekend
                                                     timeIntervals={15}              // time range around 15 min
@@ -279,17 +273,17 @@ export default class ViewPatientComponent extends Component {
                 </div>
                 {/* Patient Details */}
                 <div className="col-lg-7">
-                    { patient != null ? 
-                    <PatientDetail
-                        name={patient.name}
-                        lastname={patient.lastname}
-                        email={patient.email}
-                        city={patient.city}
-                        bornDate={patient.bornDate}
-                        gender={patient.gender}
-                        patientid={patient.patientid}
-                    />
-                    : null }
+                    {patient != null ?
+                        <PatientDetail
+                            name={patient.name}
+                            lastname={patient.lastname}
+                            email={patient.email}
+                            city={patient.city}
+                            bornDate={patient.bornDate}
+                            gender={patient.gender}
+                            patientid={patient.patientid}
+                        />
+                        : null}
                 </div>
 
                 <div className="col"></div>
@@ -362,7 +356,7 @@ export default class ViewPatientComponent extends Component {
                         </table>
                         <hr />
                         <hr />
-                        <hr /> 
+                        <hr />
                     </div>
                 </div>
             </div>

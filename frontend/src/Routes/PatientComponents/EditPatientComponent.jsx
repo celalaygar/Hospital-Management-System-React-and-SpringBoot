@@ -51,11 +51,10 @@ export default class EditPatientComponent extends Component {
         e.preventDefault();
         let patient = this.state;
         patient['patientid'] = window.localStorage.getItem("patientId");
-        PatientService.editPatient(patient)
-            .then(res => {
-                this.props.history.push('/patients');
-                alertify.success("Updated patient is ok");
-            });
+        PatientService.editPatient(patient).then(res => {
+            this.props.history.push('/patients');
+            alertify.success("Updated patient is ok");
+        });
     }
     onChangeData(type, data) {
         const stateData = this.state;

@@ -41,14 +41,14 @@ public class PatientService {
 				logger.error("There is never patients ");
 				throw new PatientNotFoundException("There is never patient ");
 			}
-			PatientDto[] authorDtos = modelMapper.map(patients, PatientDto[].class);
-			List<PatientDto> patientDtos = Arrays.asList(authorDtos);
+			PatientDto[] dtos = modelMapper.map(patients, PatientDto[].class);
+			List<PatientDto> patientDtos = Arrays.asList(dtos);
 			patientDtos.forEach(patient->{
 				patient.getProblems().forEach(problem->{
 					problem.setPId(patient.getPatientid());
 				});
 			});
-			return Arrays.asList(authorDtos);
+			return Arrays.asList(dtos);
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
@@ -71,6 +71,7 @@ public class PatientService {
 		if (patient.getPatientid() > -1)
 			return patient;
 		else{
+			logger.error("A problem occurred during saving patient" );
 			throw new PatientNotFoundException("A problem occurred during saving patient" );
 		}
 	}
