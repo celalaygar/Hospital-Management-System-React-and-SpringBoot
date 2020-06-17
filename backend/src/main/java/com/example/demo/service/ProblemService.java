@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -16,6 +18,7 @@ import com.example.demo.entity.Patient;
 import com.example.demo.entity.Problem;
 import com.example.demo.repository.PatientRepository;
 import com.example.demo.repository.ProblemRepository;
+import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 import javassist.NotFoundException;
 
@@ -43,6 +46,7 @@ public class ProblemService {
 		}
 		Problem problem = modelMapper.map(dto, Problem.class);
 		problem.setPatient(patient.get());
+		problem.setPatientid(patient.get().getPatientid());
 		problemRepository.save(problem);
 		ProblemDtoForPatientSingleDto getDto = modelMapper.map(problem, ProblemDtoForPatientSingleDto.class);
 		return getDto;
@@ -77,6 +81,16 @@ public class ProblemService {
 			throw new NotFoundException("Problem does not exist with problemid : " + problemid);
 		}
 		return true;
+	}
+
+	public List<ProblemDtoForPatientSingleDto> findAllByPatientid(Long patientid) throws NotFoundException {
+		List<Problem> list = problemRepository.findByPatientidWithStatusOne(patientid);
+		if(list.size()>0) {
+			
+			return Arrays.asList(modelMapper.map(list, ProblemDtoForPatientSingleDto[].class));
+		}
+		logger.error("Problem does not exist wtih patientid : " + patientid);
+		throw new NotFoundException("Problem does not exist with patientid : " + patientid);
 	}
 
 }

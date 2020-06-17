@@ -10,7 +10,6 @@ export default class ReceipeFormComponent extends Component {
             drug_detail: '', 
             barcode: '', 
             delivery_date: new Date(),
-            patientid: window.localStorage.getItem('patientId'),
             problemid: window.localStorage.getItem('problemId')
         }
         this.saveReceipe  = this.saveReceipe.bind(this);
@@ -21,24 +20,25 @@ export default class ReceipeFormComponent extends Component {
         stateData[type] = data;
         this.setState({  stateData });
     }
+
     viewProblem(problemid) {
-        //window.localStorage.setItem("problemid", id);
+        window.localStorage.setItem("problemid", problemid);
         this.props.history.push('/problem/' + problemid);
     }
     saveReceipe = (e) => {
         let data = this.state;
-        console.log(data)
         ReceipeService.save(data).then(res => {
             data = res.data;
             if(data.receipeid>0){
-                AlertifyService.successMessage("Saving receipe for related problem is ok.. ");
-                data=null;
-                this.setState({            detail: '',
-                drug_detail: '', 
-                barcode: '', 
-                delivery_date: new Date(),
-                patientid: window.localStorage.getItem('patientId'),
-                problemid: window.localStorage.getItem('problemId')});
+                AlertifyService.successMessage("Saving receipe for related problem is ok.. "); 
+                // this.setState({          
+                //     detail: '',
+                //     drug_detail: '', 
+                //     barcode: '', 
+                //     delivery_date: new Date(),
+                //     problemid: window.localStorage.getItem('problemId')
+                // });
+                this.viewProblem(this.state.problemid);
             }
             else{
                 AlertifyService.errorMessage("Saving receipe for related problem is not ok.. ");
@@ -82,7 +82,7 @@ export default class ReceipeFormComponent extends Component {
                                 value={drug_detail} onChange={e => this.onChangeData('drug_detail', e.target.value)} />
                         </div>
                         <div className="form-group">
-                            <label >Drug Detail:</label>
+                            <label >Barcode</label>
                             <input 
                                 type="text" 
                                 placeholder="barcode" 

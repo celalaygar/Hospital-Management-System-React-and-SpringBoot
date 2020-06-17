@@ -23,9 +23,9 @@ class ReceipeService {
     //     return axios.get(PATIENT_API_BASE_URL + '/find-by-email/' + email);
     // }
 
-    // deleteReceipe(receipeId) {
-    //     return ApiService.deleteById(RECEIPE_API_BASE_URL + '/' + Id);
-    // }
+    deleteReceipe(receipeId) {
+        return ApiService.deleteById(RECEIPE_BASE_URL + '/' + receipeId);
+    }
 
     save(receipe) {
         return ApiService.post(RECEIPE_BASE_URL, receipe);

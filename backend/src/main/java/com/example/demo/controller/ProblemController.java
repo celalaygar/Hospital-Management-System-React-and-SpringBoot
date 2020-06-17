@@ -37,12 +37,17 @@ public class ProblemController {
 	@Autowired
 	ProblemService problemService;
 
-	@GetMapping("/find-by-id/{problemid}")
+	@GetMapping("/find-by-problemid/{problemid}")
 	public ResponseEntity<ProblemGetDto> getProblem(@PathVariable(name = "problemid", required = true) Long problemid)
 			throws NotFoundException {
 		return ResponseEntity.ok(problemService.findByProblemid(problemid));
 	}
 
+	@GetMapping("/find-all-by-patientid/{patientid}")
+	public ResponseEntity<List<ProblemDtoForPatientSingleDto>> getAllProblem(@PathVariable(name = "patientid", required = true) Long patientid)
+			throws NotFoundException {
+		return ResponseEntity.ok(problemService.findAllByPatientid(patientid));
+	}
 	@PostMapping
 	public ResponseEntity<ProblemDtoForPatientSingleDto> saveProblem(@Valid @RequestBody ProblemDto dto)
 			throws NotFoundException {

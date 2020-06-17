@@ -26,23 +26,17 @@ export default class ViewProblemComponent extends Component {
             errorMessage: ""
         }
         // this.loadProblemDetail();
-        // this.loadProblemDetail = this.loadProblemDetail.bind(this);
+        this.loadProblemDetail = this.loadProblemDetail.bind(this);
     }
     componentDidMount() {
         this.loadProblemDetail();
-        // this.getAllReceipes();
     }
 
     loadProblemDetail() {
         ProblemService.getProblem(this.state.problemid).then(res => {
-            let p = res.data;
+            let p = res.data; 
             this.setState({
-                problemDetail: p.problemDetail,
-                problemName: p.problemName,
-                pid: p.pid,
-                problemStatus: p.problemStatus,
-                patient: p.patient,
-                creationDate: p.creationDate
+                p
             });
         }).catch((error) => {
             // Error
@@ -61,18 +55,6 @@ export default class ViewProblemComponent extends Component {
         window.localStorage.setItem("patientId", patientid);
         this.props.history.push('/view-patient/' + patientid);
     }
-    // getAllReceipes() {
-    //     ReceipeService.getAllByProblemId(this.state.problemid).then((res) => {
-    //         this.setState({ receipes: res.data })
-    //         console.log(this.state.receipes)
-    //     }).catch((error) => {
-    //         if (error.response) {
-    //             AlertifyService.alert(error.response.data.message);
-    //         }
-    //         else if (error.request) console.log(error.request);
-    //         else console.log(error.message);
-    //     });
-    // }
     openReceipeForm(patientid, problemid) {
         window.localStorage.setItem("patientId", patientid);
         window.localStorage.setItem("problemId", problemid);
@@ -92,13 +74,11 @@ export default class ViewProblemComponent extends Component {
                             <button
                                 className="btn btn-danger"
                                 onClick={() => this.viewPatient(this.state.patient.patientid)}>
-                                Back
-                            </button>
+                                Back </button>
                             <button
                                 className="btn btn-warning ml-1"
                                 onClick={() => this.openReceipeForm(this.state.patient.patientid, this.state.problemid)} >
-                                Add Receipe
-                            </button>
+                                Add Receipe </button>
                             <hr />
                         </div>
                         <div className="col-lg-6">
@@ -114,7 +94,6 @@ export default class ViewProblemComponent extends Component {
                         </div>
                         <div className="col-lg-6">
                             <ProblemDetail
-
                                 problemid={this.state.problemid}
                                 problemName={this.state.problemName}
                                 problemDetail={this.state.problemDetail}
@@ -125,7 +104,9 @@ export default class ViewProblemComponent extends Component {
                         </div>
                     </div>
                 </div>
-                <ReceipesComponent  problemid={this.state.problemid} />
+                <div className="col-sm-12">
+                    <ReceipesComponent  problemid={this.state.problemid} />
+                </div>
             </div>
         )
     }

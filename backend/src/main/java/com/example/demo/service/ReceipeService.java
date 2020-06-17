@@ -73,10 +73,12 @@ public class ReceipeService {
 			dto.setStatus(1);
 			Receipe receipe = modelMapper.map(dto, Receipe.class);
 			receipe.setProblem(opt.get());
+			receipe.setProblemid(opt.get().getProblemid());
+			receipe.setPatientid(opt.get().getPatientid());
 			receipe = receipeRepository.save(receipe);
 			if (receipe.getReceipeid() > -1) {
 				dto.setReceipeid(receipe.getReceipeid());
-				logger.info("Perfect.. Receipe for related problem is ok");
+				logger.info("Perfect.. Saving Receipe for related problem is ok");
 				return dto;
 			} else {
 				logger.error("A problem occurred during saving receipe");
@@ -97,6 +99,7 @@ public class ReceipeService {
 		}
 		optional.get().setStatus(0);
 		receipeRepository.save(optional.get());
+		logger.info("Receipe was deleted wtih receipeid : " + receipeid);
 		return true;
 	}
 }

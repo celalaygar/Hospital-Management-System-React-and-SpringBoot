@@ -4,7 +4,13 @@ import AlertifyService from '../../../services/AlertifyService';
 import ReceipeService from '../../../services/ReceipeService';
 import Moment from 'react-moment';
 
-export default class ReceipesComponent extends Component {
+import * as alertify from 'alertifyjs';
+import "alertifyjs/build/css/alertify.css";
+import "alertifyjs/build/css/themes/default.css";
+import "@material/react-checkbox/dist/checkbox.css";
+import { withRouter } from 'react-router';
+
+class ReceipesComponent extends Component {
 
     constructor(props) {
         super(props)
@@ -12,11 +18,14 @@ export default class ReceipesComponent extends Component {
             problemid: props.problemid,
             receipes: []
         }
+        this.getAllReceipes=this.getAllReceipes.bind(this);
     }
     componentDidMount() {
-        
         this.getAllReceipes();
     }
+    // componentWillUpdate(){
+    //     this.getAllReceipes();
+    // }
     getAllReceipes() {
         ReceipeService.getAllByProblemId(this.state.problemid).then((res) => {
             this.setState({ receipes: res.data })
@@ -28,20 +37,39 @@ export default class ReceipesComponent extends Component {
             else console.log(error.message);
         });
     }
+    viewReceipe(receipid){
+        alertify.confirm("Are you sure to see the receipe.",
+        ok => {
+            console.log('viewReceipe : '+receipid);
+        },
+        cancel => { AlertifyService.errorMessage('Cancel'); }
+        ).set({ title: "Attention" }).set({ transition: 'slide' }).show();
+    }
+    deleteReceipe(receipid){
+        alertify.confirm("Are you sure to delete the receipe.",
+        ok => {
+            ReceipeService.deleteReceipe(receipid).then((res) => {
+                if(res.data === true){
+                    AlertifyService.successMessage('Receipe was deleted.');
+                    this.getAllReceipes();
+                }
+            }).catch((error) => {
+                if (error.response) {
+                    AlertifyService.alert(error.response.data.message);
+                }
+                else if (error.request) console.log(error.request);
+                else console.log(error.message);
+            });
+        },
+        cancel => { AlertifyService.errorMessage('Cancel'); }
+        ).set({ title: "Attention" }).set({ transition: 'slide' }).show();
+    }
     render() {
-
+        let receipes = this.state.receipes;
         return (
             <div className="col-lg-12">
             <hr />
-            {/* <div className="form-group">
-                <input type="text"
-                    placeholder="Search Problem by problem Name or problem Status"
-                    name="searchByName"
-                    className="form-control"
-                    onChange={this.onChangeSearchByStatusOrDate}
-                />
-            </div> */}
-            <p className="h3 d-flex justify-content-center">Receipe Table</p>
+            <p className="h3 d-flex justify-content-center">Receipes</p>
             <hr />
             <div className="table-responsive">
                 <table className="table table-bordered table-sm table-dark table-hover">
@@ -55,11 +83,10 @@ export default class ReceipesComponent extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.receipes.map(r =>
+                        {receipes.map(r =>
 
                             <tr className="bg-default" key={r.receipeid}>
                                 <td>{r.receipeid}</td> 
-
                                 <td>{r.detail}</td>
                                 <td>{r.drug_detail}</td> 
                                 <td>
@@ -102,3 +129,4 @@ export default class ReceipesComponent extends Component {
         )
     }
 }
+export default withRouter(ReceipesComponent);
