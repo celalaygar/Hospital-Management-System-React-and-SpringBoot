@@ -34,9 +34,14 @@ export default class ViewProblemComponent extends Component {
 
     loadProblemDetail() {
         ProblemService.getProblem(this.state.problemid).then(res => {
-            let p = res.data; 
+            let p = res.data;
             this.setState({
-                p
+                patient:p.patient,
+                problemDetail:p.problemDetail,
+                problemName:p.problemName,
+                problemStatus:p.problemStatus,
+                creationDate:p.creationDate,
+                pid:p.pid,
             });
         }).catch((error) => {
             // Error

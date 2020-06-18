@@ -8,7 +8,8 @@ export default class ReceipeFormComponent extends Component {
         this.state = {
             detail: '',
             drug_detail: '', 
-            barcode: '', 
+            barcode: '',
+            usage:'',
             delivery_date: new Date(),
             problemid: window.localStorage.getItem('problemId')
         }
@@ -80,6 +81,15 @@ export default class ReceipeFormComponent extends Component {
                                 name="drug_detail" 
                                 className="form-control" 
                                 value={drug_detail} onChange={e => this.onChangeData('drug_detail', e.target.value)} />
+                        </div>
+                        <div className="form-group">
+                            <label >Usage</label>
+                            <input 
+                                type="text" 
+                                placeholder="usage" 
+                                name="usage" 
+                                className="form-control" 
+                                value={barcode} onChange={e => this.onChangeData('usage', e.target.value)} />
                         </div>
                         <div className="form-group">
                             <label >Barcode</label>

@@ -37,7 +37,8 @@ public class Receipe {
 	private String detail;
 	private String barcode;
 	private String drug_detail;
-	private String delivery_date;	
+	private String usage;
+	private String delivery_date;
 	private Long problemid;
 	private Long patientid;
 	private int status;

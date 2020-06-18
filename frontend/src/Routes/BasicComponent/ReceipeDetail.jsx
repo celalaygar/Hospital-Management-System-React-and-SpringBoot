@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import * as alertify from 'alertifyjs';
 import "alertifyjs/build/css/themes/default.min.css";
 import "alertifyjs/build/css/themes/bootstrap.min.css"; 
-import "alertifyjs/build/css/alertify.min.css";
-import PatientService from '../../services/PatientService';
+import "alertifyjs/build/css/alertify.min.css"; 
 import { withRouter } from 'react-router';
 import Moment from 'react-moment';
 
@@ -51,12 +50,14 @@ class ReceipeDetail extends Component {
         return (
             <div>
                 <div className="card" >
-                    <div className="card-header"> <h3> Patient Detail</h3>  </div>
+                    <div className="card-header"> <h3> Receipe Detail</h3>  </div>
                     <ul className="text-left list-group list-group-flush">
+                        
                         <li className="list-group-item"><b>receipe id : </b>{this.props.receipeid}</li>
                         <li className="list-group-item"><b>Detail : </b>{this.props.detail}</li>
-                        <li className="list-group-item"><b>drug detail : </b>{this.props.drug_detail}</li>
-                        <li className="list-group-item"><b>package size : </b>{this.props.package_size}</li>
+                        <li className="list-group-item"><b>Drug detail : </b>{this.props.drug_detail}</li>
+                        <li className="list-group-item"><b>Usage : </b>{this.props.usage}</li>
+                        <li className="list-group-item"><b>Barcode : </b>{this.props.barcode}</li>
                         <li className="list-group-item"><b>Delivery Date : </b>
                             {this.props.delivery_date !== null ?
                                 <Moment format="YYYY / MM / DD  HH:mm">
@@ -64,18 +65,13 @@ class ReceipeDetail extends Component {
                                 </Moment>
                             : null} 
                         </li>
-                        <li className="list-group-item">
-                            <button
-                                className="btn btn-sm btn-success"
-                                onClick={() => this.editReceipe(this.props.receipeid)} >
-                                Edit
-                            </button>
+                        {/* <li className="list-group-item"> 
                             <button
                                 className="btn btn-sm btn-danger"
                                 onClick={() => this.deleteReceipe(this.props.receipeid)}>
                                 Delete
                             </button>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
             </div>

@@ -63,16 +63,12 @@ export default class ProblemFormComponent extends Component {
         if (this.state.problemName === '' || this.state.problemDetail === '') {
             AlertifyService.alert("Fill in the blanks");
         } else {
-            if (this.state.patientid != null) {
-                let data = null;
+            if (this.state.patientid != null) { 
                 let newProblem = this.state;
                 newProblem['status'] = 1;
                 newProblem['pid'] = this.state.patientid;
                 ProblemService.add(newProblem).then(res => {
-                    data = res.data;
-                    // var newStateArray = this.state.problems.slice();
-                    // newStateArray.push(data);
-                    // this.setState({ problems: newStateArray });
+                    // let data = res.data;
                     this.setState({ 
                             problemName: '',
                             problemDetail: '',

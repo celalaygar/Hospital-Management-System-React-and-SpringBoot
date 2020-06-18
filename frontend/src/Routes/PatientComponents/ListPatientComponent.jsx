@@ -34,16 +34,11 @@ class ListPatientComponent extends Component {
             indeterminate: false,
             filters: []
         }
-        this.reloadPatientList = this.reloadPatientList.bind(this);
-        //alertify.success("Hoş Geldiniz..");
+        this.reloadPatientList = this.reloadPatientList.bind(this); 
     }
     componentDidMount() {
         this.reloadPatientList();
-    }
-    // componentDidUpdate() {
-    //     this.reloadPatientList();
-    // }
-    // componentWillMount
+    } 
     UNSAFE_componentWillMount() {
         this.reloadPatientList();
     }

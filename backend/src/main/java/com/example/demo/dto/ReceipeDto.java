@@ -20,6 +20,7 @@ public class ReceipeDto {
 	private String detail;
 	private String barcode;
 	private String drug_detail;
+	private String usage;
 	private String delivery_date;
 	private int status;
 	private Long patientid;
