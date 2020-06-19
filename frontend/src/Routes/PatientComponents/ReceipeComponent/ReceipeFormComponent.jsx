@@ -42,7 +42,7 @@ export default class ReceipeFormComponent extends Component {
                 this.viewProblem(this.state.problemid);
             }
             else{
-                AlertifyService.errorMessage("Saving receipe for related problem is not ok.. ");
+                AlertifyService.alert("Saving receipe for related problem is not ok.. ");
             }
         });
     }

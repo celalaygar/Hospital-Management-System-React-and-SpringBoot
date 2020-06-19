@@ -70,13 +70,14 @@ export default class ViewPatientComponent extends Component {
                 <div className="col-lg-7">
                     {patient != null ?
                         <PatientDetail
+                            patientid={patient.patientid}
                             name={patient.name}
                             lastname={patient.lastname}
                             email={patient.email}
                             city={patient.city}
                             bornDate={patient.bornDate}
                             gender={patient.gender}
-                            patientid={patient.patientid}
+                            // array={['patientid','name','lastname','email','city','bornDate','gender']}
                         />
                         : null}
                 </div> 

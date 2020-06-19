@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import * as alertify from 'alertifyjs';
 import "alertifyjs/build/css/themes/default.min.css";
-import "alertifyjs/build/css/themes/bootstrap.min.css"; 
+import "alertifyjs/build/css/themes/bootstrap.min.css";
 import "alertifyjs/build/css/alertify.min.css";
 import PatientService from '../../services/PatientService';
 import { withRouter } from 'react-router';
@@ -18,15 +18,15 @@ class PatientDetail extends Component {
             bornDate: props.bornDate,
             gender: props.gender,
             city: props.city,
-            message:''
+            message: ''
         };
+        // props.array.map(a => {
+        //     console.log(a + ' : ' + props[a] + ' : ' + (typeof props[a]))
+        // })
     }
-    // componentDidMount() {
-        
-    // }
     editPatient(id) {
         alertify.confirm(
-            "Are you sure to edit the patient.",
+            "Are you sure to edit this patient.",
             ok => {
                 window.localStorage.setItem("patientId", id);
                 this.props.history.push('/edit-patient');
@@ -37,7 +37,7 @@ class PatientDetail extends Component {
         ).set({ title: "Attention" }).set({ transition: 'slide' }).show();
     }
     deletePatient(patientid) {
-        alertify.confirm("Are you sure to delete the patient.",
+        alertify.confirm("Are you sure to delete this patient.",
             function () {
                 PatientService.deletePatient(patientid)
                     .then(res => {
@@ -50,15 +50,13 @@ class PatientDetail extends Component {
             }
         ).set({ title: "Attention" }).set({ transition: 'slide' }).show();
     }
-
     render() {
-        var age = null ;
-        if(this.props.bornDate != null){
-            var born = Number(this.props.bornDate.substr(0, 4)) ;
+        var age = null;
+        if (this.props.bornDate != null) {
+            var born = Number(this.props.bornDate.substr(0, 4));
             var now = Number(new Date().toLocaleDateString('tr-TR').substr(6, 4));
             age = now - born;
-        } 
-            
+        }
         return (
             <div>
                 <div className="card" >
@@ -72,10 +70,8 @@ class PatientDetail extends Component {
                         </li>
                         <li className="list-group-item"><b>Born Date : </b>
                             {this.props.bornDate !== null ?
-                                <Moment format="YYYY / MM / DD  HH:mm">
-                                    {this.props.bornDate}
-                                </Moment>
-                            : null} 
+                                <Moment format="YYYY / MM / DD  HH:mm"> {this.props.bornDate} </Moment> : null
+                            }
                         </li>
                         <li className="list-group-item"><b>Email : </b>{this.props.email}</li>
                         <li className="list-group-item"><b>City : </b>{this.props.city}</li>

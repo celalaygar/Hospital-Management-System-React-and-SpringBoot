@@ -8,6 +8,7 @@ import "@material/react-checkbox/dist/checkbox.css";
 import ProblemService from '../../../services/ProblemService';
 import AlertifyService from '../../../services/AlertifyService';
 import { withRouter } from 'react-router';
+import ProblemDetail from '../../BasicComponent/ProblemDetail';
 
 
 let filterAllProblem = [];
@@ -18,6 +19,7 @@ class ProblemsComponent extends Component {
         this.state = {
             patientid: props.patientid,
             problems: [],
+            problem:{}
 
         }
         this.getAllProblems = this.getAllProblems.bind(this);
@@ -67,9 +69,40 @@ class ProblemsComponent extends Component {
         window.localStorage.setItem("problemid", problemid);
         this.props.history.push('/problem/' + problemid);
     }
+    viewQuickly(problem){
+        this.setState({problem:problem});
+    }
+    viewQuicklyModal = (problem) => (
+        <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal-dialog" role="document">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title" id="exampleModalLabel">Problem Detail</h5>
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div className="modal-body">
+                            <ProblemDetail
+                                problemid={problem.problemid}
+                                problemName={problem.problemName}
+                                problemDetail={problem.problemDetail}
+                                problemStatus={problem.problemStatus}
+                                creationDate={problem.creationDate}
+                                patientid={this.state.patientid}
+                            />
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
     render() {
         let problems = this.state.problems;
         return (
+            <div className="row">
             <div className="col-lg-12">
                 <hr />
                 <p className="h3 d-flex justify-content-center">Problems</p>
@@ -122,7 +155,12 @@ class ProblemsComponent extends Component {
                                                     onClick={() => this.viewProblem(problem.problemid)} >
                                                     View </button>
                                                 <div className="dropdown-divider"></div>
-
+                                                <button
+                                                    className="dropdown-item"
+                                                    data-toggle="modal" data-target="#exampleModal"
+                                                    onClick={() => this.viewQuickly(problem)} >
+                                                    View Quickly </button>
+                                                <div className="dropdown-divider"></div>
                                                 <button
                                                     className="dropdown-item"
                                                     onClick={() => this.deleteProblem(problem.problemid)} >
@@ -134,11 +172,12 @@ class ProblemsComponent extends Component {
                             )}
                         </tbody>
                     </table>
+                    {this.viewQuicklyModal(this.state.problem)}
                     <hr />
                     <hr />
                     <hr />
                 </div>
-            </div>
+            </div></div>
         )
     }
 }

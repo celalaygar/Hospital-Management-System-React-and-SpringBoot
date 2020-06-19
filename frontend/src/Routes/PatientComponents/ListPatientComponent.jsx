@@ -6,9 +6,9 @@ import "alertifyjs/build/css/themes/default.min.css";
 import "alertifyjs/build/css/themes/bootstrap.min.css";
 import "alertifyjs/build/css/alertify.min.css";
 import "../../Assets/css/ListPatientComponent.css"
-// import Modal from 'react-modal';
-
+// import Modal from 'react-modal'; 
 import * as alertify from 'alertifyjs';
+
 import Moment from 'react-moment';
 
 const items = [
@@ -39,9 +39,7 @@ class ListPatientComponent extends Component {
     componentDidMount() {
         this.reloadPatientList();
     } 
-    UNSAFE_componentWillMount() {
-        this.reloadPatientList();
-    }
+
     reloadPatientList() {
         PatientService.getPatients().then((res) => {
             this.setState({ patients: res.data })
@@ -61,8 +59,7 @@ class ListPatientComponent extends Component {
             cancel => { alertify.error('Cancel'); }
         ).set({ title: "Attention" }).set({ transition: 'slide' }).show();
     }
-    editPatient(id) {
-
+    editPatient(id) { 
         alertify.confirm(
             "Are you sure to edit this patient.",
             ok => {
