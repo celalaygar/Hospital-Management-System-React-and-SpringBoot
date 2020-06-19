@@ -131,7 +131,7 @@ class ListPatientComponent extends Component {
             <div className="row">
                 <div className="col-lg-12">
                     <button
-                        className="btn btn-primary btn-sm"
+                        className="btn btn-warning"
                         onClick={() => this.addPatient()}>
                         Add Patient
                         </button>

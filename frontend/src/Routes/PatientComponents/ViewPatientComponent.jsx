@@ -49,7 +49,10 @@ export default class ViewPatientComponent extends Component {
     viewProblemForm(patientid){ 
         window.localStorage.setItem("patientId", patientid);
         this.props.history.push('/add-problem'); 
-    }  
+    } 
+    back(){
+        this.props.history.push('/patients'); 
+    }
     render() { 
         let patient = this.state.patient; 
         return (
@@ -57,8 +60,11 @@ export default class ViewPatientComponent extends Component {
                 {/* Show and close modal */}
                 <div className="col-lg-12">
                     <button
+                        className="btn btn-danger"
+                        onClick={() => this.back()}> Back </button>
+                    <button
                         type="button"
-                        className="btn btn-primary btn-sm"
+                        className="btn btn-warning ml-1"
                         onClick={() => this.viewProblemForm(patient.patientid)}
                         data-whatever="@getbootstrap">Add Problem</button>
  
@@ -82,7 +88,7 @@ export default class ViewPatientComponent extends Component {
                 </div> 
                 <div className="col"></div>
                 <div className="col-lg-4">
-                    <img style={{ height: 300 }} src="https://cdn1.iconfinder.com/data/icons/education-vol-1-1/64/009-512.png" alt="" />
+                    <img style={{ height: 300 }} src="https://cdn4.iconfinder.com/data/icons/business-colored-vol-1/100/business-colored-7-05-512.png" alt="" />
                 </div> 
                 <div className="col-lg-12">
                         <ProblemsComponent   patientid={this.state.patientid}/>

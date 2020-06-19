@@ -28,8 +28,8 @@ class AddPatientComponent extends Component {
         });
     }
     controlQuickly() {
-        return this.state.name === null || this.state.name === '' || this.state.name === ' ' || 
-        this.state.lastname === null || this.state.lastname === '' || this.state.lastname === ' ';
+        return this.state.name === null || this.state.name === '' || this.state.name === ' ' ||
+            this.state.lastname === null || this.state.lastname === '' || this.state.lastname === ' ';
     }
     saveUser = (e) => {
         if (!this.controlQuickly()) {
@@ -58,6 +58,9 @@ class AddPatientComponent extends Component {
         stateData[type] = data;
         this.setState({ stateData });
     }
+    back() {
+        this.props.history.push('/patients');
+    }
     render() {
         //let bornDate = this.state.bornDate;
         const isWeekday = date => {
@@ -66,9 +69,14 @@ class AddPatientComponent extends Component {
         };
         let { name, lastname, email, bornDate, gender, city } = this.state;
         return (
-
-            <div className="container row">
-                <div className="col-sm-9 border">
+            <div className="row">
+                <div className="col-sm-12">
+                    <button
+                        className="btn btn-danger"
+                        onClick={() => this.back()}> Back </button>
+                    <hr />
+                </div>
+                <div className="col-sm-8">
                     <h2 className="text-center">ADD PATİENT</h2>
                     <form>
                         <div className="form-group">
@@ -82,7 +90,7 @@ class AddPatientComponent extends Component {
                         <div className="form-group">
                             <label>Email:</label>
                             <input placeholder="Email" name="email" className="form-control" value={email} onChange={e => this.onChangeData('email', e.target.value)} />
-                        </div> 
+                        </div>
                         <div className="form-group">
                             <label>Born Date *</label>
                             <div className="form-group">
@@ -120,9 +128,10 @@ class AddPatientComponent extends Component {
                             </select>
                         </div>
 
-                        <button className="btn btn-success" type="button"  onClick={this.saveUser}>Save</button>
+                        <button className="btn btn-success" type="button" onClick={this.saveUser}>Save</button>
                     </form>
                 </div>
+                <div className="col"></div>
                 <div className="col-lg-3">
                     <img style={{ height: 200 }} src="https://i1.wp.com/www.nosinmiubuntu.com/wp-content/uploads/2013/02/New-Database.png?w=770" alt="" />
                 </div>

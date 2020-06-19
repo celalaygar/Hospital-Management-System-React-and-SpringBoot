@@ -23,7 +23,7 @@ function App() {
           <a href="/">
             {/* style={{width: 400, height: 100}}  */}
             <img style={{ height: "100px", margin: "10px 0"}}  
-            src="https://cdn.onlinewebfonts.com/svg/img_492937.png" alt="" />
+            src="https://www.phuketinternationalhospital.com/en/wp-content/themes/pih/images/logo-nonetext.png" alt="" />
           </a>
             <BrowserRouter>
               <Switch>

@@ -19,37 +19,8 @@ class PatientDetailModal extends Component {
             gender: props.patient.gender,
             city: props.patient.city,
             message: ''
-        };
-        // props.patient.array.map(a => {
-        //     console.log(a + ' : ' + props[a] + ' : ' + (typeof props[a]))
-        // })
-    }
-    editPatient(id) {
-        alertify.confirm(
-            "Are you sure to edit this patient.",
-            ok => {
-                window.localStorage.setItem("patientId", id);
-                this.props.patient.history.push('/edit-patient');
-            },
-            cancel => {
-                alertify.error('Cancel');
-            }
-        ).set({ title: "Attention" }).set({ transition: 'slide' }).show();
-    }
-    deletePatient(patientid) {
-        alertify.confirm("Are you sure to delete this patient.",
-            function () {
-                PatientService.deletePatient(patientid)
-                    .then(res => {
-                        window.location.href = '/patients';
-                        alertify.success("Deleting is ok ");
-                    })
-            },
-            function () {
-                alertify.error('Cancel');
-            }
-        ).set({ title: "Attention" }).set({ transition: 'slide' }).show();
-    }
+        }; 
+    } 
     render() {
         var age = null;
         if (this.props.patient.bornDate != null) {

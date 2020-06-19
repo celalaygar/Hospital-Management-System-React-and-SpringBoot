@@ -8,15 +8,9 @@ class ProblemDetailModal extends Component {
         super(props)
         this.state = {
 
-        }
-        this.openReceipeForm = this.openReceipeForm.bind(this);
+        } 
     }
-
-    openReceipeForm(patientid, problemid) {
-        window.localStorage.setItem("patientId", patientid);
-        window.localStorage.setItem("problemId", problemid);
-        this.props.problem.history.push('/problem/receipe-form');
-    }
+ 
     render() {
         return (
             <div className="modal fade" id="problemModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
