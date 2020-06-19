@@ -76,6 +76,7 @@ class PatientDetail extends Component {
                         <li className="list-group-item"><b>Email : </b>{this.props.email}</li>
                         <li className="list-group-item"><b>City : </b>{this.props.city}</li>
                         <li className="list-group-item"><b>Gender : </b>{this.props.gender}</li>
+                        {this.props.showButtons?
                         <li className="list-group-item">
                             <button
                                 className="btn btn-sm btn-success"
@@ -88,6 +89,7 @@ class PatientDetail extends Component {
                                 Delete
                             </button>
                         </li>
+                         : null}
                     </ul>
                 </div>
             </div>

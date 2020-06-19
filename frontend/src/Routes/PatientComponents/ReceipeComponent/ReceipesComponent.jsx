@@ -10,6 +10,7 @@ import "alertifyjs/build/css/themes/default.css";
 import "@material/react-checkbox/dist/checkbox.css";
 import { withRouter } from 'react-router';
 import ReceipeDetail from '../../BasicComponent/ReceipeDetail';
+import ReceipeDetailModal from '../../BasicComponent/ReceipeDetailModal';
 
 class ReceipesComponent extends Component {
 
@@ -20,8 +21,7 @@ class ReceipesComponent extends Component {
             receipes: [],
             receipe: {}
         }
-        this.getAllReceipes = this.getAllReceipes.bind(this);
-        this.viewReceipeDetail = this.viewReceipeDetail.bind(this);
+        this.getAllReceipes = this.getAllReceipes.bind(this); 
     }
     componentDidMount() {
         this.getAllReceipes();
@@ -41,33 +41,7 @@ class ReceipesComponent extends Component {
     viewQuickly(r) {
         this.setState({ receipe: r })
     }
-    viewReceipeDetail = () => (
-        <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div className="modal-dialog" role="document">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title" id="exampleModalLabel">Receipe Detail</h5>
-                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div className="modal-body">
-                        <ReceipeDetail
-                            receipeid={this.state.receipe.receipeid}
-                            detail={this.state.receipe.detail}
-                            drug_detail={this.state.receipe.drug_detail}
-                            delivery_date={this.state.receipe.delivery_date}
-                            barcode={this.state.receipe.barcode}
-                            usage={this.state.receipe.usage}
-                        />
-                    </div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
+ 
     deleteReceipe(receipid) {
         alertify.confirm("Are you sure to delete the receipe.",
             ok => {
@@ -132,7 +106,7 @@ class ReceipesComponent extends Component {
                                                         type="button"
                                                         className="dropdown-item"
                                                         onClick={() => this.viewQuickly(r)}
-                                                        data-toggle="modal" data-target="#exampleModal" > 
+                                                        data-toggle="modal" data-target="#receipemModal" > 
                                                     View Quickly</button>
                                                     <div className="dropdown-divider"></div>
                                                     <button
@@ -147,7 +121,7 @@ class ReceipesComponent extends Component {
                             </tbody>
                         </table>
 
-                        {this.viewReceipeDetail()}
+                        <ReceipeDetailModal receipe={this.state.receipe}/>
                         <hr />
                         <hr />
                         <hr />

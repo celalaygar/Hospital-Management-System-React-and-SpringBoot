@@ -9,6 +9,7 @@ import ProblemService from '../../../services/ProblemService';
 import AlertifyService from '../../../services/AlertifyService';
 import { withRouter } from 'react-router';
 import ProblemDetail from '../../BasicComponent/ProblemDetail';
+import ProblemDetailModal from '../../BasicComponent/ProblemDetailModal';
 
 
 let filterAllProblem = [];
@@ -72,33 +73,6 @@ class ProblemsComponent extends Component {
     viewQuickly(problem){
         this.setState({problem:problem});
     }
-    viewQuicklyModal = (problem) => (
-        <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div className="modal-dialog" role="document">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title" id="exampleModalLabel">Problem Detail</h5>
-                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div className="modal-body">
-                            <ProblemDetail
-                                problemid={problem.problemid}
-                                problemName={problem.problemName}
-                                problemDetail={problem.problemDetail}
-                                problemStatus={problem.problemStatus}
-                                creationDate={problem.creationDate}
-                                patientid={this.state.patientid}
-                            />
-                    </div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
     render() {
         let problems = this.state.problems;
         return (
@@ -157,7 +131,7 @@ class ProblemsComponent extends Component {
                                                 <div className="dropdown-divider"></div>
                                                 <button
                                                     className="dropdown-item"
-                                                    data-toggle="modal" data-target="#exampleModal"
+                                                    data-toggle="modal" data-target="#problemModal"
                                                     onClick={() => this.viewQuickly(problem)} >
                                                     View Quickly </button>
                                                 <div className="dropdown-divider"></div>
@@ -172,7 +146,7 @@ class ProblemsComponent extends Component {
                             )}
                         </tbody>
                     </table>
-                    {this.viewQuicklyModal(this.state.problem)}
+                    <ProblemDetailModal problem={this.state.problem} />
                     <hr />
                     <hr />
                     <hr />

@@ -60,8 +60,6 @@ export default class ViewPatientComponent extends Component {
                         type="button"
                         className="btn btn-primary btn-sm"
                         onClick={() => this.viewProblemForm(patient.patientid)}
-                        data-toggle="modal"
-                        data-target="#exampleModal"
                         data-whatever="@getbootstrap">Add Problem</button>
  
                     <hr />
@@ -77,6 +75,7 @@ export default class ViewPatientComponent extends Component {
                             city={patient.city}
                             bornDate={patient.bornDate}
                             gender={patient.gender}
+                            showButtons={true}
                             // array={['patientid','name','lastname','email','city','bornDate','gender']}
                         />
                         : null}

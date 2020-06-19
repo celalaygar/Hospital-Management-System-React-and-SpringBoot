@@ -10,6 +10,7 @@ import "../../Assets/css/ListPatientComponent.css"
 import * as alertify from 'alertifyjs';
 
 import Moment from 'react-moment';
+import PatientDetailModal from '../BasicComponent/PatientDetailModal';
 
 const items = [
     'Name',
@@ -32,7 +33,8 @@ class ListPatientComponent extends Component {
             patients: [],
             message: null,
             indeterminate: false,
-            filters: []
+            filters: [],
+            patient:{}
         }
         this.reloadPatientList = this.reloadPatientList.bind(this); 
     }
@@ -121,6 +123,9 @@ class ListPatientComponent extends Component {
             if (index !== -1) { filterArray.splice(index, 1); }
         }
     }
+    viewPatientQuickly(patient){
+        this.setState({patient});
+    }
     render() {
         return (
             <div className="row">
@@ -184,6 +189,11 @@ class ListPatientComponent extends Component {
                                                     <div className="dropdown-divider"></div>
                                                     <button
                                                         className="dropdown-item"
+                                                        data-toggle="modal" data-target="#patientModal"
+                                                        onClick={() => this.viewPatientQuickly(patient)} >  View Quickly </button>
+                                                    <div className="dropdown-divider"></div>
+                                                    <button
+                                                        className="dropdown-item"
                                                         onClick={() => this.editPatient(patient.patientid)} > Edit</button>
                                                     <div className="dropdown-divider"></div>
                                                     <button
@@ -196,6 +206,7 @@ class ListPatientComponent extends Component {
                                 )}
                             </tbody>
                         </table>
+                        <PatientDetailModal patient={this.state.patient} />
                         <hr />
                         <hr />
                         <hr />
