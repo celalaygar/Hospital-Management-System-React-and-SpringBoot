@@ -1,6 +1,6 @@
 # Patient-SpringBoot-React
 
-This Project is building....
+This project is simple hospital management system. 
 
 ## Using Tools & Technologies
 ``` 
@@ -12,27 +12,4 @@ This Project is building....
 - Bootstrap 4
 - Oracle Database 11g
 ```
-## Sql Query
-```
-CREATE TABLE "AVC237"."AAPATIENT" 
-   (	
-    "PATIENTID" NUMBER(19,0) NOT NULL ENABLE, 
-	"NAME" VARCHAR2(255 CHAR), 
-	"LASTNAME" VARCHAR2(255 CHAR), 
-	"AGE" VARCHAR2(255 CHAR), 
-	"GENDER" VARCHAR2(255 CHAR), 
-	"CITY" VARCHAR2(255 CHAR), 
-	"STATUS" NUMBER(10,0), 
-	"EMAIL" VARCHAR2(255 CHAR), 
-	 PRIMARY KEY ("PATIENTID")
-	);
-		 
-   CREATE SEQUENCE AA_PATIENT_SEQ START WITH 1 INCREMENT BY 1
-
-```
-
-### important !!!
-```
-https://reactdatepicker.com/
-https://www.npmjs.com/package/@material/react-checkbox
-```
+ 
