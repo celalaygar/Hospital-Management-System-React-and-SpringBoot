@@ -77,6 +77,7 @@ export default class ViewPatientComponent extends Component {
                             patientid={patient.patientid}
                             name={patient.name}
                             lastname={patient.lastname}
+                            phoneNo={patient.phoneNo}
                             email={patient.email}
                             city={patient.city}
                             bornDate={patient.bornDate}

@@ -18,6 +18,7 @@ public class PatientSingleDto implements Serializable {
 	private Long patientid;
 	private String name;
 	private String lastname;
+	private String phoneNo;
 	private Date bornDate;
 	private String gender;
 	private City city;

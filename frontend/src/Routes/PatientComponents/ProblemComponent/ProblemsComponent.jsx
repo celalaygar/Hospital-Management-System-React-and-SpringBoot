@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react'
 import Moment from 'react-moment';
 import * as alertify from 'alertifyjs';
@@ -7,10 +6,8 @@ import "alertifyjs/build/css/themes/default.css";
 import "@material/react-checkbox/dist/checkbox.css";
 import ProblemService from '../../../services/ProblemService';
 import AlertifyService from '../../../services/AlertifyService';
-import { withRouter } from 'react-router';
-import ProblemDetail from '../../BasicComponent/ProblemDetail';
+import { withRouter } from 'react-router'; 
 import ProblemDetailModal from '../../BasicComponent/ProblemDetailModal';
-
 
 let filterAllProblem = [];
 let filters = ["problemName", "problemStatus"];

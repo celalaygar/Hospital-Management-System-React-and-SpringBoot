@@ -50,6 +50,7 @@ public class Patient {
 	private Long patientid;
 	private String name;
 	private String lastname;
+	private String phoneNo;
 	private Date bornDate;
 	private String gender;
 	

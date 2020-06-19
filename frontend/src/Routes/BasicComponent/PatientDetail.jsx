@@ -14,6 +14,7 @@ class PatientDetail extends Component {
             patientid: props.patientid,
             name: props.name,
             lastname: props.lastname,
+            phoneNo: props.phoneNo,
             email: props.email,
             bornDate: props.bornDate,
             gender: props.gender,
@@ -65,6 +66,7 @@ class PatientDetail extends Component {
                         <li className="list-group-item"><b>Patient id : </b>{this.props.patientid}</li>
                         <li className="list-group-item"><b>Name : </b>{this.props.name}</li>
                         <li className="list-group-item"><b>Last Name : </b>{this.props.lastname}</li>
+                        <li className="list-group-item"><b>Phone No : </b>{this.props.phoneNo}</li>
                         <li className="list-group-item"><b>Age : </b>
                             {age !== null ? age : null}
                         </li>

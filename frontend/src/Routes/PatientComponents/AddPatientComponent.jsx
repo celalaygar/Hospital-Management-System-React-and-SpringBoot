@@ -12,6 +12,7 @@ class AddPatientComponent extends Component {
             name: '',
             lastname: '',
             email: '',
+            phoneNo:'',
             gender: 'Male',
             city: 'ANKARA',
             bornDate: new Date(),
@@ -67,7 +68,7 @@ class AddPatientComponent extends Component {
             const day = date.getDay(date);
             return day !== 0 && day !== 6;
         };
-        let { name, lastname, email, bornDate, gender, city } = this.state;
+        let { name, lastname,phoneNo, email, bornDate, gender, city } = this.state;
         return (
             <div className="row">
                 <div className="col-sm-12">
@@ -86,6 +87,10 @@ class AddPatientComponent extends Component {
                         <div className="form-group">
                             <label>Last Name *</label>
                             <input placeholder="Last name" name="lastname" className="form-control" value={lastname} onChange={e => this.onChangeData('lastname', e.target.value)} />
+                        </div>
+                        <div className="form-group">
+                            <label>Phone *</label>
+                            <input placeholder="Last name" name="phone No" className="form-control" value={phoneNo} onChange={e => this.onChangeData('phoneNo', e.target.value)} />
                         </div>
                         <div className="form-group">
                             <label>Email:</label>

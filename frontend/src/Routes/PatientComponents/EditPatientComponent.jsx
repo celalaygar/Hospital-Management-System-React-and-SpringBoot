@@ -40,6 +40,7 @@ export default class EditPatientComponent extends Component {
                 name: p.name,
                 lastname: p.lastname,
                 email: p.email,
+                phoneNo: p.phoneNo,
                 bornDate: p.bornDate,
                 gender: p.gender,
                 city: p.city,
@@ -70,7 +71,7 @@ export default class EditPatientComponent extends Component {
             const day = date.getDay(date);
             return day !== 0 && day !== 6;
         };
-        let {name, lastname, email, gender, city} = this.state;
+        let {name, lastname,phoneNo, email, gender, city} = this.state;
         return (
             <div className="row">
                 <div className="col-lg-7">
@@ -84,6 +85,10 @@ export default class EditPatientComponent extends Component {
                         <div className="form-group">
                             <label>Last Name:</label>
                             <input type="text" placeholder="Last name" name="lastname" className="form-control" value={lastname} onChange={e => this.onChangeData('lastname', e.target.value)} />
+                        </div>
+                        <div className="form-group">
+                            <label>Phone No:</label>
+                            <input type="text" placeholder="phone No" name="lastphoneNoname" className="form-control" value={phoneNo} onChange={e => this.onChangeData('phoneNo', e.target.value)} />
                         </div>
                         <div className="form-group">
                             <label>Email:</label>

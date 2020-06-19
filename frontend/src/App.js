@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Switch, Route, BrowserRouter } from "react-router-dom";
+import { Switch, Route, BrowserRouter } from "react-router-dom"; //Router,
 import ListPatientComponent from './Routes/PatientComponents/ListPatientComponent';
 import ViewPatientComponent from './Routes/PatientComponents/ViewPatientComponent';
 import AddPatientComponent from './Routes/PatientComponents/AddPatientComponent';
