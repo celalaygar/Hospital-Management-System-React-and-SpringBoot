@@ -1,26 +1,22 @@
 package com.example.demo.service;
 
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import javax.validation.Valid;
-
-import org.modelmapper.ModelMapper;
-import org.slf4j.Logger; 
-import org.springframework.stereotype.Service;
-
 import com.example.demo.dto.ProblemDto;
 import com.example.demo.dto.ProblemDtoForPatientSingleDto;
 import com.example.demo.dto.ProblemGetDto;
 import com.example.demo.entity.Patient;
 import com.example.demo.entity.Problem;
+import com.example.demo.exception.NotFoundException;
 import com.example.demo.repository.PatientRepository;
 import com.example.demo.repository.ProblemRepository;
-import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
+import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.springframework.stereotype.Service;
 
-import javassist.NotFoundException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProblemService {

@@ -1,19 +1,14 @@
 package com.example.demo.dto;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import com.example.demo.entity.enums.City;
 import com.example.demo.entity.enums.Department;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
