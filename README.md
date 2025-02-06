@@ -4,13 +4,13 @@ This project is simple hospital management system.
 
 ### Using Tools & Technologies
 ``` 
-- Spring Boot 2.2.2
+- Spring Boot 3.4.2
 - REST API (get, post, put, delete, patch)
 - ModelMapper, DTO
 - JPA, Hibernate
 - React
 - Bootstrap 4
-- Oracle Database 11g
+- Oracle Database 23g
 ```
 ### important !!!
 ```
@@ -21,7 +21,7 @@ https://www.npmjs.com/package/@material/react-checkbox
 
 For building and running the application you need:
 
-- [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+- [JDK 23](https://www.oracle.com/java/technologies/downloads/#jdk23-mac)
 - [Maven 3](https://maven.apache.org)
 
 ## Running the application locally
@@ -31,7 +31,7 @@ There are several ways to run a Spring Boot application on your local machine. O
 Alternatively you can use the [Spring Boot Maven plugin](https://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-maven-plugin.html) like so:
 
 ```shell
-mvn spring-boot:run
+mvn clean spring-boot:run
 ```
 #### for Frontend
 Installation and Setup Instructions

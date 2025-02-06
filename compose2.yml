@@ -1,0 +1,10 @@
+services:
+  oracledb:
+    image: store/oracle/database-enterprise:12.2.0.1
+    container_name: oracledb
+    ports:
+      - "1521:1521"
+    environment:
+      - ORACLE_PWD=Oradoc_db1
+      - ORACLE_CHARACTERSET=AL32UTF8
+# The default password to connect to the database with sys user is Oradoc_db1
