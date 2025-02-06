@@ -1,10 +1,13 @@
 package com.example.demo.controller;
 
-import java.util.Arrays;
-import java.util.List;
-
-import javax.validation.Valid;
-
+import com.example.demo.dto.ProblemDto;
+import com.example.demo.dto.ProblemDtoForPatientSingleDto;
+import com.example.demo.dto.ProblemGetDto;
+import com.example.demo.entity.enums.ProblemStatus;
+import com.example.demo.exception.NotFoundException;
+import com.example.demo.service.ProblemService;
+import com.example.demo.util.ApiPaths;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,17 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.dto.ProblemDto;
-import com.example.demo.dto.ProblemDtoForPatientSingleDto;
-import com.example.demo.dto.ProblemGetDto;
-import com.example.demo.entity.Patient;
-import com.example.demo.entity.enums.City;
-import com.example.demo.entity.enums.ProblemStatus;
-import com.example.demo.repository.ProblemRepository;
-import com.example.demo.service.ProblemService;
-import com.example.demo.util.ApiPaths;
-
-import javassist.NotFoundException;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
