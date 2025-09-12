@@ -1,23 +1,19 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.StaffDto;
+import com.example.demo.entity.Staff;
+import com.example.demo.exception.NotFoundException;
+import com.example.demo.repository.StaffRepository;
+import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.springframework.stereotype.Service;
+
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
-import javax.validation.Valid;
-
-import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.springframework.stereotype.Service;
-
-import com.example.demo.dto.StaffDto;
-import com.example.demo.entity.Staff;
-import com.example.demo.exception.PatientNotFoundException;
-import com.example.demo.repository.StaffRepository;
-
-import javassist.NotFoundException;
 
 @Service
 public class StaffService {
@@ -78,7 +74,7 @@ public class StaffService {
 			staffRepository.save(optional.get());
 			return true;
 		} else {
-			logger.error("--Staff does not exist with this id " + staffid);
+			logger.error("--Staff does not exist with this id {}", staffid);
 			throw new Exception("Staff does not exist with this id " + staffid);
 		}
 	}
